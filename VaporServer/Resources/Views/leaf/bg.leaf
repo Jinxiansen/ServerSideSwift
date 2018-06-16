@@ -1,0 +1,11 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title> You </title>
+</head>
+	<body> 
+	<img src="/images/sx.jpg">
+	<canvas style="width:auto;height:auto;cursor:crosshair;"></canvas>
+	</body>
+</html>

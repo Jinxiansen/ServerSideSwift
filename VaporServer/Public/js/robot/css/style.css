@@ -1,0 +1,300 @@
+/* -------------------------------------
+ * Style
+ * ------------------------------------- */
+body {
+  padding: 50px;
+  background: radial-gradient(1000px, #f6f5f1, #cec9b3);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+h1 {
+  color: #9aacb1;
+  font: 24px Verdana, sans-serif;
+  font-weight: normal;
+}
+
+#robot {
+  width: 300px;
+  height: 620px;
+  margin: 50px auto 0;
+  position: relative;
+  transform-style: preserve-3d;
+  transform-origin: 50% 0 -30px;
+  animation: spin 60s linear infinite;
+}
+
+/*------- robot body ------- */
+#head {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: 0;
+  left: 120px;
+}
+
+#torso {
+  width: 200px;
+  height: 230px;
+  position: absolute;
+  top: 80px;
+  left: 50px;
+}
+
+#left_arm {
+  width: 25px;
+  height: 240px;
+  position: absolute;
+  top: 110px;
+  left: 30px;
+}
+
+#right_arm {
+  width: 25px;
+  height: 240px;
+  position: absolute;
+  top: 110px;
+  right: 30px;
+}
+
+.upper_arm {
+  width: 25px;
+  height: 100px;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.forearm {
+  width: 25px;
+  height: 120px;
+  margin-top: 20px;
+}
+
+#left_leg {
+  width: 30px;
+  height: 340px;
+  position: absolute;
+  top: 280px;
+  left: 85px;
+}
+
+#right_leg {
+  width: 30px;
+  height: 340px;
+  position: absolute;
+  top: 280px;
+  right: 85px;
+}
+
+.thigh {
+  width: 30px;
+  height: 150px;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.lower_leg {
+  width: 30px;
+  height: 170px;
+  margin-top: 20px;
+}
+
+/*------- 3d effects ------- */
+.front {
+  width: inherit;
+  height: inherit;
+  background: #9aacb1;
+  position: absolute;
+}
+
+.back {
+  width: inherit;
+  height: inherit;
+  background: #9aacb1;
+  position: absolute;
+}
+
+.left {
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  background: #b7c4c7;
+  transform-origin: 0 0 0;
+  transform: rotateY(90deg);
+}
+
+.right {
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  background: #b7c4c7;
+  transform-origin: 100% 0 0;
+  transform: rotateY(-90deg);
+}
+
+.top {
+  width: inherit;
+  background: #8ca0a6;
+  position: absolute;
+  transform-origin: 0 0 0;
+  transform: rotateX(-90deg);
+}
+
+.bottom {
+  width: inherit;
+  background: #8ca0a6;
+  position: absolute;
+  transform-origin: 0 0 0;
+  transform: rotateX(-90deg);
+}
+
+#head {
+  transform-style: preserve-3d;
+  transform-origin: 50% 0 -30px;
+  animation: torso 0.8s ease-in-out infinite alternate;
+}
+#head .back {
+  transform: translateZ(-60px);
+}
+
+#torso {
+  transform-style: preserve-3d;
+  transform-origin: 50% 0 -30px;
+  animation: torso 0.8s ease-in-out infinite alternate;
+}
+#torso .front {
+  width: 0;
+  height: 0;
+  background: none;
+  border-top: 230px solid #9aacb1;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+}
+#torso .back {
+  width: 0;
+  height: 0;
+  background: none;
+  border-top: 230px solid #9aacb1;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  transform: translateZ(-60px);
+}
+#torso .left {
+  width: 60px;
+  height: 250px;
+  transform: rotateY(90deg) rotateX(23.5deg);
+}
+#torso .right {
+  width: 60px;
+  height: 250px;
+  transform: rotateY(-90deg) rotateX(23.5deg);
+  right: 0;
+}
+
+#left_arm, #right_arm {
+  transform-style: preserve-3d;
+  transform-origin: 0 0 -10px;
+  animation: arm 0.8s ease-in-out infinite alternate;
+}
+#left_arm .back, #right_arm .back {
+  transform: translateZ(-25px);
+}
+#left_arm .top, #right_arm .top {
+  height: 25px;
+}
+#left_arm .bottom, #right_arm .bottom {
+  height: 25px;
+  bottom: -25px;
+}
+
+#right_arm {
+  animation-delay: 0.8s;
+}
+#right_arm .forearm {
+  animation-delay: 0.8s;
+}
+
+.forearm {
+  transform-style: preserve-3d;
+  transform-origin: 0 0 0;
+  animation: forearm 0.8s ease-in-out infinite alternate;
+}
+
+#left_leg, #right_leg {
+  transform-style: preserve-3d;
+  transform-origin: 0 0 -20px;
+  animation: leg 0.8s ease-in-out infinite alternate;
+}
+#left_leg .back, #right_leg .back {
+  transform: translateZ(-30px);
+}
+#left_leg .top, #right_leg .top {
+  height: 30px;
+}
+#left_leg .bottom, #right_leg .bottom {
+  height: 30px;
+  bottom: -30px;
+}
+
+#left_leg {
+  animation-delay: 0.8s;
+}
+#left_leg .lower_leg {
+  animation-delay: 0.8s;
+}
+
+.lower_leg {
+  transform-style: preserve-3d;
+  transform-origin: 0 0 0;
+  animation: lower_leg 0.8s ease-in-out infinite alternate;
+}
+
+/*------- animation ------- */
+@keyframes spin {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+@keyframes torso {
+  0% {
+    transform: rotateY(-7deg);
+  }
+  100% {
+    transform: rotateY(7deg);
+  }
+}
+@keyframes arm {
+  0% {
+    transform: rotateX(-15deg) translateZ(-20px);
+  }
+  100% {
+    transform: rotateX(20deg) translateZ(-20px);
+  }
+}
+@keyframes forearm {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(60deg);
+  }
+}
+@keyframes leg {
+  0% {
+    transform: rotateX(-5deg) translateZ(-15px);
+  }
+  100% {
+    transform: rotateX(25deg) translateZ(-15px);
+  }
+}
+@keyframes lower_leg {
+  0% {
+    transform: rotateX(0deg) translateY(15px);
+  }
+  100% {
+    transform: rotateX(-50deg) translateY(15px);
+  }
+}

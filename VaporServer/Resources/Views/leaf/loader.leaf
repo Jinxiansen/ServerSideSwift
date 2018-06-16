@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Loader</title>
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  
+      <link rel="stylesheet" href="/js/loader/css/style.css">
+
+  
+</head>
+
+<body>
+
+  <div aria-busy="true" aria-label="Loading" role="progressbar" class="container">
+  <div class="swing">
+    <div class="swing-l"></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="swing-r"></div>
+  </div>
+  <div class="shadow">
+    <div class="shadow-l"></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div class="shadow-r"></div>
+  </div>
+ </div>
+  
+  
+
+    <script  src="/js/loader/js/index.js"></script>
+
+
+
+
+</body>
+
+</html>

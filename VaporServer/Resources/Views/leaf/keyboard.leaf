@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Apple Keyboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+      <link rel="stylesheet" href="/js/keyboard/css/style.css">
+
+  
+</head>
+
+<body>
+
+  <div class="keyboard" ontouchstart="">
+	<div class="row"><button type="button" class="btn0"><span class="xs">esc</span>
+		</button><button type="button" class="btn0"><span class="xs noxscale"><span class="emoji">&#128261;</span></span><span class="lr xxxs">F1</span>
+		</button><button type="button" class="btn0"><span class="xs noxscale"><span class="emoji">&#128262;</span></span><span class="lr xxxs">F2</span>
+		</button><button type="button" class="btn0"><span class="xs noxscale"><span class="cascade"></span><span class="block"></span></span><span class="lr xxxs">F3</span>
+		</button><button type="button" class="btn0"><span class="xxxs noxscale"><span class="apps"></span></span><span class="lr xxxs">F4</span>
+		</button><button type="button" class="btn0"><span class="lr xxxs">F5</span>
+		</button><button type="button" class="btn0"><span class="lr xxxs">F6</span>
+		</button><button type="button" class="btn0"><span class="sm"><span class="left"></span><span class="left"></span></span><span class="lr xxxs">F7</span>
+		</button><button type="button" class="btn0"><span class="sm"><span class="right"></span><span class="pause"></span></span><span class="lr xxxs">F8</span>
+		</button><button type="button" class="btn0"><span class="sm"><span class="right"></span><span class="right"></span></span><span class="lr xxxs">F9</span>
+		</button><button type="button" class="btn0"><span class="xs noxscale"><span class="emoji">&#128264;</span></span><span class="lr xxxs">F10</span>
+		</button><button type="button" class="btn0"><span class="xs noxscale"><span class="emoji">&#128265;</span></span><span class="lr xxxs">F11</span>
+		</button><button type="button" class="btn0"><span class="xs noxscale"><span class="emoji">&#128266;</span></span><span class="lr xxxs">F12</span>
+		</button><button type="button" class="btn0"><span class="xs noxscale">⏏</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" class="btn1"><span class="lr xxxs">F13</span>
+		</button><button type="button" class="btn1"><span class="lr xxxs">F14</span>
+		</button><button type="button" class="btn1"><span class="lr xxxs">F15</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" class="btn1"><span class="lr xxxs">F16</span>
+		</button><button type="button" class="btn1"><span class="lr xxxs">F17</span>
+		</button><button type="button" class="btn1"><span class="lr xxxs">F18</span>
+		</button><button type="button" class="btn1"><span class="lr xxxs">F19</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" class="btn2"><span class="sm">~<br/>`</span>
+		</button><button type="button" class="btn2"><span class="sm">!<br/>1</span>
+		</button><button type="button" class="btn2"><span class="sm">@<br/>2</span>
+		</button><button type="button" class="btn2"><span class="sm">#<br/>3</span>
+		</button><button type="button" class="btn2"><span class="sm">$<br/>4</span>
+		</button><button type="button" class="btn2"><span class="sm">%<br/>5</span>
+		</button><button type="button" class="btn2"><span class="sm">^<br/>6</span>
+		</button><button type="button" class="btn2"><span class="sm">&amp;<br/>7</span>
+		</button><button type="button" class="btn2"><span class="sm">*<br/>8</span>
+		</button><button type="button" class="btn2"><span class="sm">(<br/>9</span>
+		</button><button type="button" class="btn2"><span class="sm">)<br/>0</span>
+		</button><button type="button" class="btn2"><span class="sm">_<br/>-</span>
+		</button><button type="button" class="btn2"><span class="sm">+<br/>=</span>
+		</button><button type="button" class="btn3"><span class="lr xs">delete</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" class="btn2"><span class="xs">fn</span>
+		</button><button type="button" class="btn2"><span class="xs">home</span>
+		</button><button type="button" class="btn2"><span class="xs">page up</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" class="btn2"><span class="xs">clear</span>
+		</button><button type="button" class="btn2"><span>=</span>
+		</button><button type="button" class="btn2"><span>/</span>
+		</button><button type="button" class="btn2"><span>*</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" class="btn3"><span class="ll xs">tab</span>
+		</button><button type="button" class="btn2"><span>Q</span>
+		</button><button type="button" class="btn2"><span>W</span>
+		</button><button type="button" class="btn2"><span>E</span>
+		</button><button type="button" class="btn2"><span>R</span>
+		</button><button type="button" class="btn2"><span>T</span>
+		</button><button type="button" class="btn2"><span>Y</span>
+		</button><button type="button" class="btn2"><span>U</span>
+		</button><button type="button" class="btn2"><span>I</span>
+		</button><button type="button" class="btn2"><span>O</span>
+		</button><button type="button" class="btn2"><span>P</span>
+		</button><button type="button" class="btn2"><span class="sm">{<br/>[</span>
+		</button><button type="button" class="btn2"><span class="sm">}<br/>]</span>
+		</button><button type="button" class="btn2"><span class="sm">|<br/>\</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" class="btn2"><span class="xs noxpad">delete⌦</span>
+		</button><button type="button" class="btn2"><span class="xs">end</span>
+		</button><button type="button" class="btn2"><span class="xs">page down</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" class="btn2"><span>7</span>
+		</button><button type="button" class="btn2"><span>8</span>
+		</button><button type="button" class="btn2"><span>9</span>
+		</button><button type="button" class="btn2"><span>-</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" id="caps-lock" class="btn4"><span class="ul xs">•</span><span class="ll xs">caps lock</span>
+		</button><button type="button" class="btn2"><span>A</span>
+		</button><button type="button" class="btn2"><span>S</span>
+		</button><button type="button" class="btn2"><span>D</span>
+		</button><button type="button" class="btn2"><span>F</span><span class="bump"></span>
+		</button><button type="button" class="btn2"><span>G</span>
+		</button><button type="button" class="btn2"><span>H</span>
+		</button><button type="button" class="btn2"><span>J</span><span class="bump"></span>
+		</button><button type="button" class="btn2"><span>K</span>
+		</button><button type="button" class="btn2"><span>L</span>
+		</button><button type="button" class="btn2"><span class="sm">:<br/>;</span>
+		</button><button type="button" class="btn2"><span class="sm">&quot;<br/>'</span>
+		</button><button type="button" class="btn4"><span class="lr xs">return</span>
+		</button>
+	</div>
+	<div class="row"></div>
+	<div class="row"><button type="button" class="btn2"><span>4</span>
+		</button><button type="button" class="btn2"><span>5</span><span class="bump"></span>
+		</button><button type="button" class="btn2"><span>6</span>
+		</button><button type="button" class="btn2"><span>+</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" class="btn5"><span class="ll xs">shift</span>
+		</button><button type="button" class="btn2"><span>Z</span>
+		</button><button type="button" class="btn2"><span>X</span>
+		</button><button type="button" class="btn2"><span>C</span>
+		</button><button type="button" class="btn2"><span>V</span>
+		</button><button type="button" class="btn2"><span>B</span>
+		</button><button type="button" class="btn2"><span>N</span>
+		</button><button type="button" class="btn2"><span>M</span>
+		</button><button type="button" class="btn2"><span class="sm">&lt;<br/>,</span>
+		</button><button type="button" class="btn2"><span class="sm">&gt;<br/>.</span>
+		</button><button type="button" class="btn2"><span class="sm">?<br/>/</span>
+		</button><button type="button" class="btn5"><span class="lr xs">shift</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" class="btn2"><span><span class="up"></span></span></button>
+	</div>
+	<div class="row"><button type="button" class="btn2"><span>1</span>
+		</button><button type="button" class="btn2"><span>2</span>
+		</button><button type="button" class="btn2"><span>3</span>
+		</button><button type="button" class="btn10"><span class="lr xs">enter</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" class="btn7"><span class="ll xs">control</span>
+		</button><button type="button" class="btn6"><span class="ul xxs">alt</span><span class="ll xs">option</span>
+		</button><button type="button" class="btn7"><span class="ll xs">command</span><span class="lr xs noxscale">⌘</span>
+		</button><button type="button" class="btn-longest"><span></span>
+		</button><button type="button" class="btn7"><span class="ll xs noxscale">⌘</span><span class="lr xs">command</span>
+		</button><button type="button" class="btn6"><span class="ur xxs">alt</span><span class="lr xs">option</span>
+		</button><button type="button" class="btn7"><span class="lr xs">control</span>
+		</button>
+	</div>
+	<div class="row"><button type="button" class="btn2"><span><span class="left"></span></span></button><button type="button" class="btn2"><span><span class="down"></span></span></button><button type="button" class="btn2"><span><span class="right"></span></span></button>
+	</div>
+	<div class="row"><button type="button" class="btn9"><span>0</span>
+		</button><button type="button" class="btn8"><span>.</span>
+		</button>
+	</div>
+</div>
+  
+  
+
+    <script  src="/js/keyboard/js/index.js"></script>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,278 @@
+@import 'compass';
+
+// Change this line and hit run to generate a new set of palettes. This is just here to force Sass to recompile the randomly-generated numbers instead of using the cache. Sorry, CodePen!
+$change-me: 'anything';
+
+/*
+This is a port of a port of an improved LAB<->RGB algorithm
+by David Dalrymple
+
+Credit goes to Gregor Aisch, creator of Chroma.js
+https://github.com/gka/chroma.js/
+*/
+
+//== Math helpers. 
+// This pen requires a Math add-on with pow(), sqrt(), atan(), and optionally pi(), and atan2()
+//https://www.medcalc.org/manual/atan2_function.php
+// Also using two-number random($min, $max) from Compass, but you can make your own
+@function atan2($y, $x) {
+  $a: 0;
+  @if ($x > 0) { $a: atan($y / $x); }
+  @elseif ($x < 0 and $y >= 0) { $a: atan($y / $x) + pi(); } 
+  @elseif ($x < 0 and $y < 0 ) { $a: atan($y / $x) - pi(); }
+  @elseif ($x == 0 and $y > 0 ){ $a: pi() / 2; }
+  @elseif ($x == 0 and $y < 0 ){ $a: pi() / -2; } 
+
+  @return $a;
+}
+
+// Ensures number remains between upper and lower bounds 
+@function constrain($num, $min: 0, $max: 255) {
+  @if(not($num > $min)) { @return $min; }
+  @elseif($num > $max) { @return $max; }
+  
+  @return $num;
+}
+
+// There's got to be a better way of doing this...
+@function isNaN($v) {
+  @return $v / $v != 1;
+}
+
+//== RGB to XYZ
+// http://www.brucelindbloom.com/Eqn_RGB_to_XYZ.html
+@function channel-xyz($channel) {
+  $channel: $channel / 255;
+  
+  @return if($channel > 0.04045, pow((($channel + 0.055) / 1.055), 2.4), $channel / 12.92);
+}
+
+@function rgb-xyz($r, $g, $b) {
+  // Process channels
+  $r: channel-xyz($r);
+  $g: channel-xyz($g);
+  $b: channel-xyz($b);
+  
+  // sRGB Matrixes http://www.brucelindbloom.com/Eqn_RGB_XYZ_Matrix.html
+  $x: $r * 0.4124564 + $g * 0.3575761 + $b * 0.1804375;
+  $y: $r * 0.2126729 + $g * 0.7151522 + $b * 0.0721750;
+  $z: $r * 0.0193339 + $g * 0.1191920 + $b * 0.9503041;
+  
+  @return ($x, $y, $z);
+}
+
+//== XYZ to LAB
+// https://en.wikipedia.org/wiki/Lab_color_space#RGB_and_CMYK_conversions
+@function f-xyz-lab($value) {
+  $d: 6/29;
+  
+  @return if($value > pow($d,3), pow($value, 1 / 3), $value / ($d * $d * 3) + 4 / 29);
+}
+
+@function xyz-lab($x, $y, $z) {
+  // D65 Illuminant https://en.wikipedia.org/wiki/Illuminant_D65  
+  $x: f-xyz-lab($x / 0.95047);
+  $y: f-xyz-lab($y / 1); // for reference
+  $z: f-xyz-lab($z / 1.08883);
+  
+  @return  ($y * 116 - 16, ($x - $y) * 500, ($y - $z) * 200);
+}
+
+// == RGB (to XYZ) to LAB
+@function rgb-lab($color) {
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+  
+  $xyz: rgb-xyz($r, $g, $b);
+  
+  @return xyz-lab($xyz...);
+}
+
+//== LAB to HCL
+@function lab-hcl($l, $a, $b) {
+  $h: (atan2($b, $a) * (180 / pi()) + 360) % 360;
+  $c: sqrt($a * $a + $b * $b);
+  
+  @if (round($c * 10000) == 0) {
+    $h: 0;
+  }
+  
+  @return ($h, $c, $l);
+}
+
+//== RGB (to XYZ to LAB) to HCL
+@function rgb-hcl($color) {
+  $lab: rgb-lab($color);
+  
+  @return lab-hcl($lab...);
+}
+
+//------ Time to go all the way back around
+
+//== HCL to LAB
+@function hcl-lab($h, $c, $l) {
+  $h: $h * (pi() / 180);
+    
+  @return ($l, cos($h) * $c, sin($h) * $c);
+}
+
+//== LAB to XYZ
+@function f-lab-xyz($value) {
+  $d: 6/29;
+  
+  @return if($value > $d, pow($value, 3), ($d * $d * 3) * ($value - 4 / 29));
+}
+
+@function lab-xyz($l, $a, $b) {
+  $y: ($l + 16) / 116;
+  $x: if(isNaN($a), $y, $y + $a / 500);
+  $z: if(isNaN($b), $y, $y - $b / 200);
+
+  @return (f-lab-xyz($x) * 0.95047, f-lab-xyz($y), f-lab-xyz($z) * 1.08883);
+}
+
+//== XYZ to RGB
+@function from-channel-xyz($channel) {
+  @return round( 255 * if($channel <= 0.00304, $channel * 12.92, 1.055 * pow($channel, 1/2.4) - 0.055) );
+}
+
+@function xyz-rgb($x, $y, $z) {
+  $r: from-channel-xyz(3.2404542 * $x - 1.5371385 * $y - 0.4985314 * $z);
+  $g: from-channel-xyz(-0.9692660 * $x + 1.8760108 * $y + 0.0415560 * $z);
+  $b: from-channel-xyz(0.0556434 * $x - 0.2040259 * $y + 1.0572252 * $z);
+
+  @return rgb(constrain($r), constrain($g), constrain($b));
+}
+
+//== LAB (to XYZ) to RGB
+@function lab-rgb($l, $a, $b) {
+  $xyz: lab-xyz($l, $a, $b);
+  
+  @return xyz-rgb($xyz...);
+}
+
+//== HCL (to LAB to XYZ) to RGB
+@function hcl-rgb($h, $c, $l) {
+  $lab: hcl-lab($h, $c, $l);
+  
+  @return lab-rgb($lab...);
+}
+
+//------ Now some fun with HCL
+
+// Check if a color is bluish, HCL
+@function is-cool($hue, $adjustment : 0) {
+  @return if($hue >= (110 + $adjustment) and $hue <= (292 - $adjustment), true, false);
+}
+
+// Warms a color by adjusting the hue toward yellow
+@function warmify($hue, $adjustment) {
+  @if(is-cool($hue, $adjustment)) { $adjustment: $adjustment * -1; }
+  
+  @return $hue + $adjustment;
+}
+
+// Cools a color by adjusting the hue toward blue
+@function coolify($hue, $adjustment) {
+  @if(not is-cool($hue, $adjustment)) { $adjustment: $adjustment * -1 }
+  
+  @return $hue + $adjustment;
+}
+
+// Warms a color and lightens
+@function highlight($color, $adjustment : 8) {
+  $hcl: rgb-hcl($color);
+  
+  $hue: warmify(nth($hcl, 1), $adjustment/2);
+  $chroma: nth($hcl, 2);
+  $lightness: nth($hcl, 3) + $adjustment;
+  
+  @return hcl-rgb($hue, $chroma, $lightness);
+}
+
+// Cools a color and darkens
+@function shadow($color, $adjustment : 8) {
+  $hcl: rgb-hcl($color);
+  
+  $hue: coolify(nth($hcl, 1), $adjustment/2);
+  $chroma: nth($hcl, 2);
+  $lightness: nth($hcl, 3) - $adjustment;
+
+  @return hcl-rgb($hue, $chroma, $lightness);
+}
+
+// Returns a matching color
+@function scheme($color, $rotate : 180, $contrast : 0) {
+  $hcl: rgb-hcl($color);
+  
+  $hue: nth($hcl, 1) + $rotate;
+  $chroma: nth($hcl, 2);
+  $lightness: nth($hcl, 3);
+
+  @if($hue >= 360) { $hue: $hue - 360; }
+  
+  @if(is-cool($hue)) { 
+    $lightness: $lightness - $contrast; 
+    $chroma: $chroma - $contrast/2;
+  }
+  
+  @else { 
+    $lightness: $lightness + $contrast; 
+    $chroma: $chroma + $contrast/2;
+  }
+  
+  @return hcl-rgb($hue, $chroma, $lightness);
+}
+
+
+//------ Pen styling
+@function random-color() {
+  @return random(0, 360), random(20, 95), random(35, 85);
+}
+
+.palette {
+  border: 10px solid #fff;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+  width: 33%;
+}
+
+.color {
+  flex: 1 1 10px;
+  height: 200px;
+  font-size: 0.8rem;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  
+  &::before {
+    background: rgba(255,255,255,0.5);
+    padding: 0.5em 0;
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+  }
+}
+
+@for $p from 1 through 9 {
+  .palette:nth-child(#{$p}) {
+    $num: 6; 
+    $bounds: 360 / $num; 
+    $rot: random(-60, $bounds); // $var not accepted?
+    $contrast: $rot / 3;
+
+    $color: hcl-rgb(random-color()...);
+  
+    @for $n from 1 through 12 {
+      .color:nth-child(#{$n}) {
+        background: $color;
+        &::before { content: '#{$color}'; }
+
+        $color: scheme($color, $rot, $contrast);
+      }
+    }
+  }
+}
