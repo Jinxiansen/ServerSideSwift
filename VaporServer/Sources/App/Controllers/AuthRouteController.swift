@@ -21,8 +21,8 @@ struct AuthenRouteController: RouteCollection {
         
         group.post(RefreshTokenContainer.self, at: "refresh", use: refreshAccessTokenHandler)
         
-        let basicAuthMiddleware = MyUser.basicAuthMiddleware(using: BCrypt)
-        let guardAuthMiddleware = MyUser.guardAuthMiddleware()
+        let basicAuthMiddleware = LoginUser.basicAuthMiddleware(using: BCrypt)
+        let guardAuthMiddleware = LoginUser.guardAuthMiddleware()
         
         let basicAuthGroup = group.grouped([basicAuthMiddleware,guardAuthMiddleware])
         basicAuthGroup.post(UserEmailContainer.self, at: "revoke", use: accessTokenRevocationHandler)
@@ -43,6 +43,12 @@ extension AuthenRouteController {
 }
 
 
+struct UserEmailContainer: Content {
+    
+    let email: String
+    
+    
+}
 
 
 

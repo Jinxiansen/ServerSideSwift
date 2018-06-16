@@ -8,17 +8,15 @@
 import Vapor
 import FluentMySQL
 
-struct EmailSendResult: MySQLModel {
+struct EmailSendResult: BaseSQLModel {
     var id: Int?
     
+    static var entity: String { return self.name + "s" }
+
     var state: Bool?
     var email: String?
     var sendTime: String?
     
     
 }
-
-
-extension EmailSendResult: Migration { }
-extension EmailSendResult: Content { }
-extension EmailSendResult: Parameter { }
+ 

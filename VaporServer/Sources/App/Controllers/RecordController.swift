@@ -80,7 +80,7 @@ extension RecordController {
                                                   message: "page 不能小于0").encode(for: req)
         }
         
-        return try UserRecord.query(on: req)
+        return UserRecord.query(on: req)
             .range(VaporUtils.queryRange(page: page)).sort(\.time).all()
             .flatMap({ (cords) in
             guard cords.count > 0 else {

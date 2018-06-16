@@ -11,10 +11,12 @@ import FluentMySQL
 import Crypto
 import Authentication
 
-struct AccessToken: Content, MySQLModel,Migration {
+struct AccessToken: BaseSQLModel {
     
     typealias Token = String
     
+    static var entity: String { return "AccessTokens" }
+
     static let accessTokenExpirationInterval: TimeInterval = 60 * 60 * 24 * 30 // 1个月
     
     var id: Int?
@@ -50,8 +52,8 @@ extension AccessToken: BearerAuthenticatable {
 //extension AccessToken : Token {
 //    
 //    
-//    typealias UserType = MyUser
-//    typealias UserIDType = MyUser.ID
+//    typealias UserType = LoginUser
+//    typealias UserIDType = LoginUser.ID
 //    static var userIDKey: WritableKeyPath<AccessToken, Int> = \AccessToken.id
 ////    static var userIDKey: WritableKeyPath<AccessToken, String> = \.userID
 //}

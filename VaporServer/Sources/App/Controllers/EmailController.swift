@@ -6,6 +6,7 @@
 //
 
 import Vapor
+import FluentMySQL
 
 class EmailController: RouteCollection {
     
@@ -19,39 +20,43 @@ class EmailController: RouteCollection {
 
 extension EmailController {
     
-    func sendEmail(_ req: Request) throws -> Future<ResponseJSON<EmailSendResult>> {
+    func sendEmail(_ req: Request) throws -> Future<Response> {
         
         return try req.content.decode(EmailContent.self).flatMap({ content in
-            
-            var result = EmailSendResult()
-            
+
             guard content.email.isEmail else {
-                return result.save(on: req).map({ (us) in
-                    return ResponseJSON(state: .error, message: "邮件地址错误", data: result)
-                })
+                return try ResponseJSON<String>(state: .error, message: "邮件地址错误").encode(for: req)
             }
-            
-//            return EmailSendResult.query(on: req).all().map({ (result) in
-//
-//                guard result.count >= 3 else {
-//                   return ResponseJSON(state: -1, message: "达到发送上限", data: nil)
-//                }
-            
+            return EmailSendResult.query(on: req).filter(\.email == content.email).count().flatMap({ (count) in
+
+                guard count < 3 else {
+                   return try ResponseJSON<String>(state: .error, message: "达到发送上限").encode(for: req)
+                }
+
                 return try EmailSender.sendEmail(req, content: content).flatMap({ (state) in
-                    result.state = state
-                    result.email = content.email
-                    result.sendTime = TimeManager.shared.currentTime()
                     
-                    return result.save(on: req).map({ (us) in
-                        return ResponseJSON(state: .ok, message: "发送成功", data: result)
+                    let result = EmailSendResult.init(id: -1, state: state, email: content.email, sendTime: TimeManager.shared.currentTime())
+                   
+                    return result.save(on: req).flatMap({ (us) in
+                        return try ResponseJSON(state: .ok, message: "发送成功", data: result).encode(for: req)
                     })
                 })
-//            })
+            })
         
         })
     }
 }
 
+
+struct EmailContent: Content {
+    
+    var email: String
+    var myName: String?
+    var subject: String?
+    var text: String?
+    
+    
+}
 
 
 

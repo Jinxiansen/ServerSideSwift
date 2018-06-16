@@ -9,9 +9,11 @@ import Foundation
 import Vapor
 import FluentMySQL
 
-struct Word: MySQLModel {
+struct Word: BaseSQLModel {
     var id: Int?
     
+    static var entity: String { return self.name + "s" }
+
     var word: String
     var oldword: String?
     var strokes: String?
@@ -21,12 +23,6 @@ struct Word: MySQLModel {
     var more: String?
 
 }
-
-extension Word: Migration {}
-
-extension Word: Content { }
-extension Word: Parameter { }
-
 
 
 

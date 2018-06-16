@@ -12,13 +12,15 @@ import FluentMySQL
 struct Report: MySQLModel {
     var id: Int?
     
+    static var entity: String { return self.name + "s" }
+
     var userID: String
     var receiveID: String
     var content: String
     var imgName: String?
     var imgName2: String?
     var contact: String?
-    
+
 }
 
 

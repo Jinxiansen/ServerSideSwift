@@ -8,23 +8,22 @@
 import Vapor
 import FluentMySQL
 
-struct PageView: MySQLModel {
+struct PageView: BaseSQLModel {
     var id: Int?
     
+    static var entity: String { return self.name + "s" }
+
     var time: String?
     var desc: String?
     var ip: String?
     var body: String?
     var url: String?
     
-//    var version: String?
-    
     init(time: String = TimeManager.shared.currentTime(),
          desc:String?,
          ip: String?,
          body: String?,
          url: String?
-//         version: String?
         ) {
         
         self.time = time
@@ -32,12 +31,6 @@ struct PageView: MySQLModel {
         self.ip = ip
         self.body = body
         self.url = url
-//        self.version = version
     }
 }
 
-
-extension PageView: Migration {}
-
-extension PageView: Content { }
-extension PageView: Parameter { }

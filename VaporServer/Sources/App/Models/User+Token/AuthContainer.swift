@@ -18,21 +18,13 @@ struct AuthContainer: Content {
         self.expiresIn = AccessToken.accessTokenExpirationInterval
         self.refreshToken = refreshToken.tokenString
     }
-    
-//    private enum CodingKeys: String, CodingKey {
-//        case accessToken = "accessToken"
-//        case expiresIn = "expiresIn"
-//        case refreshToken = "refreshToken"
-//    }
+
 }
 
 struct RefreshTokenContainer: Content {
     
     let refreshToken: RefreshToken.Token
-    
-//    private enum CodingKeys: String, CodingKey {
-//        case refreshToken = "refreshToken"
-//    }
+
 }
 
 

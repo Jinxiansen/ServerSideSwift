@@ -22,7 +22,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/console.git", from: "3.0.0"),
         
         .package(url: "https://github.com/vapor/redis.git", from: "3.0.0-rc"),
-    ],
+        ],
     targets: [
         .target(name: "App", dependencies: ["SwiftSMTP",
                                             "Leaf",

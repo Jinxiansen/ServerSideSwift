@@ -48,18 +48,20 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     
     services.register(middlewares)
     
+    let db = env.isRelease ? "vaporDB":"vaporDebugDB"
     let sqlite = MySQLDatabaseConfig.init(hostname: "localhost",
                                           port: 3306,
                                           username: "sqluser",
                                           password: "qwer1234",
-                                          database: "VaporDB")
-    
+                                          database: db)
     services.register(sqlite)
+    
+    PrintLogger().info("启动数据库：\(db) \n")
     
     var migrations = MigrationConfig()
     
     /* * ** ** ** ** *** ** ** ** Models ** ** ** ** ** ** ** ** ** */
-    migrations.add(model: MyUser.self, database:.mysql)
+    migrations.add(model: LoginUser.self, database:.mysql)
     migrations.add(model: EmailSendResult.self, database: .mysql)
     
     migrations.add(model: PageView.self, database: .mysql)

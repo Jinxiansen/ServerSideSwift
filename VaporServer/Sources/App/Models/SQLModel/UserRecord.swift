@@ -8,10 +8,12 @@
 import Vapor
 import FluentMySQL
 
-struct UserRecord: Content, MySQLModel,Migration {
+struct UserRecord: BaseSQLModel {
     
     var id: Int?
     
+    static var entity: String { return self.name + "s" }
+ 
     var userID: String?
     var content: String?
     var key: String?

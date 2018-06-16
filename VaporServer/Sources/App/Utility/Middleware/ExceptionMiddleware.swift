@@ -27,7 +27,7 @@ public final class ExceptionMiddleware: Middleware,Service {
                 }
             }
             
-            return try next.respond(to: request)
+            return request.eventLoop.newSucceededFuture(result: resp)
         })
     }
     

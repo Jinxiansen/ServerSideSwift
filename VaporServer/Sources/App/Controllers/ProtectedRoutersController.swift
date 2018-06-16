@@ -16,12 +16,12 @@ struct ProtectedRoutersController: RouteCollection {
         
 //        let group = router.grouped("api","protected")
         
-//        let basicAuthMiddleware = MyUser.basicAuthMiddleware(using: BCrypt)
-//        let guardAuthmiddleware = MyUser.guardAuthMiddleware()
+//        let basicAuthMiddleware = LoginUser.basicAuthMiddleware(using: BCrypt)
+//        let guardAuthmiddleware = LoginUser.guardAuthMiddleware()
 //        let basicAuthGroup = group.grouped([basicAuthMiddleware,guardAuthmiddleware])
 //        basicAuthGroup.get("basic", use: basicAuthRouteHandle)
 //        
-//        let tokenAuthMiddleware = MyUser.tokenAuthMiddleware()
+//        let tokenAuthMiddleware = LoginUser.tokenAuthMiddleware()
 //        let tokenAuthGroup = group.grouped([tokenAuthMiddleware,guardAuthmiddleware])
 //        tokenAuthGroup.get("token", use: tokenAuthRouteHandler)
         
@@ -32,12 +32,12 @@ struct ProtectedRoutersController: RouteCollection {
 
 extension ProtectedRoutersController {
     
-    func basicAuthRouteHandle(_ req: Request) throws -> MyUser {
-        return try req.requireAuthenticated(MyUser.self)
+    func basicAuthRouteHandle(_ req: Request) throws -> LoginUser {
+        return try req.requireAuthenticated(LoginUser.self)
     }
     
-    func tokenAuthRouteHandler(_ req: Request) throws -> MyUser {
-        return try req.requireAuthenticated(MyUser.self)
+    func tokenAuthRouteHandler(_ req: Request) throws -> LoginUser {
+        return try req.requireAuthenticated(LoginUser.self)
     }
     
 }

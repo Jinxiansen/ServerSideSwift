@@ -9,9 +9,11 @@ import Vapor
 import FluentMySQL
 import Crypto
 
-struct RefreshToken: Content,MySQLModel,Migration {
+struct RefreshToken: BaseSQLModel {
     var id: Int?
     
+    static var entity: String { return self.name + "s" }
+
     typealias Token = String
     
     let tokenString: Token

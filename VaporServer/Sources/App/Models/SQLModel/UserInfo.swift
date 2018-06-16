@@ -8,9 +8,11 @@
 import Vapor
 import FluentMySQL
 
-struct UserInfo : Content, MySQLModel {
+struct UserInfo : BaseSQLModel {
     var id: Int?
     
+    static var entity: String { return self.name + "s" }
+
     var userID: String
     
     var age: Int?

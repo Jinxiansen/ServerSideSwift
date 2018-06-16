@@ -15,12 +15,12 @@ final class UserRouteController: RouteCollection {
     
     func boot(router: Router) throws {
         
-        //        let tokenAuthMiddleware = MyUser.guardAuthMiddleware()
+        //        let tokenAuthMiddleware = LoginUser.guardAuthMiddleware()
         let group = router.grouped("users")
         //        let group = router.grouped(AuthUserMiddleware.self)
         
-        group.post(MyUser.self, at: "login", use: loginUserHandler)
-        group.post(MyUser.self, at: "register", use: registerUserHandler)
+        group.post(LoginUser.self, at: "login", use: loginUserHandler)
+        group.post(LoginUser.self, at: "register", use: registerUserHandler)
         
         group.post(ChangePasswordContainer.self, at: "changePassword", use: changePassword)
     }
@@ -28,18 +28,18 @@ final class UserRouteController: RouteCollection {
 }
 
 
-private extension MyUser {
+private extension LoginUser {
     
-    func user(with digest: BCryptDigest) throws -> MyUser {
-        return try MyUser(id: nil, userID: UUID().uuidString, email: email, password: digest.hash(password))
+    func user(with digest: BCryptDigest) throws -> LoginUser {
+        return try LoginUser(userID: UUID().uuidString, email: email, password: digest.hash(password))
     }
 }
 
 extension UserRouteController {
     
     //TODO: 登录
-    func loginUserHandler(_ req: Request,user: MyUser) throws -> Future<Response> {
-        return try MyUser.query(on: req).filter(\.email == user.email).first().flatMap({ (existingUser) in
+    func loginUserHandler(_ req: Request,user: LoginUser) throws -> Future<Response> {
+        return LoginUser.query(on: req).filter(\.email == user.email).first().flatMap({ (existingUser) in
             guard let existingUser = existingUser else {
                 return try ResponseJSON<AccessContainer>(state: .error, message: "\(user.email) 不存在,请先注册").encode(for: req)
             }
@@ -64,9 +64,9 @@ extension UserRouteController {
     }
     
     //TODO: 注册
-    func registerUserHandler(_ req: Request, newUser: MyUser) throws -> Future<Response> {
+    func registerUserHandler(_ req: Request, newUser: LoginUser) throws -> Future<Response> {
         
-        let futureFirst = try MyUser.query(on: req).filter(\.email == newUser.email).first()
+        let futureFirst = LoginUser.query(on: req).filter(\.email == newUser.email).first()
         
         return futureFirst.flatMap { existingUser in
             guard existingUser == nil else {
@@ -95,7 +95,7 @@ extension UserRouteController {
     
     //TODO: 修改密码
     func changePassword(_ req: Request,inputContent: ChangePasswordContainer) throws -> Future<Response> {
-        return try MyUser.query(on: req).filter(\.email == inputContent.email).first().flatMap({ (existUser) in
+        return LoginUser.query(on: req).filter(\.email == inputContent.email).first().flatMap({ (existUser) in
             
             guard let existUser = existUser else {
                 return try ResponseJSON<TokenContainer>(state: .error, message: "账号不存在").encode(for: req)

@@ -11,17 +11,12 @@ import Vapor
 import FluentMySQL
 
 // 歇后语对象，这个词特么实在没找着个像样的翻译。
-struct XieHouIdiom: MySQLModel {
+struct XieHouIdiom: BaseSQLModel {
     var id: Int?
     
+    static var entity: String { return self.name + "s" }
+
     var riddle : String //前半句
     var answer : String //后半句
 
 }
-
-
-extension XieHouIdiom: Migration {}
-
-extension XieHouIdiom: Content { }
-extension XieHouIdiom: Parameter { }
-

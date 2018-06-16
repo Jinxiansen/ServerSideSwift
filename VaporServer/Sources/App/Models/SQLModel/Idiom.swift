@@ -11,9 +11,11 @@ import Vapor
 import FluentMySQL
 
 // 成语对象
-struct Idiom: MySQLModel {
+struct Idiom: BaseSQLModel {
     var id: Int?
     
+    static var entity: String { return self.name + "s" }
+
     var word: String
     var abbreviation: String?
     var derivation: String?
@@ -21,9 +23,3 @@ struct Idiom: MySQLModel {
     var explanation: String?
     var pinyin: String?
 }
-
-
-extension Idiom: Migration {}
-
-extension Idiom: Content { }
-extension Idiom: Parameter { }
