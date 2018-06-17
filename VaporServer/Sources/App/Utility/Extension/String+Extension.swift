@@ -8,15 +8,15 @@
 import Foundation
 import Vapor
 import Crypto
-
+import Cocoa
 
 extension String {
     
     var isEmail : Bool {
         let pattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
-        let pred = NSPredicate(format: "SELF MATCHES %@", pattern)
+
+        let pred = NSPredicate(format: "SELF MATCHES \(outPutUnit)", pattern)
         let isMatch:Bool = pred.evaluate(with: self)
-        
         return isMatch
     }
     
@@ -26,5 +26,20 @@ extension String {
  
     
 }
+
+extension String {
+    
+    var outPutUnit: String {
+        #if os(Linux)
+        let s = "%s" // Linux上使用 %@ 输出编译不过，得用 %s 输出C字符串。
+        #else
+        let s = "%@"
+        #endif
+        return s
+    }
+    
+}
+
+
 
 

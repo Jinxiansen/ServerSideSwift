@@ -39,7 +39,7 @@ extension WordController {
         }
 
         // ~~ 模糊匹配。
-        return try Word.query(on: req).filter(\.word ~~ input).all().flatMap({ (words) in
+        return Word.query(on: req).filter(\.word ~~ input).all().flatMap({ (words) in
             
             let futureWords = words.compactMap({ word -> Word in
                 var w = word;w.id = nil;return w
@@ -55,7 +55,7 @@ extension WordController {
             return try ResponseJSON<[Idiom]>(state: .error, message: "请输入要查询的成语").encode(for: req)
         }
             
-        return try Idiom.query(on: req).filter(\.word ~~ input).all().flatMap({ (words) in
+        return Idiom.query(on: req).filter(\.word ~~ input).all().flatMap({ (words) in
             
             let fultueWords = words.compactMap({ idiom -> Idiom in
                 var w = idiom;w.id = nil;return w
@@ -70,7 +70,7 @@ extension WordController {
         guard let input = req.query[String.self, at: "str"],input.count > 0 else {
             return try ResponseJSON<[XieHouIdiom]>(state: .error, message: "请输入要查询的歇后语").encode(for: req)
         }
-        return try XieHouIdiom.query(on: req).filter(\.riddle ~~ input).all().flatMap({ (oms) in
+        return XieHouIdiom.query(on: req).filter(\.riddle ~~ input).all().flatMap({ (oms) in
             
             let results = oms.compactMap({ idiom -> XieHouIdiom in
                 var w = idiom;w.id = nil;return w

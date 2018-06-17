@@ -40,7 +40,7 @@ extension AccessToken: BearerAuthenticatable {
     
     public static func authenticate(using bearer: BearerAuthorization, on connection: DatabaseConnectable) -> Future<AccessToken?> {
         return Future.flatMap(on: connection) {
-            return try AccessToken.query(on: connection).filter(tokenKey == bearer.token).first().map { token in
+            return AccessToken.query(on: connection).filter(tokenKey == bearer.token).first().map { token in
                 guard let token = token, token.expiryTime > Date() else { return nil }
                 return token
             }
