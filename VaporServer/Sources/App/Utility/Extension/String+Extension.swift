@@ -13,9 +13,11 @@ import Crypto
 extension String {
     
     var isEmail : Bool {
-        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
-        let emailTest:NSPredicate = NSPredicate(format: "SELF MATCHES \(emailRegex)")
-        return emailTest.evaluate(with: self)
+        let pattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        let pred = NSPredicate(format: "SELF MATCHES %@", pattern)
+        let isMatch:Bool = pred.evaluate(with: self)
+        
+        return isMatch
     }
     
     func hashString(_ req: Request) throws -> String {

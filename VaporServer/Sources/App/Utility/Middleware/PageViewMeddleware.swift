@@ -15,6 +15,8 @@ public final class PageViewMeddleware : Middleware {
         try printLog(request)
         
 //        request.http.headers.replaceOrAdd(name: .contentType, value: "text/plain; charset=utf-8")
+        
+        
     
         return try next.respond(to: request)
     }

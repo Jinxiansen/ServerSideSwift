@@ -17,7 +17,6 @@ public final class ExceptionMiddleware: Middleware,Service {
     }
     
     public func respond(to request: Request, chainingTo next: Responder) throws -> EventLoopFuture<Response> {
-        
         return try next.respond(to: request).flatMap({ (resp) in
             
             let status = resp.http.status
@@ -26,7 +25,6 @@ public final class ExceptionMiddleware: Middleware,Service {
                     return resp
                 }
             }
-            
             return request.eventLoop.newSucceededFuture(result: resp)
         })
     }

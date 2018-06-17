@@ -43,7 +43,6 @@ extension LoginUser: BasicAuthenticatable {
 //    typealias TokenType = AccessToken
 //}
 
-//MARK: Validatable
 extension LoginUser: Validatable {
     
     static func validations() throws -> Validations<LoginUser> {
