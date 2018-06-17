@@ -8,7 +8,6 @@
 import Foundation
 import Vapor
 import Crypto
-import Cocoa
 
 extension String {
     
