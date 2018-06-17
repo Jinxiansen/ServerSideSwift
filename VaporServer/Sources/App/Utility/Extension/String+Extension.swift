@@ -10,20 +10,41 @@ import Vapor
 import Crypto
 
 extension String {
-    
-    var isEmail : Bool {
-        let pattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
-        let str = "SELF MATCHES \(pattern)"
-        let pred = NSPredicate(format: str)
-        let isMatch:Bool = pred.evaluate(with: self)
-        return isMatch
-    }
+
+//    var isEmail : Bool {
+//        let pattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+//        let str = "SELF MATCHES \(pattern)"
+//        let pred = NSPredicate(format: str) // 
+//        let isMatch:Bool = pred.evaluate(with: self)
+//        return isMatch
+//    }
     
     func hashString(_ req: Request) throws -> String {
        return try req.make(BCryptDigest.self).hash(self)
     }
  
     
+    func isAccount() -> (Bool,String) {
+        if count < ACountMinCount {
+            return (false,"密码长度不足")
+        }
+        
+        if count > AcountMaxCount {
+            return (false,"密码长度超出")
+        }
+        return (true,"密码符合")
+    }
+    
+    func isPassword() -> (Bool,String) {
+        if count < passwordMinCount {
+            return (false,"密码长度不足")
+        }
+        
+        if count > PasswordMaxCount {
+            return (false,"密码长度超出")
+        }
+        return (true,"密码符合")
+    }
 }
 
 extension String {

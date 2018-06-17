@@ -73,12 +73,8 @@ extension UserRouteController {
                 return try ResponseJSON<AccessContainer>(state: .error, message: "\(newUser.email) 已存在").encode(for: req)
             }
             
-            if !newUser.email.isEmail {
-                return try ResponseJSON<AccessContainer>(state: .error, message: "邮箱格式不正确").encode(for: req)
-            }
-            
-            if newUser.password.count < 6 || newUser.password.count > 18 {
-                return try ResponseJSON<AccessContainer>(state: .error, message: "密码长度6~18位").encode(for: req)
+            if newUser.validation().0 == false {
+                return try ResponseJSON<AccessContainer>(state: .error, message: newUser.validation().1).encode(for: req)
             }
             
             return try newUser.user(with: req.make(BCryptDigest.self)).save(on: req).flatMap { user in
@@ -112,8 +108,8 @@ extension UserRouteController {
                 return try ResponseJSON<TokenContainer>(state: .error, message: "密码不正确").encode(for: req)
             }
             
-            if inputContent.newPassword.count < 8 {
-                return try ResponseJSON<TokenContainer>(state: .error, message: "新密码长度不足8位").encode(for: req)
+            if inputContent.newPassword.isPassword().0 == false {
+                return try ResponseJSON<TokenContainer>(state: .error, message: inputContent.newPassword.isPassword().1).encode(for: req)
             }
             
             var user = existUser

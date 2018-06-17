@@ -61,7 +61,7 @@ extension RecordController {
             let record = UserRecord(id: nil,
                                     userID: existToken.userID,
                                     content: container.content,
-                                    key: container.key,
+                                    title: container.title,
                                     time: TimeManager.shared.currentTime(),
                                     imgName: imgName)
             
@@ -179,7 +179,7 @@ struct RecordContainer: Content {
     
     var token: String
     var content: String
-    var key: String?
+    var title: String
     var image: Data?
 }
 

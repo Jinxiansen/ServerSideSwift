@@ -24,9 +24,9 @@ extension EmailController {
         
         return try req.content.decode(EmailContent.self).flatMap({ content in
 
-            guard content.email.isEmail else {
-                return try ResponseJSON<String>(state: .error, message: "邮件地址错误").encode(for: req)
-            }
+//            guard content.email.isEmail else {
+//                return try ResponseJSON<String>(state: .error, message: "邮件地址错误").encode(for: req)
+//            }
             return EmailSendResult.query(on: req).filter(\.email == content.email).count().flatMap({ (count) in
 
                 guard count < 3 else {

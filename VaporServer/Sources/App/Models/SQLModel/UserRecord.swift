@@ -16,7 +16,7 @@ struct UserRecord: BaseSQLModel {
  
     var userID: String?
     var content: String?
-    var key: String?
+    var title: String
     var time: String?
     var imgName: String?
     
