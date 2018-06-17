@@ -21,3 +21,6 @@ struct UserRecord: BaseSQLModel {
     var imgName: String?
     
 }
+
+
+

@@ -81,7 +81,7 @@ extension RecordController {
         }
         
         return UserRecord.query(on: req)
-            .range(VaporUtils.queryRange(page: page)).sort(\.time).all()
+            .range(VaporUtils.queryRange(page: page)).all()
             .flatMap({ (cords) in
             guard cords.count > 0 else {
                 return try ResponseJSON<[UserRecord]>(state: .ok,

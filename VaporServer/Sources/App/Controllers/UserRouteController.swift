@@ -45,7 +45,6 @@ extension UserRouteController {
             }
             
             let digest = try req.make(BCryptDigest.self)
-            
             guard try digest.verify(user.password, created: existingUser.password) else {
                 return try ResponseJSON<AccessContainer>(state: .error, message: "密码不正确").encode(for: req)
             }
@@ -76,7 +75,6 @@ extension UserRouteController {
             if newUser.validation().0 == false {
                 return try ResponseJSON<AccessContainer>(state: .error, message: newUser.validation().1).encode(for: req)
             }
-            
             return try newUser.user(with: req.make(BCryptDigest.self)).save(on: req).flatMap { user in
                 
                 let logger = try req.make(Logger.self)
@@ -103,7 +101,6 @@ extension UserRouteController {
                 return try ResponseJSON<TokenContainer>(state: .error, message: "账号不存在").encode(for: req)
             }
             let digest = try req.make(BCryptDigest.self)
-            
             guard try digest.verify(inputContent.password, created: existUser.password) else {
                 return try ResponseJSON<TokenContainer>(state: .error, message: "密码不正确").encode(for: req)
             }
@@ -131,59 +128,12 @@ extension UserRouteController {
         })
     }
     
-    /*
-     func getAllUsers(_ req: Request) throws -> Future<ResponseJSON<[User]> > {
-     return User.query(on: req).all().map({ (users) in
-     return ResponseJSON<[User]>(data: users)
-     })
-     }
-     
-     func deleteEmpty(_ req: Request) throws -> Future<ResponseJSON<User>> {
-     return try User.query(on: req).filter(\User.email == "").delete().map({ _ in
-     return ResponseJSON(data: nil)
-     })
-     
-     }
-     
-     func creatUser(_ req: Request) throws -> Future<ResponseJSON<User>> {
-     
-     return try req.content.decode(User.self).flatMap { user in
-     return try User.query(on: req).filter(\User.email == user.email).first().flatMap({
-     
-     if $0 != nil {
-     let promise = req.eventLoop.newPromise(ResponseJSON<User>.self)
-     promise.succeed(result: ResponseJSON<User>(state: 0, message: "\(user.email)已存在", data: nil))
-     return promise.futureResult
-     }else {
-     return user.save(on: req).map({ (new)  in
-     //                        let resultUser = User(new.name, email: new.email, sex: new.sex, age: new.age)
-     return ResponseJSON(state: 0, message: "创建成功", data: new)
-     })
-     }
-     })
-     }
-     }
-     
-     
-     
-     func login(_ request: Request) throws  -> Future<PublicUser> { // 1
-     return try request.content.decode(User.self).flatMap(to: PublicUser.self) { user in // 2
-     return user.save(on: request).map(to: PublicUser.self) { savedUser in // 3
-     let publicUser = try PublicUser(email: savedUser.email, id: savedUser.requireID()) // 4
-     return publicUser
-     }
-     }
-     }
-     
-     */
 }
 
 
 
 struct TokenContainer: Content {
-    
     var token: String?
-    
 }
 
 struct ChangePasswordContainer: Content {
