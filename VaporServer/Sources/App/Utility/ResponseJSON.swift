@@ -44,10 +44,11 @@ extension ResponseJSON {
 
 enum ResponseStatus:Int,Content {
     case ok = 0
-    case error = -1
-    case missesPara = -3
-    case tokenInvalid = -4
+    case error = 1
+    case missesPara = 3
+    case token = 4
     case unknown = 10
+    case userExist = 20
     
     var desc : String {
         switch self {
@@ -57,11 +58,14 @@ enum ResponseStatus:Int,Content {
             return "请求失败"
         case .missesPara:
             return "缺少参数"
-        case .tokenInvalid:
+        case .token:
             return "Token 已失效，请重新登录"
         case .unknown:
             return "未知失败"
+        case .userExist:
+            return "用户已存在"
         }
+        
     }
     
 }

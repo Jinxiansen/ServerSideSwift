@@ -31,7 +31,9 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     
     middlewares.use(ExceptionMiddleware(closure: { (req) -> (EventLoopFuture<Response>?) in
         
-        return try req.view().render("leaf/loader").encode(for: req)
+        let dict = ["status":"404","message":"访问路径不存在"]
+        return try dict.encode(for: req)
+//        return try req.view().render("leaf/loader").encode(for: req)
     }))
     
     middlewares.use(ErrorMiddleware.self)

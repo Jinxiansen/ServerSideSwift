@@ -7,6 +7,7 @@
 import Vapor
 import FluentMySQL
 import Crypto
+import Authentication
 
 
 final class UserRouteController: RouteCollection {
@@ -21,7 +22,7 @@ final class UserRouteController: RouteCollection {
         
         group.post(LoginUser.self, at: "login", use: loginUserHandler)
         group.post(LoginUser.self, at: "register", use: registerUserHandler)
-        
+        group.post("exit", use: exitUserHandler)
         group.post(ChangePasswordContainer.self, at: "changePassword", use: changePassword)
     }
     
@@ -31,7 +32,7 @@ final class UserRouteController: RouteCollection {
 private extension LoginUser {
     
     func user(with digest: BCryptDigest) throws -> LoginUser {
-        return try LoginUser(userID: UUID().uuidString, email: email, password: digest.hash(password))
+        return try LoginUser(userID: UUID().uuidString, account: account, password: digest.hash(password))
     }
 }
 
@@ -39,9 +40,9 @@ extension UserRouteController {
     
     //TODO: 登录
     func loginUserHandler(_ req: Request,user: LoginUser) throws -> Future<Response> {
-        return LoginUser.query(on: req).filter(\.email == user.email).first().flatMap({ (existingUser) in
+        return LoginUser.query(on: req).filter(\.account == user.account).first().flatMap({ (existingUser) in
             guard let existingUser = existingUser else {
-                return try ResponseJSON<AccessContainer>(state: .error, message: "\(user.email) 不存在,请先注册").encode(for: req)
+                return try ResponseJSON<AccessContainer>(state: .error, message: "\(user.account) 不存在,请先注册").encode(for: req)
             }
             
             let digest = try req.make(BCryptDigest.self)
@@ -65,11 +66,11 @@ extension UserRouteController {
     //TODO: 注册
     func registerUserHandler(_ req: Request, newUser: LoginUser) throws -> Future<Response> {
         
-        let futureFirst = LoginUser.query(on: req).filter(\.email == newUser.email).first()
+        let futureFirst = LoginUser.query(on: req).filter(\.account == newUser.account).first()
         
         return futureFirst.flatMap { existingUser in
             guard existingUser == nil else {
-                return try ResponseJSON<AccessContainer>(state: .error, message: "\(newUser.email) 已存在").encode(for: req)
+                return try ResponseJSON<AccessContainer>(state: .userExist, message: "\(newUser.account) 已存在").encode(for: req)
             }
             
             if newUser.validation().0 == false {
@@ -78,7 +79,7 @@ extension UserRouteController {
             return try newUser.user(with: req.make(BCryptDigest.self)).save(on: req).flatMap { user in
                 
                 let logger = try req.make(Logger.self)
-                logger.warning("New user creatd: \(user.email)")
+                logger.warning("New user creatd: \(user.account)")
                 
                 return try self.authController.authContainer(for: user, on: req).flatMap({ (container) in
                     
@@ -93,9 +94,30 @@ extension UserRouteController {
         }
     }
     
+    func exitUserHandler(_ req: Request) throws -> Future<Response> {
+        
+        return try req.content.decode(TokenContainer.self).flatMap({ container in
+            
+            let token = BearerAuthorization(token: container.token)
+            
+            return AccessToken.authenticate(using: token, on: req).flatMap({ (existToken) in
+                guard let existToken = existToken else {
+                    return try ResponseJSON<String>.init(state: .token).encode(for: req)
+                }
+                
+                return try self.authController.remokeTokens(userID: existToken.userID, on: req).flatMap({ _ in
+                    return try ResponseJSON<String>.init(state: .ok).encode(for: req)
+                })
+                
+            })
+            
+        })
+        
+    }
+    
     //TODO: 修改密码
     func changePassword(_ req: Request,inputContent: ChangePasswordContainer) throws -> Future<Response> {
-        return LoginUser.query(on: req).filter(\.email == inputContent.email).first().flatMap({ (existUser) in
+        return LoginUser.query(on: req).filter(\.account == inputContent.account).first().flatMap({ (existUser) in
             
             guard let existUser = existUser else {
                 return try ResponseJSON<TokenContainer>(state: .error, message: "账号不存在").encode(for: req)
@@ -115,7 +137,7 @@ extension UserRouteController {
             return user.save(on: req).flatMap { newUser in
                 
                 let logger = try req.make(Logger.self)
-                logger.info("Password Changed Success: \(newUser.email)")
+                logger.info("Password Changed Success: \(newUser.account)")
                 
                 return try self.authController.authContainer(for: newUser, on: req).flatMap({ (container) in
                     
@@ -133,11 +155,11 @@ extension UserRouteController {
 
 
 struct TokenContainer: Content {
-    var token: String?
+    var token: String
 }
 
 struct ChangePasswordContainer: Content {
-    var email: String
+    var account: String
     var password: String
     var newPassword: String
     

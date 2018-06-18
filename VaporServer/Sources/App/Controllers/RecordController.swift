@@ -43,7 +43,7 @@ extension RecordController {
         return AccessToken.authenticate(using: token, on: req)
             .flatMap({ (existToken)  in
             guard let existToken = existToken else {
-                return try ResponseJSON<String>(state: .tokenInvalid).encode(for: req)
+                return try ResponseJSON<String>(state: .token).encode(for: req)
             }
             
             var imgName: String?
@@ -117,11 +117,11 @@ extension RecordController {
     //TODO: 举报
     func reportUser(_ req: Request,container: ReportContainer) throws -> Future<Response> {
         
-        let token = BearerAuthorization.init(token: container.token)
+        let token = BearerAuthorization(token: container.token)
         return AccessToken.authenticate(using: token, on: req)
             .flatMap({ (existToken) in
                 guard let existToken = existToken else {
-                    return try ResponseJSON<String>(state: .tokenInvalid).encode(for: req)
+                    return try ResponseJSON<String>(state: .token).encode(for: req)
                 }
                 
                 var imgName: String?

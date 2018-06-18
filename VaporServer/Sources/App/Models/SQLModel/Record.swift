@@ -19,7 +19,7 @@ struct Record: BaseSQLModel {
     var userID: String
     var content: String?
     var title: String
-    var county: String
+    var county: String?
     
     var time: String
     var imgName: String?

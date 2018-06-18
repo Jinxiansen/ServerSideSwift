@@ -28,8 +28,8 @@ struct AuthController {
         })
     }
     
-    func remokeTokens(forEmail email: String,on connection: DatabaseConnectable) throws -> Future<Void> {
-        return LoginUser.query(on: connection).filter(\.email == email).first().flatMap({ (user) in
+    func remokeTokens(userID: String,on connection: DatabaseConnectable) throws -> Future<Void> {
+        return LoginUser.query(on: connection).filter(\.userID == userID).first().flatMap({ (user) in
             guard let user = user else { return Future.map(on: connection) { Void()} }
             return try self.removeAllTokens(for: user, on: connection)
         })
@@ -48,7 +48,7 @@ private extension AuthController {
     }
     
     func existingUser(matching user: LoginUser, on connection: DatabaseConnectable) throws -> Future<LoginUser?> {
-        return LoginUser.query(on: connection).filter(\.email == user.email).first()
+        return LoginUser.query(on: connection).filter(\.account == user.account).first()
     }
     
     func removeAllTokens(for user:LoginUser,on connection: DatabaseConnectable) throws -> Future<Void> {

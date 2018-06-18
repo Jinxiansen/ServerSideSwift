@@ -17,12 +17,12 @@ struct LoginUser: BaseSQLModel {
     
     static var entity: String { return self.name + "s" }
 
-    private(set) var email: String
+    private(set) var account: String
     var password: String
  
-    init(userID: String,email: String,password: String) {
+    init(userID: String,account: String,password: String) {
         self.userID = userID
-        self.email = email
+        self.account = account
         self.password = password
     }
    
@@ -37,15 +37,15 @@ extension LoginUser {
  
     func validation() -> (Bool,String) {
         
-        if email.isAccount().0 == true {
-            return email.isAccount()
+        if account.isAccount().0 == true {
+            return account.isAccount()
         }
         
         if password.isPassword().0 == true {
-            return email.isPassword()
+            return account.isPassword()
         }
         
-        if password == email {
+        if password == account {
             return (false,"账号密码不能一样")
         }
         return (true,"验证成功")
@@ -53,7 +53,7 @@ extension LoginUser {
 }
 
 extension LoginUser: BasicAuthenticatable {
-    static var usernameKey: WritableKeyPath<LoginUser, String> = \.email
+    static var usernameKey: WritableKeyPath<LoginUser, String> = \.account
     static var passwordKey: WritableKeyPath<LoginUser, String> = \.password
 }
 
@@ -61,18 +61,18 @@ extension LoginUser: BasicAuthenticatable {
 //
 //    typealias TokenType = AccessToken
 //}
-
-extension LoginUser: Validatable {
-    
-    static func validations() throws -> Validations<LoginUser> {
-        var valid = Validations(LoginUser.self)
-        valid.add(\.email, at: [], .email)
-        valid.add(\.password, at: [], .password)
-        
-        return valid
-    }
-}
-
+//
+//extension LoginUser: Validatable {
+//
+//    static func validations() throws -> Validations<LoginUser> {
+//        var valid = Validations(LoginUser.self)
+//        valid.add(\.account, at: [], .account)
+//        valid.add(\.password, at: [], .password)
+//
+//        return valid
+//    }
+//}
+//
 
 
 
