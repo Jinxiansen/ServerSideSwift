@@ -23,9 +23,7 @@ struct PageView: BaseSQLModel {
          desc:String?,
          ip: String?,
          body: String?,
-         url: String?
-        ) {
-        
+         url: String? ) {
         self.time = time
         self.desc = desc
         self.ip = ip

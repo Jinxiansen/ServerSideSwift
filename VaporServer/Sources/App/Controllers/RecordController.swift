@@ -6,7 +6,6 @@
 //
 
 import Vapor
-import Fluent
 import Crypto
 import Authentication
 import FluentMySQL
@@ -20,7 +19,7 @@ class RecordController: RouteCollection {
             group.post(RecordContainer.self, at: "add", use: postRecord)
             // record/getRecords
             group.get("getRecords", use: getRecords)
-            // 32DG2342432813EF113.jpg/image 中间跟图片名
+            
             group.get("image", use: getRecordImage)
             
         }
@@ -58,15 +57,16 @@ extension RecordController {
                 try Data(image).write(to: URL(fileURLWithPath: path))
             }
             
-            let record = UserRecord(id: nil,
+            let record = Record(id: nil,
                                     userID: existToken.userID,
                                     content: container.content,
                                     title: container.title,
+                                    county: container.county,
                                     time: TimeManager.shared.currentTime(),
                                     imgName: imgName)
             
             return record.save(on: req).flatMap({ (rc) in
-                return try ResponseJSON<UserRecord>(state: .ok,
+                return try ResponseJSON<Record>(state: .ok,
                                                     message: "发布成功").encode(for: req)
             })
         })
@@ -75,21 +75,25 @@ extension RecordController {
     //TODO: 获取动态
     func getRecords(_ req: Request) throws -> Future<Response> {
         
-        guard let page = req.query[Int.self, at: "page"],page >= 0 else {
-            return try ResponseJSON<[UserRecord]>(state: .error,
-                                                  message: "page 不能小于0").encode(for: req)
+        guard let county = req.query[String.self, at: "county"],county.count > 0 else {
+            return try ResponseJSON<[Record]>(state: .error,
+                                              message: "缺少 county 参数").encode(for: req)
         }
         
-        return UserRecord.query(on: req)
-            .range(VaporUtils.queryRange(page: page)).all()
+        guard let page = req.query[Int.self, at: "page"],page >= 0 else {
+            return try ResponseJSON<[Record]>(state: .error,
+                                              message: "page 不能小于0").encode(for: req)
+        }
+        
+        return Record.query(on: req).filter(\.county == county).range(VaporUtils.queryRange(page: page)).all()
             .flatMap({ (cords) in
-            guard cords.count > 0 else {
-                return try ResponseJSON<[UserRecord]>(state: .ok,
+                guard cords.count > 0 else {
+                    return try ResponseJSON<[Record]>(state: .ok,
                                                       message: "没有数据了",
                                                       data: []).encode(for: req)
-            }
-            return try ResponseJSON<[UserRecord]>.init(data: cords).encode(for: req)
-        })
+                }
+                return try ResponseJSON<[Record]>.init(data: cords).encode(for: req)
+            })
     }
     
     //TODO: 获取图片
@@ -122,30 +126,31 @@ extension RecordController {
                 
                 var imgName: String?
                 var img2Name: String?
-                if let image = container.image {
-                    guard image.count < ImageMaxByteSize else {
+                if let file = container.image {
+                    
+                    guard file.data.count < ImageMaxByteSize else {
                         return try ResponseJSON<String>(state: .error, message: "图片过大，得压缩！").encode(for: req)
                     }
                     imgName = VaporUtils.imageName()
                     let path = try VaporUtils.localRootDir(at: ImagePath.report, req: req) + "/" + imgName!
                     
-                    try Data(image).write(to: URL(fileURLWithPath: path))
+                    try Data(file.data).write(to: URL(fileURLWithPath: path))
                 }
                 
-                if let image2 = container.image2 {
-                    guard image2.count < ImageMaxByteSize else {
+                if let file2 = container.image2 {
+                    guard file2.data.count < ImageMaxByteSize else {
                         return try ResponseJSON<String>(state: .error, message: "图片过大，得压缩！").encode(for: req)
                     }
                     img2Name = "2" + VaporUtils.imageName() //防止和上面的重复
                     let path = try VaporUtils.localRootDir(at: ImagePath.report, req: req) + "/" + img2Name!
                     
-                    try Data(image2).write(to: URL(fileURLWithPath: path))
+                    try Data(file2.data).write(to: URL(fileURLWithPath: path))
                 }
                 
                 let report = Report(id: nil,
                                     userID: existToken.userID,
-                                    receiveID: container.receiveID,
                                     content: container.content,
+                                    county: container.county,
                                     imgName: imgName,
                                     imgName2: img2Name,
                                     contact: container.contact)
@@ -175,20 +180,26 @@ struct PageContainer: Content {
     var page: Int
 }
 
+struct CountyContainer: Content {
+    var county: String
+}
+
 struct RecordContainer: Content {
     
     var token: String
     var content: String
     var title: String
     var image: Data?
+    var county: String
 }
 
 struct ReportContainer: Content {
     var token: String
     var content: String
-    var receiveID: String
-    var image: Data?
-    var image2: Data?
+    var county: String
+    
+    var image: File?
+    var image2: File?
     var contact: String?
 }
 

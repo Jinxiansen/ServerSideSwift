@@ -8,6 +8,11 @@ public func routes(_ router: Router) throws {
         return "Hello, world!"
     }
 
+    router.get("hello") { req in
+        
+        return "Hello, world! "
+    }
+    
     // Example of configuring a controlle
     try router.register(collection: EmailController())
     try router.register(collection: HTMLController())

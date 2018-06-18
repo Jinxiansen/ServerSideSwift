@@ -41,9 +41,9 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     //
     middlewares.use(PageViewMeddleware())
     
-    middlewares.use(GuardianMiddleware(rate: Rate(limit: 25, interval: .minute), closure: { (req) -> EventLoopFuture<Response>? in
-        let view = try req.view().render("leaf/loader")
-        return try view.encode(for: req)
+    middlewares.use(GuardianMiddleware(rate: Rate(limit: 20, interval: .minute), closure: { (req) -> EventLoopFuture<Response>? in
+        let dict = ["status":"429","message":"访问太频繁"]
+        return try dict.encode(for: req)
     }))
     
     services.register(middlewares)
@@ -67,7 +67,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: PageView.self, database: .mysql)
     migrations.add(model: AccessToken.self, database: .mysql)
     migrations.add(model: RefreshToken.self, database: .mysql)
-    migrations.add(model: UserRecord.self, database: .mysql)
+    migrations.add(model: Record.self, database: .mysql)
     
     migrations.add(model: Word.self, database: .mysql)
     migrations.add(model: Idiom.self, database: .mysql)
