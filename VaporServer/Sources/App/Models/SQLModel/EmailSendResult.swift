@@ -5,8 +5,6 @@
 //  Created by Jinxiansen on 2018/5/28.
 //
 
-import Vapor
-import FluentMySQL
 
 struct EmailSendResult: BaseSQLModel {
     var id: Int?

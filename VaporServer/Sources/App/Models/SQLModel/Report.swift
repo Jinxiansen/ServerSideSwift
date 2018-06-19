@@ -5,9 +5,6 @@
 //  Created by Jinxiansen on 2018/6/15.
 //
 
-import Foundation
-import Vapor
-import FluentMySQL
 
 //举报
 struct Report: BaseSQLModel {

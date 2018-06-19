@@ -5,8 +5,6 @@
 //  Created by Jinxiansen on 2018/6/5.
 //
 
-import Vapor
-import FluentMySQL
 
 struct UserInfo : BaseSQLModel {
     var id: Int?

@@ -13,20 +13,26 @@ struct ResponseJSON<T: Content>: Content {
     private var message: String
     private var data: T?
     
-    init(state status:ResponseStatus = .ok) {
+    init(status:ResponseStatus = .ok) {
         self.status = status
         self.message = status.desc
         self.data = nil
     }
     
-    init(state status:ResponseStatus = .ok,
+    init(data: T) {
+        self.status = .ok
+        self.message = status.desc
+        self.data = data
+    }
+    
+    init(status:ResponseStatus = .ok,
          message: String = ResponseStatus.ok.desc) {
         self.status = status
         self.message = message
         self.data = nil
     }
     
-    init(state status:ResponseStatus = .ok,
+    init(status:ResponseStatus = .ok,
          message: String = ResponseStatus.ok.desc,
          data: T?) {
         self.status = status
@@ -34,13 +40,7 @@ struct ResponseJSON<T: Content>: Content {
         self.data = data
     }
 }
-
-extension ResponseJSON {
-    
-
-    
-}
-
+ 
 
 enum ResponseStatus:Int,Content {
     case ok = 0

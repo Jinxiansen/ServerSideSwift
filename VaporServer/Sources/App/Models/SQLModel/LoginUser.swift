@@ -5,9 +5,6 @@
 //  Created by 晋先森 on 2018/5/26.
 //
 
-import Foundation
-import Vapor
-import FluentMySQL
 import Authentication
 
 struct LoginUser: BaseSQLModel {

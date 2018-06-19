@@ -5,8 +5,7 @@
 //  Created by Jinxiansen on 2018/5/29.
 //
 
-import Vapor
-import FluentMySQL
+
 import Crypto
 
 struct RefreshToken: BaseSQLModel {

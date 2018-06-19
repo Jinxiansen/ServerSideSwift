@@ -5,10 +5,6 @@
 //  Created by Jinxiansen on 2018/6/5.
 //
 
-import Vapor
-import FluentMySQL
-import Fluent
-
 //动态
 struct Record: BaseSQLModel {
     

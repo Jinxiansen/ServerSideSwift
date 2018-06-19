@@ -6,10 +6,6 @@
 //
 
 
-import Foundation
-import Vapor
-import FluentMySQL
-
 // 成语对象
 struct Idiom: BaseSQLModel {
     var id: Int?

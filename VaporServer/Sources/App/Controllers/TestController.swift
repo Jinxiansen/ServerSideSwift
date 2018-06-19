@@ -34,7 +34,7 @@ extension TestController {
             if let image = receive.image {
                 
                 guard image.count < 2048000 else {
-                  return ResponseJSON<ImageContainer>(state: .error, message: "有点大，得压缩！")
+                  return ResponseJSON<ImageContainer>(status: .error, message: "有点大，得压缩！")
                 }
                 
                 try Data(image).write(to: URL(fileURLWithPath: path))

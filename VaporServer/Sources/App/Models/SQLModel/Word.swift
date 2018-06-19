@@ -5,9 +5,6 @@
 //  Created by 晋先森 on 2018/6/10.
 //
 
-import Foundation
-import Vapor
-import FluentMySQL
 
 struct Word: BaseSQLModel {
     var id: Int?

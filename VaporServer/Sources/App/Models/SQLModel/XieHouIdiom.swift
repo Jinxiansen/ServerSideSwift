@@ -6,10 +6,6 @@
 //
 
 
-import Foundation
-import Vapor
-import FluentMySQL
-
 // 歇后语对象，这个词特么实在没找着个像样的翻译。
 struct XieHouIdiom: BaseSQLModel {
     var id: Int?

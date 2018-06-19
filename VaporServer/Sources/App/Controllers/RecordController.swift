@@ -17,11 +17,14 @@ class RecordController: RouteCollection {
         router.group("record") { (group) in
             // record/add
             group.post(RecordContainer.self, at: "add", use: postRecord)
-            // record/getRecords
-            group.get("getRecords", use: getRecords)
+            
+            // record/getRecords 获取全部动态
+            group.get("getRecords", use: getAllRecords)
             
             group.get("image", use: getRecordImage)
             
+            //获取我发布的动态。
+            group.get("getMyRecords", use: getMyRecords)
         }
         
         //举报
@@ -43,7 +46,7 @@ extension RecordController {
         return AccessToken.authenticate(using: token, on: req)
             .flatMap({ (existToken)  in
             guard let existToken = existToken else {
-                return try ResponseJSON<String>(state: .token).encode(for: req)
+                return try ResponseJSON<String>(status: .token).encode(for: req)
             }
             
             var imgName: String?
@@ -52,7 +55,7 @@ extension RecordController {
                 let path = try VaporUtils.localRootDir(at: ImagePath.record,
                                                        req: req) + "/" + imgName!
                 guard image.count < ImageMaxByteSize else {
-                    return try ResponseJSON<String>(state: .error,message: "有点大，得压缩！").encode(for: req)
+                    return try ResponseJSON<String>(status: .error,message: "有点大，得压缩！").encode(for: req)
                 }
                 try Data(image).write(to: URL(fileURLWithPath: path))
             }
@@ -66,33 +69,33 @@ extension RecordController {
                                     imgName: imgName)
             
             return record.save(on: req).flatMap({ (rc) in
-                return try ResponseJSON<Record>(state: .ok,
+                return try ResponseJSON<Record>(status: .ok,
                                                     message: "发布成功").encode(for: req)
             })
         })
     }
     
     //TODO: 获取动态
-    func getRecords(_ req: Request) throws -> Future<Response> {
+    func getAllRecords(_ req: Request) throws -> Future<Response> {
         
         guard let county = req.query[String.self, at: "county"],county.count > 0 else {
-            return try ResponseJSON<[Record]>(state: .error,
+            return try ResponseJSON<[Record]>(status: .error,
                                               message: "缺少 county 参数").encode(for: req)
         }
         
         guard let page = req.query[Int.self, at: "page"],page >= 0 else {
-            return try ResponseJSON<[Record]>(state: .error,
+            return try ResponseJSON<[Record]>(status: .error,
                                               message: "page 不能小于0").encode(for: req)
         }
         
         return Record.query(on: req).filter(\.county == county).range(VaporUtils.queryRange(page: page)).all()
             .flatMap({ (cords) in
                 guard cords.count > 0 else {
-                    return try ResponseJSON<[Record]>(state: .ok,
+                    return try ResponseJSON<[Record]>(status: .ok,
                                                       message: "没有数据了",
                                                       data: []).encode(for: req)
                 }
-                return try ResponseJSON<[Record]>.init(data: cords).encode(for: req)
+                return try ResponseJSON<[Record]>(data: cords).encode(for: req)
             })
     }
     
@@ -100,14 +103,14 @@ extension RecordController {
     func getRecordImage(_ req: Request) throws -> Future<Response> {
         
         guard let name = req.query[String.self, at: "name"] else {
-            let json = ResponseJSON<String>(state: .error, message: "缺少图片参数")
+            let json = ResponseJSON<String>(status: .error, message: "缺少图片参数")
             return try json.encode(for: req)
         }
         
         let path = try VaporUtils.localRootDir(at: ImagePath.record, req: req) + "/" + name
         
         if !FileManager.default.fileExists(atPath: path) {
-            let json = ResponseJSON<String>(state: .error, message: "图片不存在")
+            let json = ResponseJSON<String>(status: .error, message: "图片不存在")
             return try json.encode(for: req)
         }
         
@@ -121,7 +124,7 @@ extension RecordController {
         return AccessToken.authenticate(using: token, on: req)
             .flatMap({ (existToken) in
                 guard let existToken = existToken else {
-                    return try ResponseJSON<String>(state: .token).encode(for: req)
+                    return try ResponseJSON<String>(status: .token).encode(for: req)
                 }
                 
                 var imgName: String?
@@ -129,7 +132,7 @@ extension RecordController {
                 if let file = container.image {
                     
                     guard file.data.count < ImageMaxByteSize else {
-                        return try ResponseJSON<String>(state: .error, message: "图片过大，得压缩！").encode(for: req)
+                        return try ResponseJSON<String>(status: .error, message: "图片过大，得压缩！").encode(for: req)
                     }
                     imgName = VaporUtils.imageName()
                     let path = try VaporUtils.localRootDir(at: ImagePath.report, req: req) + "/" + imgName!
@@ -139,7 +142,7 @@ extension RecordController {
                 
                 if let file2 = container.image2 {
                     guard file2.data.count < ImageMaxByteSize else {
-                        return try ResponseJSON<String>(state: .error, message: "图片过大，得压缩！").encode(for: req)
+                        return try ResponseJSON<String>(status: .error, message: "图片过大，得压缩！").encode(for: req)
                     }
                     img2Name = "2" + VaporUtils.imageName() //防止和上面的重复
                     let path = try VaporUtils.localRootDir(at: ImagePath.report, req: req) + "/" + img2Name!
@@ -156,25 +159,49 @@ extension RecordController {
                                     contact: container.contact)
                 
                 return report.save(on: req).flatMap({ (rc) in
-                    return try ResponseJSON<String>.init(state: .ok, message: "举报成功").encode(for: req)
+                    return try ResponseJSON<String>(status: .ok, message: "举报成功").encode(for: req)
                 })
             })
+    }
+    
+    //TODO: 获取我发布的动态
+    func getMyRecords(_ req: Request) throws -> Future<Response> {
         
+        guard let token = req.query[String.self, at: "token"] else {
+            return try ResponseJSON<String>(status: .error, message: "缺少 token 参数").encode(for: req)
+        }
+        guard let county = req.query[String.self, at: "county"] else {
+            return try ResponseJSON<String>(status: .error, message: "缺少 county 参数").encode(for: req)
+        }
+        guard let page = req.query[Int.self, at: "page"] else {
+            return try ResponseJSON<String>(status: .error, message: "缺少 page 参数").encode(for: req)
+        }
+        
+        let bear = BearerAuthorization(token: token)
+        return AccessToken.authenticate(using: bear, on: req).flatMap({ (existToken) in
+            
+            guard let existToken = existToken else {
+                return try ResponseJSON<String>(status: .token).encode(for: req)
+            }
+            
+            return Record.query(on: req)
+                .filter(\Record.county == county)
+                .filter(\Record.userID == existToken.userID)
+                .range(VaporUtils.queryRange(page: page))
+                .all()
+                .flatMap({ (records) in
+                let results = records.compactMap({ (record) -> Record in
+                    var rec = record; rec.id = nil; return rec
+                })
+                return try ResponseJSON(data: results).encode(for: req)
+            })
+        })
     }
     
     
     
     
-    
-    
-    
 }
-
-
-extension RecordController {
-    
-}
-
 
 struct PageContainer: Content {
     var page: Int
