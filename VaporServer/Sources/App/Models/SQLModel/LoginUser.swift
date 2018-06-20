@@ -27,6 +27,7 @@ struct LoginUser: BaseSQLModel {
     static let updatedAtKey: TimestampKey? = \LoginUser.updatedAt
     var createdAt: Date?
     var updatedAt: Date?
+    
 }
 
 

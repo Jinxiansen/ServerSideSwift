@@ -88,6 +88,7 @@ extension RecordController {
                                               message: "page 不能小于0").encode(for: req)
         }
         
+//        let sql = "SELECT * FROM \(TableKey.content) WHERE county = \(county) LIMIT \(start),\(pageCount)"
         return Record.query(on: req).filter(\.county == county).range(VaporUtils.queryRange(page: page)).all()
             .flatMap({ (cords) in
                 guard cords.count > 0 else {

@@ -59,6 +59,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     
     PrintLogger().info("启动数据库：\(db) \n")
     
+    
     var migrations = MigrationConfig()
     
     /* * ** ** ** ** *** ** ** ** Models ** ** ** ** ** ** ** ** ** */

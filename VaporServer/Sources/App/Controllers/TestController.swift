@@ -33,7 +33,7 @@ extension TestController {
             
             if let image = receive.image {
                 
-                guard image.count < 2048000 else {
+                guard image.count < ImageMaxByteSize else {
                     return try ResponseJSON<Void>(status: .error, message: "有点大，得压缩！").encode(for: req)
                 }
                 
