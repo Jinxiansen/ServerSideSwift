@@ -24,6 +24,8 @@ class VaporUtils {
             localPath = "/Users/laoyuegou/Documents/\(envPath)\(path)"
         }else if (workDir.contains("ubuntu")) {
             localPath = "/home/ubuntu/image/\(envPath)\(path)"
+        }else {
+            localPath = "\(workDir)\(envPath)\(path)"
         }
         
         let manager = FileManager.default

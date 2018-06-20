@@ -23,9 +23,9 @@ struct TestController: RouteCollection {
 
 extension TestController {
     
-    func uploadImage(_ req: Request) throws -> Future<ResponseJSON<ImageContainer>> {
+    func uploadImage(_ req: Request) throws -> Future<Response> {
         
-        return try req.content.decode(ImageContainer.self).map({ (receive) in
+        return try req.content.decode(ImageContainer.self).flatMap({ (receive) in
             
             print(receive.imgName ?? "")
 
@@ -34,13 +34,13 @@ extension TestController {
             if let image = receive.image {
                 
                 guard image.count < 2048000 else {
-                  return ResponseJSON<ImageContainer>(status: .error, message: "有点大，得压缩！")
+                    return try ResponseJSON<Void>(status: .error, message: "有点大，得压缩！").encode(for: req)
                 }
                 
                 try Data(image).write(to: URL(fileURLWithPath: path))
             }
  
-            return ResponseJSON<ImageContainer>(data: receive)
+            return try ResponseJSON<ImageContainer>(data: receive).encode(for: req)
         })
         
     }

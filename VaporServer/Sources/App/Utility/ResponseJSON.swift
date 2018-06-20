@@ -7,6 +7,8 @@
 
 import Vapor
 
+struct Void: Content {}
+
 struct ResponseJSON<T: Content>: Content {
     
     private var status: ResponseStatus
@@ -69,10 +71,6 @@ enum ResponseStatus:Int,Content {
     }
     
 }
-
-
-
-
 
 
 

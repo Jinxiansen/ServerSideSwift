@@ -16,14 +16,13 @@ final class UserRouteController: RouteCollection {
     
     func boot(router: Router) throws {
         
-        //        let tokenAuthMiddleware = LoginUser.guardAuthMiddleware()
         let group = router.grouped("users")
-        //        let group = router.grouped(AuthUserMiddleware.self)
         
         group.post(LoginUser.self, at: "login", use: loginUserHandler)
         group.post(LoginUser.self, at: "register", use: registerUserHandler)
-        group.post("exit", use: exitUserHandler)
         group.post(ChangePasswordContainer.self, at: "changePassword", use: changePassword)
+        group.post("exit", use: exitUserHandler)
+        
     }
     
 }
@@ -102,11 +101,11 @@ extension UserRouteController {
             
             return AccessToken.authenticate(using: token, on: req).flatMap({ (existToken) in
                 guard let existToken = existToken else {
-                    return try ResponseJSON<String>(status: .token).encode(for: req)
+                    return try ResponseJSON<Void>(status: .token).encode(for: req)
                 }
                 
                 return try self.authController.remokeTokens(userID: existToken.userID, on: req).flatMap({ _ in
-                    return try ResponseJSON<String>(status: .ok).encode(for: req)
+                    return try ResponseJSON<Void>(status: .ok).encode(for: req)
                 })
                 
             })
