@@ -34,7 +34,7 @@
 ### [点这里](Source/VaporUsage.md) 查看 Vapor 的一些基本用法。
 
 
-如果有任何问题或建议，可以提一个 [Issue](https://github.com/Jinxiansen/VaporServer-Private/issues)。
+如果有任何问题或建议，可以提一个 [Issue](https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues)。
 
 
 
