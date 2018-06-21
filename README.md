@@ -18,9 +18,9 @@
 #### [English version](README_EN.md)
 
 ## 简述
-#### 这是基于 Swift 4.1 和 Vapor 3 框架的 Swift 服务端开源项目，目前列举的 API 已经部署在正式环境应用中。
+#### 这是基于 Swift 4.1 和 Vapor 3 框架的 Swift 服务端开源项目，目前文档列举的 API 已经部署在正式环境应用中，后续有新增会不断完善。
 
-#### 部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) 
+#### 项目部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) 
 
 #### [查看](Source/API.md) 目前已支持的 API 示例文档并调试。
 	
