@@ -23,17 +23,17 @@ The interface is deployed at [http://api.jinxiansen.com](http://api.jinxiansen.c
 You can download [VaporServer](https://github.com/Jinxiansen/SwiftServerSide-Vapor) and run the project to debug, or you can test it at http://api.jinxiansen.com according to the parameter description of the API document.
 
 
-#### [View] (Source/API.md) Currently supported API sample documentation and debugging.
+#### [View](Source/API.md) Currently supported API sample documentation and debugging.
 The
-#### [View] (Source/VaporUsage.md) Some basic usages of Vapor.
+#### [View](Source/VaporUsage.md) Some basic usages of Vapor.
 
 include:
 
-* [User related interface: including login, registration, password change, logout] (Source/API.md/#用户)
-* [Dynamic related interface: including sending news, getting all dynamic lists, getting dynamic pictures, getting my published dynamic list, reporting] (Source/API.md/#动态)
-* [supports the query of Chinese characters, idioms, and proverbs] (Source/API.md/#字典)
-* [Send Mail] (Source/API.md/#邮件)
-* [Webpage small example] (Source/API.md/#网页)
+* [User related interface: including login, registration, password change, logout](Source/API.md/#用户)
+* [Dynamic related interface: including sending news, getting all dynamic lists, getting dynamic pictures, getting my published dynamic list, reporting](Source/API.md/#动态)
+* [supports the query of Chinese characters, idioms, and proverbs](Source/API.md/#字典)
+* [Send Mail](Source/API.md/#邮件)
+* [Webpage small example](Source/API.md/#网页)
 
 
 ## Feedback
