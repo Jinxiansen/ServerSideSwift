@@ -12,7 +12,7 @@ class HTMLController: RouteCollection {
     
     func boot(router: Router) throws {
         
-        router.get("/", use: login)
+        router.get("/", use: api)
       
         router.group("h5") { (group) in
             
@@ -37,6 +37,9 @@ class HTMLController: RouteCollection {
 
 extension HTMLController {
     
+    func api(_ req: Request) throws -> Future<View> {
+        return try req.view().render("leaf/API")
+    }
     
     //TODO: H
     func login(_ req: Request) throws -> Future<View> {
