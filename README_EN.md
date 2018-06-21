@@ -19,7 +19,7 @@
 
 Completed and open APIs are in this column:
 
-The interface is deployed at [http://api.jinxiansen.com] (http://api.jinxiansen.com),
+The interface is deployed at [http://api.jinxiansen.com](http://api.jinxiansen.com),
 You can download [VaporServer](https://github.com/Jinxiansen/SwiftServerSide-Vapor) and run the project to debug, or you can test it at http://api.jinxiansen.com according to the parameter description of the API document.
 
 
