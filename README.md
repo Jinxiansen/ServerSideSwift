@@ -14,6 +14,9 @@
     </a>
 </p>
 
+
+#### [English version](README_EN.md)
+
 ## 简述
 #### 这是基于 Swift 4.1 和 Vapor 3 框架的 Swift 服务端开源项目，目前列举的 API 已经部署在正式环境应用中。
 
@@ -53,4 +56,4 @@ Twitter : [@Jinxiansen](https://twitter.com/jinxiansen)
 ## License 📄
 
 
-Guardian is released under the [MIT license](LICENSE). See LICENSE for details.
+SwiftServerSide-Vapor is released under the [MIT license](LICENSE). See LICENSE for details.
