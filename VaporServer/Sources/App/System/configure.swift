@@ -49,16 +49,13 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     
     services.register(middlewares)
     
-    let db = env.isRelease ? "vaporDB":"vaporDebugDB"
-    let sqlite = MySQLDatabaseConfig.init(hostname: "localhost",
-                                          port: 3306,
-                                          username: "sqluser",
-                                          password: "qwer1234",
-                                          database: db)
+    let dbConfig = MySQLConfig.sqlData(env)
+    let sqlite = MySQLDatabaseConfig.init(hostname: dbConfig.hostname,
+                                          port: dbConfig.port,
+                                          username: dbConfig.username,
+                                          password: dbConfig.password,
+                                          database: dbConfig.database)
     services.register(sqlite)
-    
-    PrintLogger().info("启动数据库：\(db) \n")
-    
     
     var migrations = MigrationConfig()
     
