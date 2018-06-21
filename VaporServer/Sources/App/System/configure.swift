@@ -3,7 +3,7 @@ import Vapor
 import APIErrorMiddleware
 import Leaf
 import Authentication
-
+import Fluent
 
 /// Called before your application initializes.
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
@@ -72,6 +72,22 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: Idiom.self, database: .mysql)
     migrations.add(model: XieHouIdiom.self, database: .mysql)
     migrations.add(model: Report.self, database: .mysql)
+    
+    
+    let models:[Any] = [LoginUser.self,
+                  EmailSendResult.self,
+                  PageView.self,
+                  AccessToken.self,
+                  RefreshToken.self,
+                  Record.self,
+                  Word.self,
+                  Idiom.self,
+                  XieHouIdiom.self,
+                  Report.self]
+    
+    models.forEach { (model) in
+        migrations.add(model: model, database: .mysql)
+    }
     
     services.register(migrations)
     
