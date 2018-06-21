@@ -10,7 +10,7 @@
 接口部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) ,
 可以下载 [VaporServer](https://github.com/Jinxiansen/SwiftServerSide-Vapor) 并运行项目在本地使用 http://localhost:8080 调试，也可以在 http://api.jinxiansen.com 进行测试。
 
-示例： [http://api.jinxiansen.com/record/getRecords?page=1&county=huxian](http://api.jinxiansen.com/record/getRecords?page=1&county=huxian)
+示例： [http://api.jinxiansen.com/record/getRecords?page=1&county=huxian](http://api.jinxiansen.com/record/getRecords?page=0&county=huxian)
 
 包括：
 
