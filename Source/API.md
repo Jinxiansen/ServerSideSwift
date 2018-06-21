@@ -1,10 +1,12 @@
 
 <h2 id="API 说明">API 说明</h2>
 
+开源在：[https://github.com/Jinxiansen/SwiftServerSide-Vapor](https://github.com/Jinxiansen/SwiftServerSide-Vapor)
+
 ### 目前已经完成和开放的 API 皆在此列：
 
 接口部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) ,
-可以下载并运行 VaporServer 项目在本地使用 http://localhost:8080 调试，也可以在 http://api.jinxiansen.com 进行测试。
+可以下载 [VaporServer](https://github.com/Jinxiansen/SwiftServerSide-Vapor) 并运行项目在本地使用 http://localhost:8080 调试，也可以在 http://api.jinxiansen.com 进行测试。
 
 示例： [http://api.jinxiansen.com/record/getRecords?page=1&county=huxian](http://api.jinxiansen.com/record/getRecords?page=1&county=huxian)
 
@@ -576,7 +578,6 @@ http://api.jinxiansen.com/words/xxidiom?str=菩萨
 ```
 
 
-
 ---
 
 <h2 id="网页">网页</h2>
@@ -593,9 +594,12 @@ http://api.jinxiansen.com/words/xxidiom?str=菩萨
 
 
 
+---
 
+## 反馈
 
+如果有任何问题或建议，可以提一个 [Issue](https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues)
 
-
+或联系我：[Jinxiansen](http://jinxiansen.com)
 
 
