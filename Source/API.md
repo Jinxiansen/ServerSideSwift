@@ -1,14 +1,27 @@
-# API 说明
+
+<h2 id="API 说明">API 说明</h2>
+
 ### 目前已经完成和开放的 API 皆在此列：
+
 接口部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) ,
 可以下载并运行 VaporServer 项目在本地使用 http://localhost:8080 调试，也可以在 http://api.jinxiansen.com 进行测试。
 
 示例： [http://api.jinxiansen.com/record/getRecords?page=1&county=huxian](http://api.jinxiansen.com/record/getRecords?page=1&county=huxian)
 
+包括：
+
+* [用户相关接口：包括登录、注册、修改密码、退出登录](#用户)
+* [动态相关接口：包括发动态、获取全部动态列表、获取动态图片、获取我发布的动态列表、举报等](#动态)
+* [支持汉字、成语、歇后语查询](#字典)
+* [发送邮件](#邮件)
+* [网页小示例](#网页)
+
 建议配合 [Postman](https://documenter.getpostman.com/view/1150787/RWEgsK1B#1337a0be-f49e-4c56-b470-8c438af20030) 使用效果更佳。
 
 
-##用户
+---
+
+<h2 id="用户">用户</h2>
 
 用户相关接口包括登录、注册、修改密码、退出登录。
 
@@ -158,7 +171,7 @@
 ```
 
 
-## 动态
+<h2 id="动态">动态</h2>
 
 动态相关接口，包括发动态、获取全部动态列表、获取动态图片、获取我发布的动态列表、举报等。
 
@@ -203,7 +216,7 @@
 
 
 
-
+---
 
 #### 获取动态
 
@@ -361,8 +374,9 @@
 
 
 
+---
 
-## 字典
+<h2 id="字典">字典</h2>
 
 支持汉字、成语、歇后语查询。
 
@@ -525,14 +539,15 @@ http://api.jinxiansen.com/words/xxidiom?str=菩萨
 ```
 
 
-## 发送邮件
+---
+
+<h2 id="邮件">发送邮件</h2>
 
 邮件发送请自行配置 STMP 相关参数。
 
-#### 歇后语查询
-> words/xxidiom
+> sendEmail
 
-##### 请求方式：GET
+##### 请求方式：POST
 
 ##### 请求参数
 
@@ -549,36 +564,22 @@ http://api.jinxiansen.com/words/xxidiom?str=菩萨
 |:----- |:------|:---|
 | status | int | 0 = 请求成功 |
 | message | string | 描述 |
-| riddle | string | 前半句 |
-| answer | string | 后半句 |
 
-#### 接口示例
-http://api.jinxiansen.com/words/xxidiom?str=菩萨
 #### 返回示例
 
 ```
 {
     "status": 0,
-    "data": [
-        {
-            "riddle": "泥菩萨过河",
-            "answer": "自身难保"
-        }
-    ],
-    "message": "请求成功"
+    "message": "发送成功"
 }
  
 ```
 
 
 
+---
 
-
-
-
-
-
-## 网页
+<h2 id="网页">网页</h2>
 
 这里有几个 Vapor 部署的 H5 页面示例，你可以点击查看效果。
 
