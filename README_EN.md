@@ -60,10 +60,10 @@ After Vapor and MySQL are installed,
 Need to enter MySQL as root on the terminal, execute the following command:
 
 Create a database in Debug mode:
-`create database vaporDebugDB character set utf8;`
+`create database vaporDebugDB character set utf8mb4;`
 
 Create a database in Release mode:
-`create database vaporDB character set utf8;`
+`create database vaporDB character set utf8mb4;`
 
 Create a database login user for the project:
 `grant all privileges on *.* to sqluser@"%" identified by "qwer1234" with grant option;`

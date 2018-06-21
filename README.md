@@ -49,10 +49,10 @@
 
 
 创建 Debug 模式下的数据库：
-`create database vaporDebugDB character set utf8; `
+`create database vaporDebugDB character set utf8mb4; `
 
 创建 Release 模式下的数据库：
-`create database vaporDB character set utf8; `
+`create database vaporDB character set utf8mb4; `
 
 创建项目中用到的数据库登录用户：
 `grant all privileges on *.* to  sqluser@"%" identified by "qwer1234" with grant option;`
