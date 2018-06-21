@@ -76,7 +76,7 @@ Execute on macOS:
 
 Execute on Linux:
 
-* `vapor build && vapor run`, when you see Server starting on http://localhost:8080, it is already successful!
+* `vapor build && vapor run`, when you see **Server starting on http://localhost:8080** , it is already successful!
 
 
 ## Feedback
