@@ -18,7 +18,7 @@ struct TestController: RouteCollection {
             group.post("upload", use: uploadImage)
             
         }
-        
+                
         router.get("getName", use: getNameHandler)
         
         router.get("getName2", String.parameter) { req -> [String:String] in
