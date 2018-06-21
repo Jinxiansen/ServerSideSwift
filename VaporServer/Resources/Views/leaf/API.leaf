@@ -324,7 +324,7 @@ sup {
 <p>接口部署在 <a href="http://api.jinxiansen.com">http://api.jinxiansen.com</a> ,
 可以下载 <a href="https://github.com/Jinxiansen/SwiftServerSide-Vapor">VaporServer</a> 并运行项目在本地使用 http://localhost:8080 调试，也可以在 http://api.jinxiansen.com 进行测试。</p>
 
-<p>示例： <a href="http://api.jinxiansen.com/record/getRecords?page=1&amp;county=huxian">http://api.jinxiansen.com/record/getRecords?page=1&amp;county=huxian</a></p>
+<p>示例： <a href="http://api.jinxiansen.com/record/getRecords?page=0&amp;county=huxian">http://api.jinxiansen.com/record/getRecords?page=0&amp;county=huxian</a></p>
 
 <p>包括：</p>
 
