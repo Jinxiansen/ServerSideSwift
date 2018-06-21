@@ -15,12 +15,13 @@
 </p>
 
 ## 说明
-#### 这是基于 Vapor 3 框架的 Swift 服务端项目，目前列举的 API 已经部署在正式环境应用中。
+#### 这是基于 Swift 4.1 和 Vapor 3 框架的 Swift 服务端项目，目前列举的 API 已经部署在正式环境应用中。
 
-#### 目前已经完成和开放的 API 皆在此列：
+
+已经完成和开放的 API 皆在此列：
 
 接口部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) ,
-可以下载并运行 VaporServer 项目在 localhost 调试，也可以在 http://api.jinxiansen.com 进行测试。
+可以下载并运行 VaporServer 项目进行调试，也可以根据 API 文档的参数说明在 http://api.jinxiansen.com 进行测试。
 
 
 #### [查看](Source/API.md)目前已支持的 API 示例文档。
