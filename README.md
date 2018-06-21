@@ -65,7 +65,7 @@ ok,现在打开终端 `cd` 到 `VaporServer` 目录，
 
 在 Linux 上执行：
 
-* `vapor build && vapor run`,当你看到 Server starting on http://localhost:8080 的时候，便是已经成功了！
+* `vapor build && vapor run`,当你看到 **Server starting on http://localhost:8080** 的时候，便是已经运行成功了！
 
 
 
