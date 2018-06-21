@@ -13,10 +13,6 @@ public final class PageViewMeddleware : Middleware {
     public func respond(to request: Request, chainingTo next: Responder) throws -> EventLoopFuture<Response> {
     
         try printLog(request)
-        
-//        request.http.headers.replaceOrAdd(name: .contentType, value: "text/plain; charset=utf-8")
-        
-        
     
         return try next.respond(to: request)
     }
@@ -32,18 +28,17 @@ public final class PageViewMeddleware : Middleware {
         
     }
     
-    func savePageView(_ req: Request) throws -> Future<PageView> {
-
-        let http = req.http
-        let page = PageView.init(desc: req.description,
-                                 ip: http.remotePeer.hostname,
-                                 body: http.body.description,
-                                 url: http.urlString
-//                                 version: req.http.version.description
-        )
-
-       return page.save(on: req)
-    }
+//    func savePageView(_ req: Request) throws -> Future<PageView> {
+//
+//        let http = req.http
+//        let page = PageView.init(desc: req.description,
+//                                 ip: http.remotePeer.hostname,
+//                                 body: http.body.description,
+//                                 url: http.urlString
+//        )
+//
+//       return page.save(on: req)
+//    }
     
     
 }

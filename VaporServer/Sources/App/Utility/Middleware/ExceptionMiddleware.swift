@@ -8,6 +8,7 @@
 import Foundation
 import Vapor
 
+//路由异常处理。
 public final class ExceptionMiddleware: Middleware,Service {
 
     private let closure: (Request) throws -> (Future<Response>?)
@@ -20,7 +21,7 @@ public final class ExceptionMiddleware: Middleware,Service {
         return try next.respond(to: request).flatMap({ (resp) in
             
             let status = resp.http.status
-            if status == .notFound {
+            if status == .notFound { //拦截 404，并自定义。
                 if let resp = try self.closure(request) {
                     return resp
                 }

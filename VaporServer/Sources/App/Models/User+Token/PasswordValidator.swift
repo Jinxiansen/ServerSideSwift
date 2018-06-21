@@ -9,6 +9,7 @@ import Foundation
 import Vapor
 import Validation
 
+//
 fileprivate struct PasswordValidator: ValidatorType {
     
     private var asciiValidator: Validator = .ascii

@@ -41,12 +41,12 @@ extension UserRouteController {
     func loginUserHandler(_ req: Request,user: LoginUser) throws -> Future<Response> {
         return LoginUser.query(on: req).filter(\.account == user.account).first().flatMap({ (existingUser) in
             guard let existingUser = existingUser else {
-                return try ResponseJSON<AccessContainer>(status: .error, message: "\(user.account) 不存在,请先注册").encode(for: req)
+                return try ResponseJSON<Void>(status: .userNotExist).encode(for: req)
             }
             
             let digest = try req.make(BCryptDigest.self)
             guard try digest.verify(user.password, created: existingUser.password) else {
-                return try ResponseJSON<AccessContainer>(status: .error, message: "密码不正确").encode(for: req)
+                return try ResponseJSON<Void>(status: .passwordError).encode(for: req)
             }
             
             return try self.authController.authContainer(for: existingUser, on: req).flatMap({ (container) in
@@ -69,11 +69,11 @@ extension UserRouteController {
         
         return futureFirst.flatMap { existingUser in
             guard existingUser == nil else {
-                return try ResponseJSON<AccessContainer>(status: .userExist, message: "\(newUser.account) 已存在").encode(for: req)
+                return try ResponseJSON<Void>(status: .userExist).encode(for: req)
             }
             
             if newUser.validation().0 == false {
-                return try ResponseJSON<AccessContainer>(status: .error, message: newUser.validation().1).encode(for: req)
+                return try ResponseJSON<Void>(status: .error, message: newUser.validation().1).encode(for: req)
             }
             return try newUser.user(with: req.make(BCryptDigest.self)).save(on: req).flatMap { user in
                 
@@ -105,7 +105,7 @@ extension UserRouteController {
                 }
                 
                 return try self.authController.remokeTokens(userID: existToken.userID, on: req).flatMap({ _ in
-                    return try ResponseJSON<Void>(status: .ok).encode(for: req)
+                    return try ResponseJSON<Void>(status: .ok, message: "退出成功").encode(for: req)
                 })
                 
             })
@@ -119,15 +119,15 @@ extension UserRouteController {
         return LoginUser.query(on: req).filter(\.account == inputContent.account).first().flatMap({ (existUser) in
             
             guard let existUser = existUser else {
-                return try ResponseJSON<TokenContainer>(status: .error, message: "账号不存在").encode(for: req)
+                return try ResponseJSON<Void>(status: .userNotExist).encode(for: req)
             }
             let digest = try req.make(BCryptDigest.self)
             guard try digest.verify(inputContent.password, created: existUser.password) else {
-                return try ResponseJSON<TokenContainer>(status: .error, message: "密码不正确").encode(for: req)
+                return try ResponseJSON<Void>(status: .passwordError).encode(for: req)
             }
             
             if inputContent.newPassword.isPassword().0 == false {
-                return try ResponseJSON<TokenContainer>(status: .error, message: inputContent.newPassword.isPassword().1).encode(for: req)
+                return try ResponseJSON<Void>(status: .error, message: inputContent.newPassword.isPassword().1).encode(for: req)
             }
             
             var user = existUser
@@ -137,13 +137,7 @@ extension UserRouteController {
                 
                 let logger = try req.make(Logger.self)
                 logger.info("Password Changed Success: \(newUser.account)")
-                
-                return try self.authController.authContainer(for: newUser, on: req).flatMap({ (container) in
-                    
-                    let token = TokenContainer(token: container.accessToken)
-       
-                    return try ResponseJSON<TokenContainer>(status: .ok, message: "修改成功", data: token).encode(for: req)
-                })
+                return try ResponseJSON<Void>(status: .ok, message: "修改成功，请重新登录！").encode(for: req)
             }
             
         })

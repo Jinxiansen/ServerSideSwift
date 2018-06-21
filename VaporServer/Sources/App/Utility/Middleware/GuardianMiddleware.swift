@@ -10,6 +10,7 @@ import Vapor
 
 public typealias BodyClosure = ((_ req: Request) throws -> Future<Response>?)
 
+//访问频率控制。
 public struct GuardianMiddleware: Middleware {
     
     internal var cache: MemoryKeyedCache

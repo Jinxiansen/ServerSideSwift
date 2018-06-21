@@ -22,7 +22,7 @@ struct WordController: RouteCollection {
             
             router.get("idiom", use: filterIdiom)
             
-            router.get("xxidiom", use: filterIdiom)
+            router.get("xxidiom", use: filterXieHouIdiom)
             
         }
     }
@@ -35,7 +35,7 @@ extension WordController {
     func filterWordData(_ req: Request) throws -> Future<Response> {
         
         guard let input = req.query[String.self, at: "str"],input.count > 0 else {
-            return try ResponseJSON<[Word]>(status: .error, message: "请输入要查询的单词").encode(for: req)
+            return try ResponseJSON<Void>(status: .error, message: "请输入要查询的单词").encode(for: req)
         }
 
         // ~~ 模糊匹配。
@@ -52,7 +52,7 @@ extension WordController {
     func filterIdiom(_ req: Request) throws -> Future<Response> {
         
         guard let input = req.query[String.self, at: "str"],input.count > 0 else {
-            return try ResponseJSON<[Idiom]>(status: .error, message: "请输入要查询的成语").encode(for: req)
+            return try ResponseJSON<Void>(status: .error, message: "请输入要查询的成语").encode(for: req)
         }
             
         return Idiom.query(on: req).filter(\.word ~~ input).all().flatMap({ (words) in
@@ -68,7 +68,7 @@ extension WordController {
     func filterXieHouIdiom(_ req: Request) throws -> Future<Response> {
         
         guard let input = req.query[String.self, at: "str"],input.count > 0 else {
-            return try ResponseJSON<[XieHouIdiom]>(status: .error, message: "请输入要查询的歇后语").encode(for: req)
+            return try ResponseJSON<Void>(status: .error, message: "请输入要查询的歇后语").encode(for: req)
         }
         return XieHouIdiom.query(on: req).filter(\.riddle ~~ input).all().flatMap({ (oms) in
             

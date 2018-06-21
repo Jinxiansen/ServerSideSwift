@@ -51,6 +51,8 @@ enum ResponseStatus:Int,Content {
     case token = 4
     case unknown = 10
     case userExist = 20
+    case userNotExist = 21
+    case passwordError = 22
     
     var desc : String {
         switch self {
@@ -66,8 +68,13 @@ enum ResponseStatus:Int,Content {
             return "未知失败"
         case .userExist:
             return "用户已存在"
-        }
+        case .userNotExist:
+            return "用户不存在"
+        case .passwordError:
+            return "密码不正确"
         
+            
+        }
     }
     
 }

@@ -17,7 +17,6 @@ struct Report: BaseSQLModel {
     var county: String
     
     var imgName: String?
-    var imgName2: String?
     var contact: String?
 
 }

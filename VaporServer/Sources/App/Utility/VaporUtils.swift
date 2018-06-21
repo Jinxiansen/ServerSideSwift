@@ -8,6 +8,7 @@
 import Foundation
 import Vapor
 import Crypto
+import Random
 
 class VaporUtils {
     
@@ -16,16 +17,17 @@ class VaporUtils {
         let workDir = DirectoryConfig.detect().workDir
         
         let envPath = req.environment.isRelease ? "":"debug_"
+        let addPath = "\(envPath)\(path)"
         
         var localPath = ""
         if (workDir.contains("jinxiansen")) {
-            localPath = "/Users/jinxiansen/Documents/\(envPath)\(path)"
+            localPath = "/Users/jinxiansen/Documents/\(addPath)"
         }else if (workDir.contains("laoyuegou")) {
-            localPath = "/Users/laoyuegou/Documents/\(envPath)\(path)"
+            localPath = "/Users/laoyuegou/Documents/\(addPath)"
         }else if (workDir.contains("ubuntu")) {
-            localPath = "/home/ubuntu/image/\(envPath)\(path)"
+            localPath = "/home/ubuntu/image/\(addPath)"
         }else {
-            localPath = "\(workDir)\(envPath)\(path)"
+            localPath = "\(workDir)\(addPath)"
         }
         
         let manager = FileManager.default
@@ -36,8 +38,10 @@ class VaporUtils {
         return localPath
     }
     
-    class func imageName() -> String {
-        let fileName = Date().description.md5 + ".jpg"
+    class func imageName() throws -> String {
+        let r = try CryptoRandom().generate(Int.self)
+        let fileName = (r.description + Date().description).md5 + ".jpg"
+        
         return fileName
     }
     

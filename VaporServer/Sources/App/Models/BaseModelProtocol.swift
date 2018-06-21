@@ -11,15 +11,4 @@ import FluentMySQL
 import Authentication
 
 public typealias BaseSQLModel = MySQLModel & Migration & Content
-    
-//    var createdAt: Date? { get set}
-//    var updatedAt: Date? { get set}
-//    var deletedAt: Date? { get set}
 
-//extension where Self: BaseModelProtocol {
-
-//    static let deletedAtKey: TimestampKey? = \Self.deletedAt
-//    static let createdAtKey: TimestampKey? = \Self.createdAt
-//    static let updatedAtKey: TimestampKey? = \Self.updatedAt
-    
-//}

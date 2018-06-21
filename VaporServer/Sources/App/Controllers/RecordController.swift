@@ -51,13 +51,13 @@ extension RecordController {
             
             var imgName: String?
             if let image = container.image { //如果上传了图就判断、保存
-                imgName = VaporUtils.imageName()
+                imgName = try VaporUtils.imageName()
                 let path = try VaporUtils.localRootDir(at: ImagePath.record,
                                                        req: req) + "/" + imgName!
-                guard image.count < ImageMaxByteSize else {
+                guard image.data.count < ImageMaxByteSize else {
                     return try ResponseJSON<Void>(status: .error,message: "有点大，得压缩！").encode(for: req)
                 }
-                try Data(image).write(to: URL(fileURLWithPath: path))
+                try Data(image.data).write(to: URL(fileURLWithPath: path))
             }
             
             let record = Record(id: nil,
@@ -129,26 +129,15 @@ extension RecordController {
                 }
                 
                 var imgName: String?
-                var img2Name: String?
                 if let file = container.image {
                     
                     guard file.data.count < ImageMaxByteSize else {
                         return try ResponseJSON<Void>(status: .error, message: "图片过大，得压缩！").encode(for: req)
                     }
-                    imgName = VaporUtils.imageName()
+                    imgName = try VaporUtils.imageName()
                     let path = try VaporUtils.localRootDir(at: ImagePath.report, req: req) + "/" + imgName!
                     
                     try Data(file.data).write(to: URL(fileURLWithPath: path))
-                }
-                
-                if let file2 = container.image2 {
-                    guard file2.data.count < ImageMaxByteSize else {
-                        return try ResponseJSON<Void>(status: .error, message: "图片过大，得压缩！").encode(for: req)
-                    }
-                    img2Name = "2" + VaporUtils.imageName() //防止和上面的重复
-                    let path = try VaporUtils.localRootDir(at: ImagePath.report, req: req) + "/" + img2Name!
-                    
-                    try Data(file2.data).write(to: URL(fileURLWithPath: path))
                 }
                 
                 let report = Report(id: nil,
@@ -156,7 +145,6 @@ extension RecordController {
                                     content: container.content,
                                     county: container.county,
                                     imgName: imgName,
-                                    imgName2: img2Name,
                                     contact: container.contact)
                 
                 return report.save(on: req).flatMap({ (rc) in
@@ -217,7 +205,7 @@ struct RecordContainer: Content {
     var token: String
     var content: String
     var title: String
-    var image: Data?
+    var image: File?
     var county: String
 }
 
@@ -227,15 +215,7 @@ struct ReportContainer: Content {
     var county: String
     
     var image: File?
-    var image2: File?
     var contact: String?
-}
-
-struct ImageContainer: Content {
-    
-    var imgName: String?
-    var image: Data?
-    
 }
 
 

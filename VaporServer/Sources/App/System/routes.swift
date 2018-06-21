@@ -8,9 +8,9 @@ public func routes(_ router: Router) throws {
         return "Hello, world!"
     }
 
-    router.get("hello") { req in
+    router.get("vapor") { req in
         
-        return "Hello, world! "
+        return "Hello, vapor! "
     }
     
     // Example of configuring a controlle
@@ -19,7 +19,6 @@ public func routes(_ router: Router) throws {
 
     try router.register(collection: UserRouteController())
     try router.register(collection: AuthenRouteController())
-    try router.register(collection: ProtectedRoutersController())
     try router.register(collection: RecordController())
     try router.register(collection: WordController())
     

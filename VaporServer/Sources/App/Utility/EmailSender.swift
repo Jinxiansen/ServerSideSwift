@@ -11,20 +11,13 @@ import FluentMySQL
 
 fileprivate let emailPassword = "drfnsdklpxirbibb"
 
-struct EmailSender: Content {
-  
-//    var email: String?
-//    var verifyCode: String?
-//    var sendTime: String?
-}
-
 fileprivate var emailDic = Dictionary<String,String>()
 
 fileprivate let smtp = SMTP(hostname: "smtp.qq.com",
                             email: "hi.ya@qq.com",
                             password: emailPassword)
 
-extension EmailSender {
+struct EmailSender {
     
     static func sendEmail(_ req:Request,content: EmailContent) throws -> Future<Bool> {
         
