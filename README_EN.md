@@ -23,9 +23,9 @@ The interface is deployed at [http://api.jinxiansen.com](http://api.jinxiansen.c
 You can download [VaporServer](https://github.com/Jinxiansen/SwiftServerSide-Vapor) and run the project to debug, or you can test it at http://api.jinxiansen.com according to the parameter description of the API document.
 
 
-#### [View](Source/API.md) Currently supported API sample documentation and debugging.
+#### [View👈](Source/API.md) Currently supported API sample documentation and debugging.
 
-#### [View](Source/VaporUsage.md) Some basic usages of Vapor.
+#### [View✍️](Source/VaporUsage.md) Some basic usages of Vapor.
 
 Include:
 
@@ -59,24 +59,23 @@ Click on [Clone or download](https://github.com/Jinxiansen/SwiftServerSide-Vapor
 After Vapor and MySQL are installed,
 Need to enter MySQL as root on the terminal, execute the following command:
 
-Create a database in Debug mode:
+* Create a database in Debug mode:
 `create database vaporDebugDB character set utf8mb4;`
 
-Create a database in Release mode:
+* Create a database in Release mode:
 `create database vaporDB character set utf8mb4;`
 
-Create a database login user for the project:
+* Create a database login user for the project:
 `grant all privileges on *.* to sqluser@"%" identified by "qwer1234" with grant option;`
 
-Ok, now open the terminal `cd` to the `VaporServer` directory.
+Ok, now open the terminal and execute in order:
 
-Execute on macOS:
+1. `cd` to `VaporServer`
+2. Execute `vapor build && vapor run`
+3. When you see **Server starting on http: //localhost:8080**, it is already running successfully!
+4. You can now [View](Source/API.md) the currently completed API sample documentation and debug.
 
-* `vapor build && vapor xcode -y`, wait for a while, when Xcode opens, click `Run` to start the experience!
-
-Execute on Linux:
-
-* `vapor build && vapor run`, when you see **Server starting on http://localhost:8080** , it is already successful!
+> Tip: You can generate and debug Xcode projects using `vapor xcode -y` on macOS.
 
 
 ## Feedback

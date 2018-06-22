@@ -22,7 +22,7 @@
 
 #### 项目部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) 
 
-### [👉查看👈](Source/API.md) 目前已完成的 API 示例文档并调试。
+### [查看👈](Source/API.md) 目前已完成的 API 示例文档并调试。
 	
 ### [查看✍️](Source/VaporUsage.md) Vapor 的一些基本用法。
 
@@ -57,24 +57,24 @@
 需要在终端以 Root 身份进入 MySQL ，执行以下命令：
 
 
-创建 Debug 模式下的数据库：
+* 创建 Debug 模式下的数据库：
 `create database vaporDebugDB character set utf8mb4; `
 
-创建 Release 模式下的数据库：
+* 创建 Release 模式下的数据库：
 `create database vaporDB character set utf8mb4; `
 
-创建项目中用到的数据库登录用户：
+* 创建项目中用到的数据库登录用户：
 `grant all privileges on *.* to  sqluser@"%" identified by "qwer1234" with grant option;`
 
-ok,现在打开终端 `cd` 到 `VaporServer` 目录，
+ok，现在打开终端，依次执行：
 
-在 macOS 上执行：
+1. `cd` 到 `VaporServer` 
+2. 执行 `vapor build && vapor run` 
+3. 当你看到 **Server starting on http: //localhost:8080** 的时候，便是已经运行成功了！
+4. 此时可以 [查看](Source/API.md) 目前已完成的 API 示例文档并调试。
 
-* `vapor build && vapor xcode -y`,等待片刻，当 Xcode 打开的时候，点击 `Run` ，即可开始体验！
+> 提示：在 macOS 上 可以通过 `vapor xcode -y` 生成 Xcode 项目进行开发和调试。
 
-在 Linux 上执行：
-
-* `vapor build && vapor run`,当你看到 **Server starting on http://localhost:8080** 的时候，便是已经运行成功了！
 
 
 
