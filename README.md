@@ -22,10 +22,19 @@
 
 #### 项目部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) 
 
-#### [查看](Source/API.md) 目前已支持的 API 示例文档并调试。
+### [👉查看👈](Source/API.md) 目前已完成的 API 示例文档并调试。
 	
-#### [查看](Source/VaporUsage.md) Vapor 的一些基本用法。
+### [查看✍️](Source/VaporUsage.md) Vapor 的一些基本用法。
 
+
+**另：** 这里有几个 Vapor 部署的 H5 页面示例，你可以点击查看效果。
+
+[Keyboard](http://api.jinxiansen.com/h5/keyboard)
+[Reboot](http://api.jinxiansen.com/h5/reboot)
+[Login](http://api.jinxiansen.com/h5/login)
+[Loader](http://api.jinxiansen.com/h5/loader)
+[Color](http://api.jinxiansen.com/h5/color)
+[Line](http://api.jinxiansen.com/h5/line)
 
 ## 使用
 **运行项目前的前期工作：**
