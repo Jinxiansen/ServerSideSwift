@@ -38,7 +38,7 @@
 
 * 基于 Linux 环境，需要安装 Swift 4.1、 vapor 3、MySQL 。
 
-	> [Swift for ubuntu 安装说明](https://	swift.org/download/#releases)
+	> [Swift for ubuntu 安装说明](https://swift.org/download/#releases)
 	
 	> [Vapor for ubuntu 安装说明](https://docs.vapor.codes/3.0/install/ubuntu/)
 	
