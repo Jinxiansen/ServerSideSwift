@@ -52,14 +52,14 @@
 
 - [x] [发送邮件](Source/API.md/#发送邮件)
 - [x] [网页部署](Source/API.md/#网页)
-- [x] [自定义404](Source/vaporUsage.md/#自定义404)
-- [x] [自定义访问频率](Source/vaporUsage.md/#自定义访问频率)
+- [x] [自定义404](Source/VaporUsage.md/#自定义404)
+- [x] [自定义访问频率](Source/VaporUsage.md/#自定义访问频率)
 - [ ] ...
 
 
 #### [查看👈](Source/API.md) 目前已完成的 API 示例文档并调试。
 	
-#### [查看✍️](Source/vaporUsage.md) Vapor 的一些基本用法。
+#### [查看✍️](Source/VaporUsage.md) Vapor 的一些基本用法。
 
 
 **另：** 这里有几个 Vapor 部署的 H5 页面示例，你可以点击查看效果。
