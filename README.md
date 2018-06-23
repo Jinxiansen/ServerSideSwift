@@ -27,14 +27,14 @@
 ##### 项目部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) 
 
 ## 查看
-[用户相关](Source/api.md/#用户)
+用户相关
 
-- [x] [注册](Source/api.md/#注册)
-- [x] [登录](Source/api.md/#登录)
+- [x] [注册](/Source/api.md/#注册)
+- [x] [登录](/Source/api.md/#登录)
 - [x] [修改密码](Source/api.md/#修改密码)
 - [x] [退出登录](Source/api.md/#退出登录)
 
-[动态相关](Source/api.md/#动态)
+动态相关
 
 - [x] [发布动态](Source/api.md/#发布动态)
 - [x] [获取全部动态列表](Source/api.md/#获取全部动态列表)
@@ -42,13 +42,13 @@
 - [x] [获取动态图片](Source/api.md/#获取动态图片)
 - [x] [举报](Source/api.md/#举报)
 
-[字典](Source/api.md/#字典)
+字典查询
 
 - [x] [汉字查询](Source/api.md/#汉字查询)
 - [x] [成语查询](Source/api.md/#成语查询)
 - [x] [歇后语查询](Source/api.md/#歇后语查询)
 
-[其他](Source/api.md/#发送邮件)
+其他
 
 - [x] [发送邮件](Source/api.md/#发送邮件)
 - [x] [网页部署](Source/api.md/#网页)
