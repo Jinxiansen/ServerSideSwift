@@ -48,7 +48,7 @@ extension HTMLController {
     }
     
     func welcome(_  req: Request) throws -> Future<View> {
-        return try req.view().render("leaf/welcome")
+        return try req.view().render("leaf/Welcome")
     }
     
     func hello(_  req: Request) throws -> Future<View> {

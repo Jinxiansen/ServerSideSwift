@@ -26,6 +26,10 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     /* * ** ** ** ** *** ** ** ** Middleware ** ** ** ** ** ** ** ** ** */
     var middlewares = MiddlewareConfig()
     
+    middlewares.use(APIErrorMiddleware.init(environment: env, specializations: [
+        ModelNotFound()
+    ]))
+    
     middlewares.use(ExceptionMiddleware(closure: { (req) -> (EventLoopFuture<Response>?) in
         let dict = ["status":"404","message":"访问路径不存在"]
         return try dict.encode(for: req)

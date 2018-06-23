@@ -101,7 +101,7 @@
 * 创建项目中用到的数据库登录用户：
 `grant all privileges on *.* to  sqluser@"%" identified by "qwer1234" with grant option;`
 
-ok，现在打开终端，依次执行：
+Ok，现在打开终端，依次执行：
 
 1. `cd` 到 `VaporServer` 
 2. 执行 `vapor build && vapor run` 
@@ -111,12 +111,13 @@ ok，现在打开终端，依次执行：
 > 提示：在 macOS 上 可以通过 `vapor xcode -y` 生成 Xcode 项目进行开发和调试。
 
 
+**至此**，项目已成功运行，请阅读项目并自行尝试修改或增减代码，尽享 Swift 开发服务端项目的愉快体验吧！![](Source/zz.jpg)
 
 
 ## 反馈
 
 如果有任何问题或建议，可以提一个 [Issue](https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues)
-或联系我：![](Source/zz.jpg)
+或联系我：
 
 Email : [@JinXiansen](hi@jinxiansen.com)
 
