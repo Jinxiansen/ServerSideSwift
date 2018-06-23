@@ -1,8 +1,9 @@
 # Vapor Usage
 
-Vapor 的一些基本用法，包括两种 GET 请求，两种 POST 请求。
+Vapor 的一些基本用法，包括两种 [GET 请求](#GET 请求)，两种 [POST 请求](#POST 请求)，[自定义中间件](#自定义中间件)。
 
-## GET 请求：
+
+<h2 id="GET 请求">GET 请求</h2>
 
 ### 方法 1
 
@@ -65,7 +66,8 @@ http://localhost:8080/getName/Jinxiansen
 ```
 
 
-## POST 请求：
+<h2 id="POST 请求">POST 请求</h2>
+
 ### 方法 1
 
 需要声明 Struct：
@@ -160,3 +162,66 @@ func post2UserInfoHandler(_ req: Request,container: UserContainer) throws -> Fut
 
 
 
+<h2 id="自定义中间件">自定义中间件</h2>
+
+自定义中间件，需要继承于 `Middleware` ，并实现下面这个方法：
+
+ ```swift
+ func respond(to request: Request, chainingTo next: Responder) throws -> Future<Response>
+ ```
+
+在方法体中做出判断并拦截处理。
+
+
+
+<h3 id="自定义404">自定义404</h3>
+
+比如要自定义`404`状态,系统默认返回的是 `String` Not found,
+我们如果要返回为 `JSON`，
+可以这样实现这个方法：
+
+```swift
+public func respond(to request: Request, chainingTo next: Responder) throws -> EventLoopFuture<Response> {
+	return try next.respond(to: request).flatMap({ (resp) in
+            
+	let status = resp.http.status
+	if status == .notFound { //拦截 404，block回调处理。
+		if let resp = try self.closure(request) {
+				return resp
+			}
+		}
+	return request.eventLoop.newSucceededFuture(result: resp)
+	})
+}
+```
+
+调用：
+
+```swift
+middlewares.use(ExceptionMiddleware(closure: { (req) -> (EventLoopFuture<Response>?) in
+	let dict = ["status":"404","message":"访问路径不存在"]
+	return try dict.encode(for: req)
+}))
+ 
+```
+这里其实任意对象都可以转为 Response ，所以你可以在这里自定义返回1张图片、1个网页、或其他数据类型。
+
+详情，见[项目代码](https://github.com/Jinxiansen/SwiftServerSide-Vapor) 的 `ExceptionMiddleware`。
+
+
+
+<h3 id="自定义访问频率">自定义访问频率</h3>
+
+亦如上，需要继承于 `Middleware` ，并实现下面这个方法：
+
+ ```swift
+ func respond(to request: Request, chainingTo next: Responder) throws -> Future<Response>
+ ```
+
+代码量相对稍多，见项目中 [GuardianMiddleware](https://github.com/Jinxiansen/SwiftServerSide-Vapor/blob/master/VaporServer/Sources/App/Utility/Middleware/GuardianMiddleware.swift) 。
+
+
+---
+
+
+未完，待续...

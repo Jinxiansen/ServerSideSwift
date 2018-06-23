@@ -21,7 +21,7 @@ public final class ExceptionMiddleware: Middleware,Service {
         return try next.respond(to: request).flatMap({ (resp) in
             
             let status = resp.http.status
-            if status == .notFound { //拦截 404，并自定义。
+            if status == .notFound { //拦截 404，block回调处理。
                 if let resp = try self.closure(request) {
                     return resp
                 }
