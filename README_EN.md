@@ -19,42 +19,42 @@
 This is a Swift server open source project based on the [Swift 4.1](https://swift.org) and [Vapor 3](http://vapor.codes) frameworks.
 
 Because of Apple’s release of the cool event-driven non-blocking network framework [SwiftNIO](https://github.com/apple/swift-nio), Vapor 3 introduced it at a blazing pace, leading to Vapor2 and Vapor3. The grammar is very different. For me personally, it looks like the difference between Swift 2 -> Swift 3 is awkward. So I used Vapor 3 to rewrite part of the interface and open it for reference and communication with interested partners.
-Currently listed in the document [API](Source/API.md) has been deployed in a formal environment application, and will continue to be perfected as needed.
+Currently listed in the document [API](Source/doc.md) has been deployed in a formal environment application, and will continue to be perfected as needed.
 
 ##### Projects are deployed at [http://api.jinxiansen.com](http://api.jinxiansen.com)
 
 ## View
-[User related](Source/API.md/#user)
+[User related](Source/doc.md/#user)
 
-- [x] [Registration](Source/API.md/#注册)
-- [x] [Login](Source/API.md/#登录)
-- [x] [Change Password](Source/API.md/#修改密码)
-- [x] [Logout](Source/API.md/#退出登录)
+- [x] [Registration](Source/doc.md/#注册)
+- [x] [Login](Source/doc.md/#登录)
+- [x] [Change Password](Source/doc.md/#修改密码)
+- [x] [Logout](Source/doc.md/#退出登录)
 
-[dynamically related](Source/API.md/#动态)
+[dynamically related](Source/doc.md/#动态)
 
-- [x] [Posting News](Source/API.md/#发布动态)
-- [x] [Get all dynamic list](Source/API.md/#获取全部动态列表)
-- [x] [Get my dynamic list](Source/API.md/#获取我的动态列表)
-- [x] [Get Dynamic Image](Source/API.md/#获取动态图片)
-- [x] [Report](Source/API.md/#举报)
+- [x] [Posting News](Source/doc.md/#发布动态)
+- [x] [Get all dynamic list](Source/doc.md/#获取全部动态列表)
+- [x] [Get my dynamic list](Source/doc.md/#获取我的动态列表)
+- [x] [Get Dynamic Image](Source/doc.md/#获取动态图片)
+- [x] [Report](Source/doc.md/#举报)
 
-[Dictionary Query](Source/API.md/字典)
+[Dictionary Query](Source/doc.md/字典)
 
-- [x] [Chinese Query](Source/API.md/#汉字查询)
-- [x] [Idiom Query](Source/API.md/#成语查询)
-- [x] [Check Post Query](Source/API.md/#歇后语查询)
+- [x] [Chinese Query](Source/doc.md/#汉字查询)
+- [x] [Idiom Query](Source/doc.md/#成语查询)
+- [x] [Check Post Query](Source/doc.md/#歇后语查询)
 
-[Others](Source/API.md/#发送邮件)
+[Others](Source/doc.md/#发送邮件)
 
-- [x] [Send Mail](Source/API.md/#发送邮件)
-- [x] [Web Deployment](Source/API.md/#网页)
+- [x] [Send Mail](Source/doc.md/#发送邮件)
+- [x] [Web Deployment](Source/doc.md/#网页)
 - [x] [Custom 404 Middleware](Source/VaporUsage.md/#自定义404)
 - [x] [Custom access frequency Middleware](Source/VaporUsage.md/#自定义访问频率)
 - [ ] ...
 
 
-#### [View👈](Source/API.md) Currently completed API sample documentation and debugging.
+#### [View👈](Source/doc.md) Currently completed API sample documentation and debugging.
 
 #### [View ✍️](Source/VaporUsage.md) Some basic usages of Vapor.
 
@@ -105,7 +105,7 @@ Ok, now open the terminal and execute in order:
 1. `cd` to `VaporServer`
 2. Execute `vapor build && vapor run`
 3. When you see **Server starting on http: //localhost:8080**, it is already running successfully!
-4. You can now [View](Source/API.md) the currently completed API sample documentation and debug.
+4. You can now [View](Source/doc.md) the currently completed API sample documentation and debug.
 
 > Tip: You can generate and debug Xcode projects using `vapor xcode -y` on macOS.
 
