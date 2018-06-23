@@ -244,7 +244,7 @@
 
 #### 接口示例
 
-[http://api.jinxiansen.com/record/getRecords?page=1&county=huxian](http://api.jinxiansen.com/record/getRecords?page=1&county=huxian)
+[http://api.jinxiansen.com/record/getRecords?page=0&county=huxian](http://api.jinxiansen.com/record/getRecords?page=0&county=huxian)
 
 #### 返回示例
 
@@ -318,6 +318,7 @@
 | time | string | 发布时间 |
 
 #### 接口示例
+
 [http://api.jinxiansen.com/record/getMyRecords?page=0&county=huxian&token=DJ_ssuG_vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4](http://api.jinxiansen.com/record/getMyRecords?page=0&county=huxian&token=DJ_ssuG_vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4)
   
 #### 返回示例
@@ -365,7 +366,7 @@
 | status | int | 0 = 请求成功 |
 | message | string | 描述 |
 
-#### 接口示例
+#### 返回示例
   
 ```
  {
@@ -412,7 +413,7 @@
 
 #### 接口示例
 
-http://api.jinxiansen.com/words/word?str=中
+[http://api.jinxiansen.com/words/word?str=中](http://api.jinxiansen.com/words/word?str=中)
 
 #### 返回示例
 
@@ -464,7 +465,9 @@ http://api.jinxiansen.com/words/word?str=中
 | explanation | string | 解释 |
 
 #### 接口示例
-http://api.jinxiansen.com/words/idiom?str=水性
+
+[http://api.jinxiansen.com/words/idiom?str=水性](http://api.jinxiansen.com/words/idiom?str=水性)
+
 #### 返回示例
 
 ```
@@ -524,7 +527,9 @@ http://api.jinxiansen.com/words/idiom?str=水性
 | answer | string | 后半句 |
 
 #### 接口示例
-http://api.jinxiansen.com/words/xxidiom?str=菩萨
+
+[http://api.jinxiansen.com/words/xxidiom?str=菩萨](http://api.jinxiansen.com/words/xxidiom?str=菩萨)
+
 #### 返回示例
 
 ```
