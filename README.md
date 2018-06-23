@@ -20,7 +20,7 @@
 
 这是基于 [Swift 4.1](https://swift.org) 和 [Vapor 3](http://vapor.codes) 框架的 Swift 服务端开源项目。
 
-由于 Apple 发布了酷炫的事件驱动的非阻塞的网络框架 [SwiftNIO](https://github.com/apple/swift-nio) 的缘故，Vapor 3 以迅雷不及掩耳盗铃当之势将其接入，导致 Vapor2 和 Vapor3 的语法差异很大，对我个人而言，就好像 Swift 2 -> Swift 3 的差异😅，所以用 Vapor 3 重写了部分接口并开源出来，供感兴趣的伙伴参考、交流。
+由于 Apple 发布了酷炫的事件驱动的非阻塞网络框架 [SwiftNIO](https://github.com/apple/swift-nio) 的缘故，Vapor 3 以迅雷不及掩耳盗铃当之势将其接入，导致 Vapor2 和 Vapor3 的语法差异很大，对我个人而言，就好像 Swift 2 -> Swift 3 的差异😅，所以用 Vapor 3 重写了部分接口并开源出来，供感兴趣的伙伴参考、交流。
 目前文档列举的 [API](Source/API.md) 已经部署在正式环境应用中，后续根据需求会不断完善。
 
 ##### 项目部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) 
