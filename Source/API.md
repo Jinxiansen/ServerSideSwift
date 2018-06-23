@@ -546,7 +546,7 @@ http://api.jinxiansen.com/words/xxidiom?str=菩萨
 
 <h2 id="发送邮件">发送邮件</h2>
 
-邮件发送请自行配置 STMP 相关参数。
+邮件发送请自行配置 SMTP 相关参数。
 
 > sendEmail
 
