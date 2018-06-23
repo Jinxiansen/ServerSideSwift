@@ -47,7 +47,7 @@ http://localhost:8080/getName?name=Jinxiansen
 ```swift
 router.get("getName2", String.parameter) { req -> [String:String] in
 	let name = try req.parameters.next(String.self)
-	return ["status":"0","message":"Hello,\(name) !"]
+		return ["status":"0","message":"Hello,\(name) !"]
 	}
 
 ```
@@ -93,9 +93,9 @@ router.post("post1UserInfo", use: post1UserInfoHandler)
 func post1UserInfoHandler(_ req: Request) throws -> Future<[String:String]> {
 
 	return try req.content.decode(UserContainer.self).map({ container in
-	let age = container.age ?? 0
-	let result = ["status":"0","message":"Hello,\(container.name) !","age": age.description]
-	return result
+		let age = container.age ?? 0
+		let result = ["status":"0","message":"Hello,\(container.name) !","age": age.description]
+		return result
 }
 
 ```
@@ -161,7 +161,6 @@ func post2UserInfoHandler(_ req: Request,container: UserContainer) throws -> Fut
 
 
 
-
 <h2 id="自定义中间件">自定义中间件</h2>
 
 自定义中间件，需要继承于 `Middleware` ，并实现下面这个方法：
@@ -183,13 +182,13 @@ func post2UserInfoHandler(_ req: Request,container: UserContainer) throws -> Fut
 ```swift
 public func respond(to request: Request, chainingTo next: Responder) throws -> EventLoopFuture<Response> {
 	return try next.respond(to: request).flatMap({ (resp) in
-            
+
 	let status = resp.http.status
 	if status == .notFound { //拦截 404，block回调处理。
 		if let resp = try self.closure(request) {
-				return resp
-			}
+			return resp
 		}
+	}
 	return request.eventLoop.newSucceededFuture(result: resp)
 	})
 }
@@ -206,7 +205,7 @@ middlewares.use(ExceptionMiddleware(closure: { (req) -> (EventLoopFuture<Respons
 ```
 这里其实任意对象都可以转为 Response ，所以你可以在这里自定义返回1张图片、1个网页、或其他数据类型。
 
-详情，见[项目代码](https://github.com/Jinxiansen/SwiftServerSide-Vapor) 的 `ExceptionMiddleware`。
+详情见 [ExceptionMiddleware](https://github.com/Jinxiansen/SwiftServerSide-Vapor/blob/master/VaporServer/Sources/App/Utility/Middleware/ExceptionMiddleware.swift) 。
 
 
 
@@ -218,7 +217,7 @@ middlewares.use(ExceptionMiddleware(closure: { (req) -> (EventLoopFuture<Respons
  func respond(to request: Request, chainingTo next: Responder) throws -> Future<Response>
  ```
 
-代码量相对稍多，见项目中 [GuardianMiddleware](https://github.com/Jinxiansen/SwiftServerSide-Vapor/blob/master/VaporServer/Sources/App/Utility/Middleware/GuardianMiddleware.swift) 。
+代码量相对稍多，见 [GuardianMiddleware](https://github.com/Jinxiansen/SwiftServerSide-Vapor/blob/master/VaporServer/Sources/App/Utility/Middleware/GuardianMiddleware.swift) 。
 
 
 ---
