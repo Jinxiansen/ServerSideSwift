@@ -22,44 +22,44 @@
 
 由于 Apple 发布了酷炫的事件驱动的非阻塞网络框架 [SwiftNIO](https://github.com/apple/swift-nio) 的缘故，Vapor 3 以迅雷不及掩耳盗铃当之势将其接入，导致 Vapor2 和 Vapor3 的语法差异很大，所以用 Vapor 3 重写了部分接口并开源出来，供感兴趣的伙伴参考、交流。
 
-目前文档列举的 [API](Source/API.md) 已经部署在正式环境应用中，后续根据需求会不断完善。
+目前文档列举的 [API](Source/api.md) 已经部署在正式环境应用中，后续根据需求会不断完善。
 
 ##### 项目部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) 
 
 ## 查看
-[用户相关](Source/API.md/#用户)
+[用户相关](Source/api.md/#用户)
 
-- [x] [注册](Source/API.md/#注册)
-- [x] [登录](Source/API.md/#登录)
-- [x] [修改密码](Source/API.md/#修改密码)
-- [x] [退出登录](Source/API.md/#退出登录)
+- [x] [注册](Source/api.md/#注册)
+- [x] [登录](Source/api.md/#登录)
+- [x] [修改密码](Source/api.md/#修改密码)
+- [x] [退出登录](Source/api.md/#退出登录)
 
-[动态相关](Source/API.md/#动态)
+[动态相关](Source/api.md/#动态)
 
-- [x] [发布动态](Source/API.md/#发布动态)
-- [x] [获取全部动态列表](Source/API.md/#获取全部动态列表)
-- [x] [获取我的动态列表](Source/API.md/#获取我的动态列表)
-- [x] [获取动态图片](Source/API.md/#获取动态图片)
-- [x] [举报](Source/API.md/#举报)
+- [x] [发布动态](Source/api.md/#发布动态)
+- [x] [获取全部动态列表](Source/api.md/#获取全部动态列表)
+- [x] [获取我的动态列表](Source/api.md/#获取我的动态列表)
+- [x] [获取动态图片](Source/api.md/#获取动态图片)
+- [x] [举报](Source/api.md/#举报)
 
-[字典](Source/API.md/#字典)
+[字典](Source/api.md/#字典)
 
-- [x] [汉字查询](Source/API.md/#汉字查询)
-- [x] [成语查询](Source/API.md/#成语查询)
-- [x] [歇后语查询](Source/API.md/#歇后语查询)
+- [x] [汉字查询](Source/api.md/#汉字查询)
+- [x] [成语查询](Source/api.md/#成语查询)
+- [x] [歇后语查询](Source/api.md/#歇后语查询)
 
-[其他](Source/API.md/#发送邮件)
+[其他](Source/api.md/#发送邮件)
 
-- [x] [发送邮件](Source/API.md/#发送邮件)
-- [x] [网页部署](Source/API.md/#网页)
-- [x] [自定义404](Source/VaporUsage.md/#自定义404)
-- [x] [自定义访问频率](Source/VaporUsage.md/#自定义访问频率)
+- [x] [发送邮件](Source/api.md/#发送邮件)
+- [x] [网页部署](Source/api.md/#网页)
+- [x] [自定义404](Source/vaporUsage.md/#自定义404)
+- [x] [自定义访问频率](Source/vaporUsage.md/#自定义访问频率)
 - [ ] ...
 
 
-#### [查看👈](Source/API.md) 目前已完成的 API 示例文档并调试。
+#### [查看👈](Source/api.md) 目前已完成的 API 示例文档并调试。
 	
-#### [查看✍️](Source/VaporUsage.md) Vapor 的一些基本用法。
+#### [查看✍️](Source/vaporUsage.md) Vapor 的一些基本用法。
 
 
 **另：** 这里有几个 Vapor 部署的 H5 页面示例，你可以点击查看效果。
@@ -106,7 +106,7 @@ ok，现在打开终端，依次执行：
 1. `cd` 到 `VaporServer` 
 2. 执行 `vapor build && vapor run` 
 3. 当你看到 **Server starting on http: //localhost:8080** 的时候，便是已经运行成功了！
-4. 此时可以 [查看](Source/API.md) 目前已完成的 API 示例文档并调试。
+4. 此时可以 [查看](Source/api.md) 目前已完成的 API 示例文档并调试。
 
 > 提示：在 macOS 上 可以通过 `vapor xcode -y` 生成 Xcode 项目进行开发和调试。
 
