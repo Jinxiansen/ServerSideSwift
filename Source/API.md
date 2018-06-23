@@ -1,15 +1,7 @@
-<p align="center">
-    <img height="80" src="images/icon.png"/>
-</p>
-
-本项目开源在：[https://github.com/Jinxiansen/SwiftServerSide-Vapor](https://github.com/Jinxiansen/SwiftServerSide-Vapor)
-
-#### 基于 Swift 4.1 和 Vapor 3 框架的 Swift 服务端开源项目，目前列举的 API 已经部署在正式环境应用中。
 
 
 目前已经完成和开放的 API 皆在此列：
 
-接口部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) ,
 可以下载 [VaporServer](https://github.com/Jinxiansen/SwiftServerSide-Vapor) 并运行项目、调试，也可以在 [http://api.jinxiansen.com](http://api.jinxiansen.com) 进行测试。
 
 示例： [http://api.jinxiansen.com/record/getRecords?page=0&county=huxian](http://api.jinxiansen.com/record/getRecords?page=0&county=huxian)
@@ -61,8 +53,8 @@
    curl --request POST \
   --url http://localhost:8080/users/register \
   --header 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
-  --form account=hi.ya@foxmail.com \
-  --form password=Qwer1234 
+  --form account=hello@foxmail.com \
+  --form password=qbter123 
 
 </details> 
 
