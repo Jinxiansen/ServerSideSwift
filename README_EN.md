@@ -49,14 +49,14 @@ Currently listed in the document [API](Source/API.md) has been deployed in a for
 
 - [x] [Send Mail](Source/API.md/#发送邮件)
 - [x] [Web Deployment](Source/API.md/#网页)
-- [x] [Custom 404 Middleware](Source/usage-Vapor.md/#自定义404)
-- [x] [Custom access frequency Middleware](Source/usage-Vapor.md/#自定义访问频率)
+- [x] [Custom 404 Middleware](Source/VaporUsage.md/#自定义404)
+- [x] [Custom access frequency Middleware](Source/VaporUsage.md/#自定义访问频率)
 - [ ] ...
 
 
 #### [View👈](Source/API.md) Currently completed API sample documentation and debugging.
 
-#### [View ✍️](Source/usage-Vapor.md) Some basic usages of Vapor.
+#### [View ✍️](Source/VaporUsage.md) Some basic usages of Vapor.
 
 
 **Another:** Here are a few examples of Vapor deployed H5 pages that you can click to see the effect.
