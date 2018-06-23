@@ -14,26 +14,54 @@
     </a>
 </p>
 
-## Brief Description
-#### This is a Swift server open source project based on the Swift 4.1 and Vapor 3 framework. The currently listed APIs have been deployed in a formal environment application.
+This is a Swift server open source project based on the [Swift 4.1](https://swift.org) and [Vapor 3](http://vapor.codes) frameworks.
 
-Completed and open APIs are in this column:
+Because of Apple’s release of the cool event-driven non-blocking network framework [SwiftNIO](https://github.com/apple/swift-nio), Vapor 3 introduced it at a blazing pace, leading to Vapor2 and Vapor3. The grammar is very different. For me personally, it looks like the difference between Swift 2 -> Swift 3 is awkward. So I used Vapor 3 to rewrite part of the interface and open it for reference and communication with interested partners.
+Currently listed in the document [API](Source/API.md) has been deployed in a formal environment application, and will continue to be perfected as needed.
 
-The interface is deployed at [http://api.jinxiansen.com](http://api.jinxiansen.com),
-You can download [VaporServer](https://github.com/Jinxiansen/SwiftServerSide-Vapor) and run the project to debug, or you can test it at http://api.jinxiansen.com according to the parameter description of the API document.
+##### Projects are deployed at [http://api.jinxiansen.com](http://api.jinxiansen.com)
+
+## View
+[User related](Source/API.md/#user)
+
+- [x] [Registration](Source/API.md/#注册)
+- [x] [Login](Source/API.md/#登录)
+- [x] [Change Password](Source/API.md/#修改密码)
+- [x] [Logout](Source/API.md/#退出登录)
+
+[dynamically related](Source/API.md/#动态)
+
+- [x] [Posting News](Source/API.md/#发布动态)
+- [x] [Get all dynamic list](Source/API.md/#获取全部动态列表)
+- [x] [Get my dynamic list](Source/API.md/#获取我的动态列表)
+- [x] [Get Dynamic Image](Source/API.md/#获取动态图片)
+- [x] [Report](Source/API.md/#举报)
+
+[Dictionary Query](Source/API.md/字典)
+
+- [x] [Chinese Query](Source/API.md/#汉字查询)
+- [x] [Idiom Query](Source/API.md/#成语查询)
+- [x] [Check Post Query](Source/API.md/#歇后语查询)
+
+[Others](Source/API.md/#发送邮件)
+
+- [x] [Send Mail](Source/API.md/#发送邮件)
+- [x] [Web Deployment](Source/API.md/#网页)
+- [ ] ...
 
 
-#### [View👈](Source/API.md) Currently supported API sample documentation and debugging.
+#### [View👈](Source/API.md) Currently completed API sample documentation and debugging.
 
-#### [View✍️](Source/VaporUsage.md) Some basic usages of Vapor.
+#### [View ✍️](Source/VaporUsage.md) Some basic usages of Vapor.
 
-Include:
 
-* [User related interface: including login, registration, password change, logout](Source/API.md/#用户)
-* [Dynamic related interface: including sending news, getting all dynamic lists, getting dynamic pictures, getting my published dynamic list, reporting](Source/API.md/#动态)
-* [supports the query of Chinese characters, idioms, and proverbs](Source/API.md/#字典)
-* [Send Mail](Source/API.md/#邮件)
-* [Webpage small example](Source/API.md/#网页)
+**Another:** Here are a few examples of Vapor deployed H5 pages that you can click to see the effect.
+[Keyboard](http://api.jinxiansen.com/h5/keyboard)
+[Line](http://api.jinxiansen.com/h5/line)
+[Color](http://api.jinxiansen.com/h5/color)
+[Reboot](http://api.jinxiansen.com/h5/reboot)
+[Loader](http://api.jinxiansen.com/h5/loader)
+[Login](http://api.jinxiansen.com/h5/login)
 
 
 ## Usage
@@ -80,9 +108,7 @@ Ok, now open the terminal and execute in order:
 
 ## Feedback
 
-If you have any questions or suggestions, you can mention one [Issue](https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues)
-
-Or contact me: ![](Source/zz.jpg)
+If you have any questions or suggestions, you can mention one [Issue](https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues)Or contact me: ![](Source/zz.jpg)
 
 Email : [@JinXiansen](hi@jinxiansen.com)
 
