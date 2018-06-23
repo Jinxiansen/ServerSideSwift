@@ -38,6 +38,7 @@ class HTMLController: RouteCollection {
 extension HTMLController {
     
     func api(_ req: Request) throws -> Future<View> {
+        
         return try req.view().render("leaf/API")
     }
     
