@@ -47,6 +47,8 @@ Currently listed in the document [API](Source/API.md) has been deployed in a for
 
 - [x] [Send Mail](Source/API.md/#发送邮件)
 - [x] [Web Deployment](Source/API.md/#网页)
+- [x] [Custom 404 Middleware](Source/VaporUsage.md/#自定义404)
+- [x] [Custom access frequency Middleware](Source/VaporUsage.md/#自定义访问频率)
 - [ ] ...
 
 
