@@ -26,9 +26,9 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     /* * ** ** ** ** *** ** ** ** Middleware ** ** ** ** ** ** ** ** ** */
     var middlewares = MiddlewareConfig()
     
-    middlewares.use(APIErrorMiddleware.init(environment: env, specializations: [
-        ModelNotFound()
-    ]))
+//    middlewares.use(APIErrorMiddleware.init(environment: env, specializations: [
+//        ModelNotFound()
+//    ]))
     
     middlewares.use(ExceptionMiddleware(closure: { (req) -> (EventLoopFuture<Response>?) in
         let dict = ["status":"404","message":"访问路径不存在"]
@@ -36,7 +36,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
 //        return try req.view().render("leaf/loader").encode(for: req)
     }))
     
-    middlewares.use(ErrorMiddleware.self)
+//    middlewares.use(ErrorMiddleware.self)
     // Serves files from `Public/` directory
     middlewares.use(FileMiddleware.self)
     
