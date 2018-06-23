@@ -39,7 +39,7 @@ extension HTMLController {
     
     func api(_ req: Request) throws -> Future<View> {
         
-        return try req.view().render("leaf/index")
+        return try req.view().render("leaf/Welcome")
     }
     
     //TODO: H
