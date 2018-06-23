@@ -1075,7 +1075,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_39">接口示例</h4>
+<h4 id="toc_39">返回示例</h4>
 
 <div><pre><code class="language-none"> {
     &quot;status&quot;: 0,
@@ -1184,7 +1184,7 @@ sup {
 
 <h4 id="toc_43">接口示例</h4>
 
-<p>http://api.jinxiansen.com/words/word?str=中</p>
+<p><a href="http://api.jinxiansen.com/words/word?str=%E4%B8%AD">http://api.jinxiansen.com/words/word?str=中</a></p>
 
 <h4 id="toc_44">返回示例</h4>
 
@@ -1292,7 +1292,7 @@ sup {
 
 <h4 id="toc_48">接口示例</h4>
 
-<p>http://api.jinxiansen.com/words/idiom?str=水性</p>
+<p><a href="http://api.jinxiansen.com/words/idiom?str=%E6%B0%B4%E6%80%A7">http://api.jinxiansen.com/words/idiom?str=水性</a></p>
 
 <h4 id="toc_49">返回示例</h4>
 
@@ -1395,7 +1395,7 @@ sup {
 
 <h4 id="toc_53">接口示例</h4>
 
-<p>http://api.jinxiansen.com/words/xxidiom?str=菩萨</p>
+<p><a href="http://api.jinxiansen.com/words/xxidiom?str=%E8%8F%A9%E8%90%A8">http://api.jinxiansen.com/words/xxidiom?str=菩萨</a></p>
 
 <h4 id="toc_54">返回示例</h4>
 
