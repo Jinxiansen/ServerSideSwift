@@ -12,7 +12,7 @@ class HTMLController: RouteCollection {
     
     func boot(router: Router) throws {
         
-        router.get("/", use: api)
+        router.get("/", use: loader)
       
         router.group("h5") { (group) in
             
