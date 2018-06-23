@@ -808,7 +808,7 @@ sup {
 
 <h4 id="toc_25">接口示例</h4>
 
-<p><a href="http://api.jinxiansen.com/record/getRecords?page=1&amp;county=huxian">http://api.jinxiansen.com/record/getRecords?page=1&amp;county=huxian</a></p>
+<p><a href="http://api.jinxiansen.com/record/getRecords?page=0&amp;county=huxian">http://api.jinxiansen.com/record/getRecords?page=0&amp;county=huxian</a></p>
 
 <h4 id="toc_26">返回示例</h4>
 
