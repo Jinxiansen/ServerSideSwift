@@ -1,7 +1,7 @@
 
 <h2 id="API 说明">API 说明</h2>
 
-### 基于 Swift 4.1 和 Vapor 3 框架的 Swift 服务端开源项目，目前列举的 API 已经部署在正式环境应用中。
+#### 基于 Swift 4.1 和 Vapor 3 框架的 Swift 服务端开源项目，目前列举的 API 已经部署在正式环境应用中。
 
 开源在：[https://github.com/Jinxiansen/SwiftServerSide-Vapor](https://github.com/Jinxiansen/SwiftServerSide-Vapor)
 
@@ -17,7 +17,7 @@
 * [用户相关接口：包括登录、注册、修改密码、退出登录](#用户)
 * [动态相关接口：包括发动态、获取全部动态列表、获取动态图片、获取我发布的动态列表、举报等](#动态)
 * [支持汉字、成语、歇后语查询](#字典)
-* [发送邮件](#邮件)
+* [发送邮件](#发送邮件)
 * [网页小示例](#网页)
 
 建议配合 [Postman](https://documenter.getpostman.com/view/1150787/RWEgsK1B#1337a0be-f49e-4c56-b470-8c438af20030) 使用效果更佳。
@@ -31,7 +31,7 @@
 
 > 目前用户登录设置的 Token 有效期为 60 * 60 * 24 * 30 
 
-#### 注册
+<h3 id="注册">注册</h3>
 
 > users/register
 
@@ -77,7 +77,7 @@
 
 
 
-#### 登录
+<h3 id="登录">登录</h3>
 
 > users/login
 
@@ -114,7 +114,7 @@
 
 
 
-#### 修改密码
+<h3 id="修改密码">修改密码</h3>
 
 > users/changePassword
 
@@ -146,7 +146,7 @@
 
 
 
-#### 退出
+<h3 id="退出">退出</h3>
 
 > users/exit
 
@@ -183,7 +183,8 @@
 > 
 > 图片大小不能超过 2M 。
 
-#### 发动态
+
+<h3 id="发布动态">发布动态</h3>
 
 > record/add
 
@@ -219,10 +220,8 @@
 
 
 
+<h3 id="获取全部动态列表">获取全部动态列表</h3>
 
----
-
-#### 获取动态
 
 > record/getRecords
 
@@ -268,8 +267,7 @@
  
 ```
 
-
-#### 获取动态图片
+<h3 id="获取动态图片">获取动态图片</h3>
 
 > record/image
 
@@ -293,42 +291,7 @@
 
 
 
-
-#### 举报
-
-> record/report
-
-##### 请求方式：POST
-
-##### 请求参数
-
-|参数|必选|类型|说明|
-|:--|:---|:---|:--- |
-| token | 是 | string | 用户 Token |
-| content | 是 | string | 举报内容 |
-| county | 是 | string | 对应城市 |
-| image | 否 | File | 举报上传的图片 |
-| contact | 否 | string | 联系信息 |
-
-#### 返回字段
-
-|返回字段|字段类型|说明 |
-|:----- |:------|:---|
-| status | int | 0 = 请求成功 |
-| message | string | 描述 |
-
-#### 接口示例
-  
-```
- {
-    "status": 0,
-    "message": "举报成功"
-}
-```
-
-
-
-#### 获取我发布的动态
+<h3 id="获取我的动态列表">获取我的动态列表</h3>
 
 > record/getMyRecords
 
@@ -378,6 +341,40 @@
 
 
 
+
+<h3 id="举报">举报</h3>
+
+> record/report
+
+##### 请求方式：POST
+
+##### 请求参数
+
+|参数|必选|类型|说明|
+|:--|:---|:---|:--- |
+| token | 是 | string | 用户 Token |
+| content | 是 | string | 举报内容 |
+| county | 是 | string | 对应城市 |
+| image | 否 | File | 举报上传的图片 |
+| contact | 否 | string | 联系信息 |
+
+#### 返回字段
+
+|返回字段|字段类型|说明 |
+|:----- |:------|:---|
+| status | int | 0 = 请求成功 |
+| message | string | 描述 |
+
+#### 接口示例
+  
+```
+ {
+    "status": 0,
+    "message": "举报成功"
+}
+```
+
+
 ---
 
 <h2 id="字典">字典</h2>
@@ -386,7 +383,8 @@
 
 > 查询采用的是模糊匹配，可能会有多个结果。
 
-#### 单词查询
+<h3 id="汉字查询">汉字查询</h3>
+
 > words/word
 
 ##### 请求方式：GET
@@ -440,7 +438,8 @@ http://api.jinxiansen.com/words/word?str=中
  
 
 
-#### 成语查询
+<h3 id="成语查询">成语查询</h3>
+
 > words/idiom
 
 ##### 请求方式：GET
@@ -503,8 +502,8 @@ http://api.jinxiansen.com/words/idiom?str=水性
 ```
 
 
+<h3 id="歇后语查询">歇后语查询</h3>
 
-#### 歇后语查询
 > words/xxidiom
 
 ##### 请求方式：GET
@@ -545,7 +544,7 @@ http://api.jinxiansen.com/words/xxidiom?str=菩萨
 
 ---
 
-<h2 id="邮件">发送邮件</h2>
+<h2 id="发送邮件">发送邮件</h2>
 
 邮件发送请自行配置 STMP 相关参数。
 
@@ -587,12 +586,11 @@ http://api.jinxiansen.com/words/xxidiom?str=菩萨
 这里有几个 Vapor 部署的 H5 页面示例，你可以点击查看效果。
 
 [Keyboard](http://api.jinxiansen.com/h5/keyboard)
-[Reboot](http://api.jinxiansen.com/h5/reboot)
-[Login](http://api.jinxiansen.com/h5/login)
-[Loader](http://api.jinxiansen.com/h5/loader)
-[Color](http://api.jinxiansen.com/h5/color)
 [Line](http://api.jinxiansen.com/h5/line)
-
+[Color](http://api.jinxiansen.com/h5/color)
+[Reboot](http://api.jinxiansen.com/h5/reboot)
+[Loader](http://api.jinxiansen.com/h5/loader)
+[Login](http://api.jinxiansen.com/h5/login)
 
 
 
