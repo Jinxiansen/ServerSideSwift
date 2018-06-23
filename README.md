@@ -51,6 +51,8 @@
 
 - [x] [发送邮件](Source/API.md/#发送邮件)
 - [x] [网页部署](Source/API.md/#网页)
+- [x] [自定义404](Source/VaporUsage/#自定义404)
+- [x] [自定义访问频率](Source/VaporUsage/#自定义访问频率)
 - [ ] ...
 
 

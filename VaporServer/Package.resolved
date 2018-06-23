@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/vapor/core.git",
         "state": {
           "branch": null,
-          "revision": "e5582911ed940289212a36321e15ec561d947dbe",
-          "version": "3.3.0"
+          "revision": "7f56a09995bf3c8df562be456bdcda405d9d0678",
+          "version": "3.4.1"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/vapor/fluent.git",
         "state": {
           "branch": null,
-          "revision": "a821d466f2f0c44bb91c12a1f46a995a138da923",
-          "version": "3.0.0-rc.4"
+          "revision": "058b4579aea61dd05012f121fa9fa9042488c57b",
+          "version": "3.0.0-rc.4.0.2"
         }
       },
       {
@@ -105,8 +105,8 @@
         "repositoryURL": "https://github.com/vapor/fluent-mysql.git",
         "state": {
           "branch": null,
-          "revision": "6d0814a48f06ccf2e8fba4683aa1c6b9b3d44d78",
-          "version": "3.0.0-rc.4.0.1"
+          "revision": "56789b520e625e7b26074f9abdac72bdce95f1f4",
+          "version": "3.0.0-rc.4.0.3"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/skelpo/JWTMiddleware.git",
         "state": {
           "branch": null,
-          "revision": "7530c7956865e7892ff338108e8e5fc87687bcaa",
-          "version": "0.7.0"
+          "revision": "3f9493e5560b6e923a3b5c908de3f441800dda7a",
+          "version": "0.8.0"
         }
       },
       {
@@ -177,8 +177,8 @@
         "repositoryURL": "https://github.com/vapor/mysql.git",
         "state": {
           "branch": null,
-          "revision": "ac1a76764ddd8e47483e1be5c998c4b8e752c0bd",
-          "version": "3.0.0-rc.4"
+          "revision": "b726a2d1c6b0bcc115182e01fb3028351a743045",
+          "version": "3.0.0-rc.4.3"
         }
       },
       {
@@ -213,8 +213,8 @@
         "repositoryURL": "https://github.com/vapor/sql.git",
         "state": {
           "branch": null,
-          "revision": "9c8c19bd210b927ee52532d204e255efb11508a4",
-          "version": "2.0.0-beta.1.0.1"
+          "revision": "f89155dbf3dd48c838f79d28a636bbe32ad38693",
+          "version": "2.0.0-beta.3"
         }
       },
       {
