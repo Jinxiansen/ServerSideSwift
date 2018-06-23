@@ -1,9 +1,9 @@
 # Vapor Usage
 
-Vapor 的一些基本用法，包括两种 [GET](#GET 请求) 请求，两种 [POST](#POST 请求) 请求及[自定义中间件](#自定义中间件)。
+Vapor 的一些基本用法，包括两种 [GET](#GET) 请求，两种 [POST](#POST) 请求及[自定义中间件](#自定义中间件)。
 
 
-<h2 id="GET 请求">GET 请求</h2>
+<h2 id="GET">GET 请求</h2>
 
 ### 方法 1
 
@@ -66,7 +66,7 @@ http://localhost:8080/getName/Jinxiansen
 ```
 
 
-<h2 id="POST 请求">POST 请求</h2>
+<h2 id="POST">POST 请求</h2>
 
 ### 方法 1
 
