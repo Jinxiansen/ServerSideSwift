@@ -17,7 +17,7 @@ class HTMLController: RouteCollection {
         router.group("h5") { (group) in
             
             group.get("login", use: login)
-            group.get("welcome", use: welcome)
+            group.get("welcome", use: api)
             group.get("hello", use: hello)
             
             group.get("u", use: dogView)
@@ -39,16 +39,12 @@ extension HTMLController {
     
     func api(_ req: Request) throws -> Future<View> {
         
-        return try req.view().render("leaf/API")
+        return try req.view().render("leaf/web")
     }
     
     //TODO: H
     func login(_ req: Request) throws -> Future<View> {
         return try req.view().render("leaf/login")
-    }
-    
-    func welcome(_  req: Request) throws -> Future<View> {
-        return try req.view().render("leaf/API")
     }
     
     func hello(_  req: Request) throws -> Future<View> {
