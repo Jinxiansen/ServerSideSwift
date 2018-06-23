@@ -4,26 +4,46 @@
 
 本项目开源在：[https://github.com/Jinxiansen/SwiftServerSide-Vapor](https://github.com/Jinxiansen/SwiftServerSide-Vapor)
 
-#### 基于 Swift 4.1 和 Vapor 3 框架的 Swift 服务端开源项目，目前列举的 API 已经部署在正式环境应用中。
+这是基于 [Swift 4.1](https://swift.org) 和 [Vapor 3](http://vapor.codes) 框架的 Swift 服务端开源项目。
 
+由于 Apple 发布了酷炫的事件驱动的非阻塞网络框架 [SwiftNIO](https://github.com/apple/swift-nio) 的缘故，Vapor 3 以迅雷不及掩耳盗铃当之势将其接入，导致 Vapor2 和 Vapor3 的语法差异很大，所以用 Vapor 3 重写了部分接口并开源出来，供感兴趣的伙伴参考、交流。
 
-目前已经完成和开放的 API 皆在此列：
+以下列举的 API 已经部署在正式环境应用中，后续根据需求会不断完善。
 
-接口部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) ,
-可以下载 [VaporServer](https://github.com/Jinxiansen/SwiftServerSide-Vapor) 并运行项目、调试，也可以在 [http://api.jinxiansen.com](http://api.jinxiansen.com) 进行测试。
+##### 项目部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) 
 
-示例： [http://api.jinxiansen.com/record/getRecords?page=0&county=huxian](http://api.jinxiansen.com/record/getRecords?page=0&county=huxian)
+## 查看
+[用户相关](#用户)
 
-包括：
+- [x] [注册](#注册)
+- [x] [登录](#登录)
+- [x] [修改密码](#修改密码)
+- [x] [退出登录](#退出登录)
 
-* [用户相关接口：包括登录、注册、修改密码、退出登录](#用户)
-* [动态相关接口：包括发动态、获取全部动态列表、获取动态图片、获取我发布的动态列表、举报等](#动态)
-* [支持汉字、成语、歇后语查询](#字典)
-* [发送邮件](#发送邮件)
-* [网页小示例](#网页)
+[动态相关](#动态)
+
+- [x] [发布动态](#发布动态)
+- [x] [获取全部动态列表](#获取全部动态列表)
+- [x] [获取我的动态列表](#获取我的动态列表)
+- [x] [获取动态图片](#获取动态图片)
+- [x] [举报](#举报)
+
+[字典](#字典)
+
+- [x] [汉字查询](#汉字查询)
+- [x] [成语查询](#成语查询)
+- [x] [歇后语查询](#歇后语查询)
+
+[其他](#发送邮件)
+
+- [x] [发送邮件](#发送邮件)
+- [x] [网页部署](#网页)
+- [x] [自定义404](Source/vaporUsage.md/#自定义404)
+- [x] [自定义访问频率](Source/vaporUsage.md/#自定义访问频率)
+- [ ] ...
+
 
 建议配合 [Postman](https://documenter.getpostman.com/view/1150787/RWEgsK1B#1337a0be-f49e-4c56-b470-8c438af20030) 使用效果更佳。
-
 
 
 <h2 id="用户">用户</h2>
@@ -61,8 +81,8 @@
    curl --request POST \
   --url http://localhost:8080/users/register \
   --header 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
-  --form account=hi.ya@foxmail.com \
-  --form password=Qwer1234 
+  --form account=hello@foxmail.com \
+  --form password=qbter123 
 
 </details> 
 
