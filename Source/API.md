@@ -148,8 +148,8 @@
 |参数|必选|类型|说明|
 |:--|:---|:---|:--- |
 | token | 是 | string | 用户 Token |
-| age | 否 | string | 年龄 |
-| sex | 否 | string | 性别 |
+| age | 否 | Int | 年龄 |
+| sex | 否 | Int | 性别,1男 2女 0未知 |
 | nickName | 否 | string | 昵称 |
 | phone | 否 | string | 手机号 |
 | birthday | 否 | string | 出生日 |
