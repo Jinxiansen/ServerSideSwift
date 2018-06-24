@@ -613,10 +613,10 @@ sup {
     &quot;message&quot;: &quot;修改成功，请重新登录&quot;
 }</code></pre></div>
 
-<h3 id="退出登录">退出登录</h3>
+<h3 id="修改用户信息">修改用户信息</h3>
 
 <blockquote>
-<p>users/exit</p>
+<p>users/updateInfo</p>
 </blockquote>
 
 <h5 id="toc_14">请求方式：POST</h5>
@@ -638,7 +638,49 @@ sup {
 <td style="text-align: left">token</td>
 <td style="text-align: left">是</td>
 <td style="text-align: left">string</td>
-<td style="text-align: left">登录/注册时接口返回的 AccessToken</td>
+<td style="text-align: left">用户 Token</td>
+</tr>
+<tr>
+<td style="text-align: left">age</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">Int</td>
+<td style="text-align: left">年龄</td>
+</tr>
+<tr>
+<td style="text-align: left">sex</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">Int</td>
+<td style="text-align: left">性别,1男 2女 0未知</td>
+</tr>
+<tr>
+<td style="text-align: left">nickName</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">昵称</td>
+</tr>
+<tr>
+<td style="text-align: left">phone</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">手机号</td>
+</tr>
+<tr>
+<td style="text-align: left">birthday</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">出生日</td>
+</tr>
+<tr>
+<td style="text-align: left">location</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">位置</td>
+</tr>
+<tr>
+<td style="text-align: left">picImage</td>
+<td style="text-align: left">否</td>
+<td style="text-align: left">Data</td>
+<td style="text-align: left">用户头像</td>
 </tr>
 </tbody>
 </table>
@@ -663,12 +705,74 @@ sup {
 <tr>
 <td style="text-align: left">message</td>
 <td style="text-align: left">string</td>
-<td style="text-align: left">描述</td>
+<td style="text-align: left">描述字段</td>
 </tr>
 </tbody>
 </table>
 
 <h4 id="toc_17">返回示例</h4>
+
+<div><pre><code class="language-none">{
+    &quot;status&quot;: 0,
+    &quot;message&quot;: &quot;修改成功&quot;
+}</code></pre></div>
+
+<h3 id="退出登录">退出登录</h3>
+
+<blockquote>
+<p>users/exit</p>
+</blockquote>
+
+<h5 id="toc_18">请求方式：POST</h5>
+
+<h5 id="toc_19">请求参数</h5>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th style="text-align: left">必选</th>
+<th style="text-align: left">类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">token</td>
+<td style="text-align: left">是</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">登录/注册时接口返回的 AccessToken</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_20">返回字段</h4>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">返回字段</th>
+<th style="text-align: left">字段类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">status</td>
+<td style="text-align: left">int</td>
+<td style="text-align: left">0 = 请求成功</td>
+</tr>
+<tr>
+<td style="text-align: left">message</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">描述</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_21">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -691,9 +795,9 @@ sup {
 <p>record/add</p>
 </blockquote>
 
-<h5 id="toc_18">请求方式：POST</h5>
+<h5 id="toc_22">请求方式：POST</h5>
 
-<h5 id="toc_19">请求参数</h5>
+<h5 id="toc_23">请求参数</h5>
 
 <table>
 <thead>
@@ -739,7 +843,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_20">返回字段</h4>
+<h4 id="toc_24">返回字段</h4>
 
 <table>
 <thead>
@@ -764,7 +868,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_21">返回示例</h4>
+<h4 id="toc_25">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -778,9 +882,9 @@ sup {
 <p>record/getRecords</p>
 </blockquote>
 
-<h5 id="toc_22">请求方式：GET</h5>
+<h5 id="toc_26">请求方式：GET</h5>
 
-<h5 id="toc_23">请求参数</h5>
+<h5 id="toc_27">请求参数</h5>
 
 <table>
 <thead>
@@ -808,7 +912,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_24">返回字段</h4>
+<h4 id="toc_28">返回字段</h4>
 
 <table>
 <thead>
@@ -833,11 +937,11 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_25">接口示例</h4>
+<h4 id="toc_29">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/record/getRecords?page=0&amp;county=huxian">http://api.jinxiansen.com/record/getRecords?page=0&amp;county=huxian</a></p>
 
-<h4 id="toc_26">返回示例</h4>
+<h4 id="toc_30">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -862,9 +966,9 @@ sup {
 <p>record/image</p>
 </blockquote>
 
-<h5 id="toc_27">请求方式：GET</h5>
+<h5 id="toc_31">请求方式：GET</h5>
 
-<h5 id="toc_28">请求参数</h5>
+<h5 id="toc_32">请求参数</h5>
 
 <table>
 <thead>
@@ -886,7 +990,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_29">返回字段</h4>
+<h4 id="toc_33">返回字段</h4>
 
 <table>
 <thead>
@@ -906,7 +1010,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_30">接口示例</h4>
+<h4 id="toc_34">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/record/image?name=be0bf2d70f6bbe05efbe2e89578ba84b.jpg">http://api.jinxiansen.com/record/image?name=be0bf2d70f6bbe05efbe2e89578ba84b.jpg</a></p>
 
@@ -916,9 +1020,9 @@ sup {
 <p>record/getMyRecords</p>
 </blockquote>
 
-<h5 id="toc_31">请求方式：GET</h5>
+<h5 id="toc_35">请求方式：GET</h5>
 
-<h5 id="toc_32">请求参数</h5>
+<h5 id="toc_36">请求参数</h5>
 
 <table>
 <thead>
@@ -952,7 +1056,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_33">返回字段</h4>
+<h4 id="toc_37">返回字段</h4>
 
 <table>
 <thead>
@@ -1002,11 +1106,11 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_34">接口示例</h4>
+<h4 id="toc_38">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/record/getMyRecords?page=0&amp;county=huxian&amp;token=DJ_ssuG_vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4">http://api.jinxiansen.com/record/getMyRecords?page=0&amp;county=huxian&amp;token=DJ<em>ssuG</em>vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4</a></p>
 
-<h4 id="toc_35">返回示例</h4>
+<h4 id="toc_39">返回示例</h4>
 
 <div><pre><code class="language-none"> {
     &quot;status&quot;: 0,
@@ -1029,9 +1133,9 @@ sup {
 <p>record/report</p>
 </blockquote>
 
-<h5 id="toc_36">请求方式：POST</h5>
+<h5 id="toc_40">请求方式：POST</h5>
 
-<h5 id="toc_37">请求参数</h5>
+<h5 id="toc_41">请求参数</h5>
 
 <table>
 <thead>
@@ -1077,7 +1181,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_38">返回字段</h4>
+<h4 id="toc_42">返回字段</h4>
 
 <table>
 <thead>
@@ -1102,7 +1206,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_39">返回示例</h4>
+<h4 id="toc_43">返回示例</h4>
 
 <div><pre><code class="language-none"> {
     &quot;status&quot;: 0,
@@ -1123,9 +1227,9 @@ sup {
 <p>words/word</p>
 </blockquote>
 
-<h5 id="toc_40">请求方式：GET</h5>
+<h5 id="toc_44">请求方式：GET</h5>
 
-<h5 id="toc_41">请求参数</h5>
+<h5 id="toc_45">请求参数</h5>
 
 <table>
 <thead>
@@ -1147,7 +1251,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_42">返回字段</h4>
+<h4 id="toc_46">返回字段</h4>
 
 <table>
 <thead>
@@ -1207,11 +1311,11 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_43">接口示例</h4>
+<h4 id="toc_47">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/words/word?str=%E4%B8%AD">http://api.jinxiansen.com/words/word?str=中</a></p>
 
-<h4 id="toc_44">返回示例</h4>
+<h4 id="toc_48">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -1236,9 +1340,9 @@ sup {
 <p>words/idiom</p>
 </blockquote>
 
-<h5 id="toc_45">请求方式：GET</h5>
+<h5 id="toc_49">请求方式：GET</h5>
 
-<h5 id="toc_46">请求参数</h5>
+<h5 id="toc_50">请求参数</h5>
 
 <table>
 <thead>
@@ -1260,7 +1364,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_47">返回字段</h4>
+<h4 id="toc_51">返回字段</h4>
 
 <table>
 <thead>
@@ -1315,11 +1419,11 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_48">接口示例</h4>
+<h4 id="toc_52">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/words/idiom?str=%E6%B0%B4%E6%80%A7">http://api.jinxiansen.com/words/idiom?str=水性</a></p>
 
-<h4 id="toc_49">返回示例</h4>
+<h4 id="toc_53">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -1359,9 +1463,9 @@ sup {
 <p>words/xxidiom</p>
 </blockquote>
 
-<h5 id="toc_50">请求方式：GET</h5>
+<h5 id="toc_54">请求方式：GET</h5>
 
-<h5 id="toc_51">请求参数</h5>
+<h5 id="toc_55">请求参数</h5>
 
 <table>
 <thead>
@@ -1383,7 +1487,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_52">返回字段</h4>
+<h4 id="toc_56">返回字段</h4>
 
 <table>
 <thead>
@@ -1418,11 +1522,11 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_53">接口示例</h4>
+<h4 id="toc_57">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/words/xxidiom?str=%E8%8F%A9%E8%90%A8">http://api.jinxiansen.com/words/xxidiom?str=菩萨</a></p>
 
-<h4 id="toc_54">返回示例</h4>
+<h4 id="toc_58">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -1444,9 +1548,9 @@ sup {
 <p>sendEmail</p>
 </blockquote>
 
-<h5 id="toc_55">请求方式：POST</h5>
+<h5 id="toc_59">请求方式：POST</h5>
 
-<h5 id="toc_56">请求参数</h5>
+<h5 id="toc_60">请求参数</h5>
 
 <table>
 <thead>
@@ -1486,7 +1590,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_57">返回字段</h4>
+<h4 id="toc_61">返回字段</h4>
 
 <table>
 <thead>
@@ -1511,7 +1615,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_58">返回示例</h4>
+<h4 id="toc_62">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -1530,7 +1634,7 @@ sup {
 <a href="http://api.jinxiansen.com/h5/loader">Loader</a>
 <a href="http://api.jinxiansen.com/h5/login">Login</a></p>
 
-<h2 id="toc_59">反馈</h2>
+<h2 id="toc_63">反馈</h2>
 
 <p>如果有任何问题或建议，可以提一个 <a href="https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues">Issue</a></p>
 
