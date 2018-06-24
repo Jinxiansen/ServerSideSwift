@@ -73,7 +73,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: Idiom.self, database: .mysql)
     migrations.add(model: XieHouIdiom.self, database: .mysql)
     migrations.add(model: Report.self, database: .mysql)
-    
+    migrations.add(model: UserInfo.self, database: .mysql)
     
     services.register(migrations)
     
