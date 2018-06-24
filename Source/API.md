@@ -225,7 +225,7 @@
 | token | 是 | string | 用户Token |
 | content | 是 | string | 动态内容 |
 | title | 是 | string | 动态标题 |
-| image | 否 | File | 上传的图片 |
+| image | 否 | Data | 上传的图片 |
 | county | 是 | string | 动态对应的城市 |
 
 
@@ -384,7 +384,7 @@
 | token | 是 | string | 用户 Token |
 | content | 是 | string | 举报内容 |
 | county | 是 | string | 对应城市 |
-| image | 否 | File | 举报上传的图片 |
+| image | 否 | Data | 举报上传的图片 |
 | contact | 否 | string | 联系信息 |
 
 #### 返回字段
