@@ -5,7 +5,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Welcome</title>
+<title>web</title>
 
 
 <style type="text/css">
@@ -335,6 +335,7 @@ sup {
 <li><a href="#%E6%B3%A8%E5%86%8C">注册</a></li>
 <li><a href="#%E7%99%BB%E5%BD%95">登录</a></li>
 <li><a href="#%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81">修改密码</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF">修改用户信息</a></li>
 <li><a href="#%E9%80%80%E5%87%BA%E7%99%BB%E5%BD%95">退出登录</a></li>
 </ul>
 

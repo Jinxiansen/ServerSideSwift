@@ -32,6 +32,7 @@
 - [x] [注册](Source/API.md/#用户)
 - [x] [登录](Source/API.md/#登录)
 - [x] [修改密码](Source/API.md/#修改密码)
+- [x] [修改用户信息](Source/API.md/#修改用户信息)
 - [x] [退出登录](Source/API.md/#退出登录)
 
 动态相关
@@ -58,7 +59,7 @@
 
 
 #### [查看👈](Source/API.md) 目前已完成的 API 示例文档并调试。
-	
+
 #### [查看✍️](Source/VaporUsage.md) Vapor 的一些基本用法。
 
 

@@ -21,6 +21,8 @@ final class UserRouteController: RouteCollection {
         group.post(LoginUser.self, at: "login", use: loginUserHandler)
         group.post(LoginUser.self, at: "register", use: registerUserHandler)
         group.post(ChangePasswordContainer.self, at: "changePassword", use: changePassword)
+        group.post(UserInfoContainer.self, at: "updateInfo", use: updateUserInfoHandler)
+        
         group.post("exit", use: exitUserHandler)
         
     }
@@ -127,7 +129,8 @@ extension UserRouteController {
             }
             
             if inputContent.newPassword.isPassword().0 == false {
-                return try ResponseJSON<Void>(status: .error, message: inputContent.newPassword.isPassword().1).encode(for: req)
+                return try ResponseJSON<Void>(status: .error,
+                                              message: inputContent.newPassword.isPassword().1).encode(for: req)
             }
             
             var user = existUser
@@ -139,7 +142,50 @@ extension UserRouteController {
                 logger.info("Password Changed Success: \(newUser.account)")
                 return try ResponseJSON<Void>(status: .ok, message: "修改成功，请重新登录！").encode(for: req)
             }
+        })
+    }
+    
+    //TODO: 更新用户信息
+    func updateUserInfoHandler(_ req: Request,container: UserInfoContainer) throws -> Future<Response> {
+        
+        let bearToken = BearerAuthorization(token: container.token)
+        return AccessToken.authenticate(using: bearToken, on: req).flatMap({ (existToken) in
+            guard let existToken = existToken else {
+                return try ResponseJSON<Void>(status: .token).encode(for: req)
+            }
             
+            return UserInfo.query(on: req).filter(\.userID == existToken.userID).first().flatMap({ (existInfo) in
+                var imgName: String?
+                if let file = container.picImage { //如果上传了图片，就判断下大小，否则就揭过这一茬。
+                    guard file.data.count < ImageMaxByteSize else {
+                        return try ResponseJSON<Void>(status: .error, message: "图片过大，得压缩！").encode(for: req)
+                    }
+                    imgName = try VaporUtils.imageName()
+                    let path = try VaporUtils.localRootDir(at: ImagePath.userPic, req: req) + "/" + imgName!
+                    
+                    try Data(file.data).write(to: URL(fileURLWithPath: path))
+                }
+                
+                let userInfo: UserInfo?
+                if var existInfo = existInfo { //存在则更新。
+                    userInfo = existInfo.update(with: container)
+                    
+                    if let existPicName = existInfo.picName,let _ = imgName { //移除原来的照片
+                        let path = try VaporUtils.localRootDir(at: ImagePath.userPic, req: req) + "/" + existPicName
+                        try FileManager.default.removeItem(at: URL.init(fileURLWithPath: path))
+                    }
+                    userInfo?.picName = imgName
+                }else {
+                    userInfo = UserInfo(id: nil, userID: existToken.userID, age: container.age,
+                                        sex: container.sex, nickName: container.nickName,
+                                        phone: container.phone, birthday: container.birthday,
+                                        location: container.location, picName: imgName)
+                }
+                
+                return (userInfo!.save(on: req).flatMap({ (info) in
+                    return try ResponseJSON<Void>(status: .ok, message: "更新成功").encode(for: req)
+                }))
+            })
         })
     }
     
@@ -168,5 +214,27 @@ struct AccessContainer: Content {
         self.userID = userID
     }
 }
+
+struct UserInfoContainer: Content {
+    
+    var token:String
+    
+    var age: Int?
+    var sex: Int?
+    var nickName: String?
+    var phone: String?
+    var birthday: String?
+    var location: String?
+    var picImage: File?
+    
+}
+
+
+
+
+
+
+
+
 
 
