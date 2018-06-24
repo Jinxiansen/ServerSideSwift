@@ -130,9 +130,9 @@ extension RecordController {
                 
                 var imgName: String?
                 if let file = container.image {
-                    
                     guard file.data.count < ImageMaxByteSize else {
-                        return try ResponseJSON<Void>(status: .error, message: "图片过大，得压缩！").encode(for: req)
+                        return try ResponseJSON<Void>(status: .error,
+                                                      message: "图片过大，得压缩！").encode(for: req)
                     }
                     imgName = try VaporUtils.imageName()
                     let path = try VaporUtils.localRootDir(at: ImagePath.report, req: req) + "/" + imgName!

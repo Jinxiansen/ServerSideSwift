@@ -18,6 +18,7 @@
 - [注册](#注册)
 - [登录](#登录)
 - [修改密码](#修改密码)
+- [获取用户信息](#获取用户信息)
 - [修改用户信息](#修改用户信息)
 - [退出登录](#退出登录)
 
@@ -163,6 +164,57 @@
     "message": "修改成功，请重新登录"
 }
 ```
+
+
+<h3 id="获取用户信息">获取用户信息</h3>
+
+> users/getUserInfo
+
+##### 请求方式：GET
+
+##### 请求参数
+
+|参数|必选|类型|说明|
+|:--|:---|:---|:--- |
+| token | 是 | string | 用户 Token |
+
+#### 返回字段
+
+|返回字段|字段类型|说明 |
+|:----- |:------|:---|
+| status | int | 0 = 请求成功 |
+| message | string | 描述字段 |
+| userID | string | 用户 ID |
+| phone | string | 手机号 |
+| location | string | 所在地 |
+| id | int | 表id |
+| age | int | 年龄 |
+| picName | string | 头像图片名称 |
+| birthday | string | 出生日 |
+| sex | int | 性别,1男 2女 其他未知 |
+| nickName | string | 昵称 |
+
+#### 返回示例
+
+```
+{
+    "status": 0,
+    "message": "请求成功",
+    "data": {
+        "userID": "D1D0CEBC-91B5-47D1-B62A-C2AAC0197343",
+        "phone": "13333312312",
+        "location": "花果山",
+        "id": 1,
+        "age": 18,
+        "picName": "9fe6d4e771ddde55a60166e1c4688b39.jpg",
+        "birthday": "10240301",
+        "sex": 3,
+        "nickName": "成昆"
+    }
+}
+```
+
+
 
 <h3 id="修改用户信息">修改用户信息</h3>
 

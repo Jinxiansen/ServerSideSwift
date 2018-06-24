@@ -53,7 +53,6 @@ class VaporUtils {
         return queryRange
     }
     
-    
 }
 
 
