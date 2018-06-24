@@ -164,6 +164,40 @@
 }
 ```
 
+<h3 id="修改用户信息">修改用户信息</h3>
+
+> users/updateInfo
+
+##### 请求方式：POST
+
+##### 请求参数
+
+|参数|必选|类型|说明|
+|:--|:---|:---|:--- |
+| token | 是 | string | 用户 Token |
+| age | 否 | Int | 年龄 |
+| sex | 否 | Int | 性别,1男 2女 0未知 |
+| nickName | 否 | string | 昵称 |
+| phone | 否 | string | 手机号 |
+| birthday | 否 | string | 出生日 |
+| location | 否 | string | 位置 |
+| picImage | 否 | Data | 用户头像 |
+
+#### 返回字段
+
+|返回字段|字段类型|说明 |
+|:----- |:------|:---|
+| status | int | 0 = 请求成功 |
+| message | string | 描述字段 |
+
+#### 返回示例
+
+```
+{
+    "status": 0,
+    "message": "修改成功"
+}
+```
 
 
 <h3 id="退出登录">退出登录</h3>
