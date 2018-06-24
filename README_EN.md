@@ -29,7 +29,8 @@ Currently listed in the document [API](Source/API.md) has been deployed in a for
 - [x] [Registration](Source/API.md/#注册)
 - [x] [Login](Source/API.md/#登录)
 - [x] [Change Password](Source/API.md/#修改密码)
-- [x] [Modify user information](Source/API.md/#修改用户信息)
+- [x] [Get user info](Source/API.md/#获取用户信息)
+- [x] [Modify user info](Source/API.md/#修改用户信息)
 - [x] [Logout](Source/API.md/#退出登录)
 
 [dynamically related](Source/API.md/#动态)

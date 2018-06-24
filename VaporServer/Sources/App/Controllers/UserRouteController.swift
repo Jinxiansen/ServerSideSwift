@@ -20,8 +20,10 @@ final class UserRouteController: RouteCollection {
         
         group.post(LoginUser.self, at: "login", use: loginUserHandler)
         group.post(LoginUser.self, at: "register", use: registerUserHandler)
-        group.post(ChangePasswordContainer.self, at: "changePassword", use: changePassword)
+        group.post(ChangePasswordContainer.self, at: "changePassword", use: changePasswordHandler)
         group.post(UserInfoContainer.self, at: "updateInfo", use: updateUserInfoHandler)
+        
+        group.get("getUserInfo", use: getUserInfoHandler)
         
         group.post("exit", use: exitUserHandler)
         
@@ -41,7 +43,9 @@ extension UserRouteController {
     
     //TODO: 登录
     func loginUserHandler(_ req: Request,user: LoginUser) throws -> Future<Response> {
-        return LoginUser.query(on: req).filter(\.account == user.account).first().flatMap({ (existingUser) in
+        
+        let first = LoginUser.query(on: req).filter(\.account == user.account).first()
+        return first.flatMap({ (existingUser) in
             guard let existingUser = existingUser else {
                 return try ResponseJSON<Void>(status: .userNotExist).encode(for: req)
             }
@@ -54,12 +58,12 @@ extension UserRouteController {
             return try self.authController.authContainer(for: existingUser, on: req).flatMap({ (container) in
                 
                 var access = AccessContainer(accessToken: container.accessToken)
-                
                 if !req.environment.isRelease {
                     access.userID = existingUser.userID
                 }
-                
-                return try ResponseJSON<AccessContainer>(status: .ok, message: "登录成功",data: access).encode(for: req)
+                return try ResponseJSON<AccessContainer>(status: .ok,
+                                                         message: "登录成功",
+                                                         data: access).encode(for: req)
             })
         })
     }
@@ -68,14 +72,14 @@ extension UserRouteController {
     func registerUserHandler(_ req: Request, newUser: LoginUser) throws -> Future<Response> {
         
         let futureFirst = LoginUser.query(on: req).filter(\.account == newUser.account).first()
-        
         return futureFirst.flatMap { existingUser in
             guard existingUser == nil else {
                 return try ResponseJSON<Void>(status: .userExist).encode(for: req)
             }
             
             if newUser.validation().0 == false {
-                return try ResponseJSON<Void>(status: .error, message: newUser.validation().1).encode(for: req)
+                return try ResponseJSON<Void>(status: .error,
+                                              message: newUser.validation().1).encode(for: req)
             }
             return try newUser.user(with: req.make(BCryptDigest.self)).save(on: req).flatMap { user in
                 
@@ -89,7 +93,9 @@ extension UserRouteController {
                         access.userID = user.userID
                     }
                     
-                    return try ResponseJSON<AccessContainer>(status: .ok, message: "注册成功", data: access).encode(for: req)
+                    return try ResponseJSON<AccessContainer>(status: .ok,
+                                                             message: "注册成功",
+                                                             data: access).encode(for: req)
                 })
             }
         }
@@ -98,26 +104,22 @@ extension UserRouteController {
     func exitUserHandler(_ req: Request) throws -> Future<Response> {
         
         return try req.content.decode(TokenContainer.self).flatMap({ container in
-            
             let token = BearerAuthorization(token: container.token)
-            
             return AccessToken.authenticate(using: token, on: req).flatMap({ (existToken) in
                 guard let existToken = existToken else {
                     return try ResponseJSON<Void>(status: .token).encode(for: req)
                 }
                 
                 return try self.authController.remokeTokens(userID: existToken.userID, on: req).flatMap({ _ in
-                    return try ResponseJSON<Void>(status: .ok, message: "退出成功").encode(for: req)
+                    return try ResponseJSON<Void>(status: .ok,
+                                                  message: "退出成功").encode(for: req)
                 })
-                
             })
-            
         })
-        
     }
     
     //TODO: 修改密码
-    func changePassword(_ req: Request,inputContent: ChangePasswordContainer) throws -> Future<Response> {
+    func changePasswordHandler(_ req: Request,inputContent: ChangePasswordContainer) throws -> Future<Response> {
         return LoginUser.query(on: req).filter(\.account == inputContent.account).first().flatMap({ (existUser) in
             
             guard let existUser = existUser else {
@@ -140,8 +142,34 @@ extension UserRouteController {
                 
                 let logger = try req.make(Logger.self)
                 logger.info("Password Changed Success: \(newUser.account)")
-                return try ResponseJSON<Void>(status: .ok, message: "修改成功，请重新登录！").encode(for: req)
+                return try ResponseJSON<Void>(status: .ok,
+                                              message: "修改成功，请重新登录！").encode(for: req)
             }
+        })
+    }
+    
+    func getUserInfoHandler(_ req: Request) throws -> Future<Response> {
+        
+        guard let token = req.query[String.self, at: "token"] else {
+            return try ResponseJSON<Void>(status: .error, message: "缺少 token 参数").encode(for: req)
+        }
+        
+        let bearToken = BearerAuthorization(token: token)
+        return AccessToken.authenticate(using: bearToken, on: req).flatMap({ (existToken) in
+            
+            guard let existToken = existToken else {
+                return try ResponseJSON<Void>(status: .token).encode(for: req)
+            }
+            
+            let first = UserInfo.query(on: req).filter(\.userID == existToken.userID).first()
+            
+            return first.flatMap({ (existInfo) in
+                guard let existInfo = existInfo else {
+                    return try ResponseJSON<Void>(status: .error,
+                                                  message: "用户信息为空").encode(for: req)
+                }
+                return try ResponseJSON<UserInfo>(data: existInfo).encode(for: req)
+            })
         })
     }
     
@@ -158,7 +186,8 @@ extension UserRouteController {
                 var imgName: String?
                 if let file = container.picImage { //如果上传了图片，就判断下大小，否则就揭过这一茬。
                     guard file.data.count < ImageMaxByteSize else {
-                        return try ResponseJSON<Void>(status: .error, message: "图片过大，得压缩！").encode(for: req)
+                        return try ResponseJSON<Void>(status: .error,
+                                                      message: "图片过大，得压缩！").encode(for: req)
                     }
                     imgName = try VaporUtils.imageName()
                     let path = try VaporUtils.localRootDir(at: ImagePath.userPic, req: req) + "/" + imgName!
