@@ -25,14 +25,14 @@ extension String {
  
     
     func isAccount() -> (Bool,String) {
-        if count < ACountMinCount {
-            return (false,"密码长度不足")
+        if count < AccountMinCount {
+            return (false,"账号长度不足")
         }
         
-        if count > AcountMaxCount {
-            return (false,"密码长度超出")
+        if count > AccountMaxCount {
+            return (false,"账号长度超出")
         }
-        return (true,"密码符合")
+        return (true,"账号符合")
     }
     
     func isPassword() -> (Bool,String) {
