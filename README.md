@@ -50,6 +50,12 @@
 - [x] [成语查询](Source/API.md/#成语查询)
 - [x] [歇后语查询](Source/API.md/#歇后语查询)
 
+爬虫相关
+
+- [x] [爬虫示例](Source/API.md/#爬虫示例)
+- [x] [自定义爬虫示例](Source/API.md/#自定义爬虫)
+
+
 其他
 
 - [x] [发送邮件](Source/API.md/#发送邮件)

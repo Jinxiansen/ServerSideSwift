@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>web</title>
 
 
@@ -289,6 +288,21 @@ sup {
     vertical-align: super;
     line-height: 0;
 }
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb
+}
+
 * {
 	-webkit-print-color-adjust: exact;
 }
@@ -356,6 +370,13 @@ sup {
 <li><a href="#%E6%B1%89%E5%AD%97%E6%9F%A5%E8%AF%A2">汉字查询</a></li>
 <li><a href="#%E6%88%90%E8%AF%AD%E6%9F%A5%E8%AF%A2">成语查询</a></li>
 <li><a href="#%E6%AD%87%E5%90%8E%E8%AF%AD%E6%9F%A5%E8%AF%A2">歇后语查询</a></li>
+</ul>
+
+<p>爬虫相关</p>
+
+<ul>
+<li><a href="#%E7%88%AC%E8%99%AB%E7%A4%BA%E4%BE%8B">爬虫示例</a></li>
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%88%AC%E8%99%AB">自定义爬虫示例</a></li>
 </ul>
 
 <p><a href="#%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6">其他</a></p>
@@ -950,7 +971,7 @@ sup {
 <tr>
 <td style="text-align: left">image</td>
 <td style="text-align: left">否</td>
-<td style="text-align: left">File</td>
+<td style="text-align: left">Data</td>
 <td style="text-align: left">上传的图片</td>
 </tr>
 <tr>
@@ -1003,7 +1024,11 @@ sup {
 
 <h5 id="toc_30">请求方式：GET</h5>
 
-<h5 id="toc_31">请求参数</h5>
+<h4 id="toc_31">接口示例</h4>
+
+<p><a href="http://api.jinxiansen.com/record/getRecords?page=0&amp;county=huxian">http://api.jinxiansen.com/record/getRecords?page=0&amp;county=huxian</a></p>
+
+<h5 id="toc_32">请求参数</h5>
 
 <table>
 <thead>
@@ -1031,7 +1056,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_32">返回字段</h4>
+<h4 id="toc_33">返回字段</h4>
 
 <table>
 <thead>
@@ -1055,10 +1080,6 @@ sup {
 </tr>
 </tbody>
 </table>
-
-<h4 id="toc_33">接口示例</h4>
-
-<p><a href="http://api.jinxiansen.com/record/getRecords?page=0&amp;county=huxian">http://api.jinxiansen.com/record/getRecords?page=0&amp;county=huxian</a></p>
 
 <h4 id="toc_34">返回示例</h4>
 
@@ -1141,7 +1162,11 @@ sup {
 
 <h5 id="toc_39">请求方式：GET</h5>
 
-<h5 id="toc_40">请求参数</h5>
+<h4 id="toc_40">接口示例</h4>
+
+<p><a href="http://api.jinxiansen.com/record/getMyRecords?page=0&amp;county=huxian&amp;token=DJ_ssuG_vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4">http://api.jinxiansen.com/record/getMyRecords?page=0&amp;county=huxian&amp;token=DJ<em>ssuG</em>vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4</a></p>
+
+<h5 id="toc_41">请求参数</h5>
 
 <table>
 <thead>
@@ -1175,7 +1200,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_41">返回字段</h4>
+<h4 id="toc_42">返回字段</h4>
 
 <table>
 <thead>
@@ -1224,10 +1249,6 @@ sup {
 </tr>
 </tbody>
 </table>
-
-<h4 id="toc_42">接口示例</h4>
-
-<p><a href="http://api.jinxiansen.com/record/getMyRecords?page=0&amp;county=huxian&amp;token=DJ_ssuG_vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4">http://api.jinxiansen.com/record/getMyRecords?page=0&amp;county=huxian&amp;token=DJ<em>ssuG</em>vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4</a></p>
 
 <h4 id="toc_43">返回示例</h4>
 
@@ -1288,7 +1309,7 @@ sup {
 <tr>
 <td style="text-align: left">image</td>
 <td style="text-align: left">否</td>
-<td style="text-align: left">File</td>
+<td style="text-align: left">Data</td>
 <td style="text-align: left">举报上传的图片</td>
 </tr>
 <tr>
@@ -1461,7 +1482,11 @@ sup {
 
 <h5 id="toc_53">请求方式：GET</h5>
 
-<h5 id="toc_54">请求参数</h5>
+<h4 id="toc_54">接口示例</h4>
+
+<p><a href="http://api.jinxiansen.com/words/idiom?str=%E6%B0%B4%E6%80%A7">http://api.jinxiansen.com/words/idiom?str=水性</a></p>
+
+<h5 id="toc_55">请求参数</h5>
 
 <table>
 <thead>
@@ -1483,7 +1508,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_55">返回字段</h4>
+<h4 id="toc_56">返回字段</h4>
 
 <table>
 <thead>
@@ -1538,10 +1563,6 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_56">接口示例</h4>
-
-<p><a href="http://api.jinxiansen.com/words/idiom?str=%E6%B0%B4%E6%80%A7">http://api.jinxiansen.com/words/idiom?str=水性</a></p>
-
 <h4 id="toc_57">返回示例</h4>
 
 <div><pre><code class="language-none">{
@@ -1584,7 +1605,11 @@ sup {
 
 <h5 id="toc_58">请求方式：GET</h5>
 
-<h5 id="toc_59">请求参数</h5>
+<h4 id="toc_59">接口示例</h4>
+
+<p><a href="http://api.jinxiansen.com/words/xxidiom?str=%E8%8F%A9%E8%90%A8">http://api.jinxiansen.com/words/xxidiom?str=菩萨</a></p>
+
+<h5 id="toc_60">请求参数</h5>
 
 <table>
 <thead>
@@ -1606,7 +1631,7 @@ sup {
 </tbody>
 </table>
 
-<h4 id="toc_60">返回字段</h4>
+<h4 id="toc_61">返回字段</h4>
 
 <table>
 <thead>
@@ -1640,10 +1665,6 @@ sup {
 </tr>
 </tbody>
 </table>
-
-<h4 id="toc_61">接口示例</h4>
-
-<p><a href="http://api.jinxiansen.com/words/xxidiom?str=%E8%8F%A9%E8%90%A8">http://api.jinxiansen.com/words/xxidiom?str=菩萨</a></p>
 
 <h4 id="toc_62">返回示例</h4>
 
@@ -1742,6 +1763,170 @@ sup {
 }
  </code></pre></div>
 
+<h2 id="爬虫">爬虫</h2>
+
+<p>这里只是简单展示了如何解析URL，你可以在此基础扩展使用，爬取目标URL并解析和创建 SQL Model 保存数据库，然后添加 API 调用，美滋滋。☺️</p>
+
+<h3 id="爬虫示例">爬虫示例</h3>
+
+<p>爬虫示例，目标地址： <a href="http://swiftdoc.org">http://swiftdoc.org</a></p>
+
+<blockquote>
+<p>crawler/swiftDoc</p>
+</blockquote>
+
+<h5 id="toc_67">请求方式：GET</h5>
+
+<h4 id="toc_68">接口示例</h4>
+
+<p><a href="http://api.jinxiansen.com/crawler/swiftDoc">http://api.jinxiansen.com/crawler/swiftDoc</a></p>
+
+<h5 id="toc_69">请求参数</h5>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th style="text-align: left">必选</th>
+<th style="text-align: left">类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">无</td>
+<td style="text-align: left"></td>
+<td style="text-align: left"></td>
+<td style="text-align: left"></td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_70">返回字段</h4>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">返回字段</th>
+<th style="text-align: left">字段类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">status</td>
+<td style="text-align: left">int</td>
+<td style="text-align: left">0 = 请求成功</td>
+</tr>
+<tr>
+<td style="text-align: left">message</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">描述</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_71">返回示例</h4>
+
+<div><pre><code class="language-none">{
+    &quot;status&quot;:0,
+    &quot;message&quot;:&quot;解析成功&quot;,
+    &quot;data&quot;:[
+        {
+            &quot;type&quot;:&quot;Types&quot;,
+            &quot;titles&quot;:[
+                &quot;AnyBidirectionalCollection&quot;,
+                &quot;AnyCollection&quot;,
+                &quot;AnyHashable&quot;,
+                &quot;Zip2Iterator&quot;,
+                &quot;Zip2Sequence&quot;
+            ]
+        }
+    ]
+}
+ </code></pre></div>
+
+<h3 id="自定义爬虫">自定义爬虫地址和规则</h3>
+
+<blockquote>
+<p>crawler/query</p>
+</blockquote>
+
+<h5 id="toc_72">请求方式：GET</h5>
+
+<h4 id="toc_73">接口示例</h4>
+
+<p><a href="http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&amp;parse=div">http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&amp;parse=div</a></p>
+
+<h5 id="toc_74">请求参数</h5>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th style="text-align: left">必选</th>
+<th style="text-align: left">类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">url</td>
+<td style="text-align: left">是</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">目标 URL</td>
+</tr>
+<tr>
+<td style="text-align: left">parse</td>
+<td style="text-align: left">是</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">爬取规则标签,例如 <code>title</code>,<code>div</code>,<code>div,li</code> ,更多请参考 <a href="https://github.com/scinfu/SwiftSoup">https://github.com/scinfu/SwiftSoup</a></td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_75">返回字段</h4>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">返回字段</th>
+<th style="text-align: left">字段类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">status</td>
+<td style="text-align: left">int</td>
+<td style="text-align: left">0 = 请求成功</td>
+</tr>
+<tr>
+<td style="text-align: left">message</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">描述</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_76">返回示例</h4>
+
+<div><pre><code class="language-none">{
+    &quot;status&quot;: 0,
+    &quot;message&quot;: &quot;解析成功&quot;,
+    &quot;data&quot;: [
+        {
+            &quot;text&quot;: &quot;Auto-generated documentation for Swift. Command-click no more.&quot;,
+            &quot;html&quot;: &quot;&lt;p&gt;Auto-generated documentation for &lt;a href=\&quot;https://developer.apple.com/swift/\&quot;&gt;Swift&lt;/a&gt;. Command-click no more.&lt;/p&gt;&quot;
+        }
+    ]
+}
+ </code></pre></div>
+
 <h2 id="网页">网页</h2>
 
 <p>这里有几个 Vapor 部署的 H5 页面示例，你可以点击查看效果。</p>
@@ -1753,7 +1938,7 @@ sup {
 <a href="http://api.jinxiansen.com/h5/loader">Loader</a>
 <a href="http://api.jinxiansen.com/h5/login">Login</a></p>
 
-<h2 id="toc_67">反馈</h2>
+<h2 id="toc_77">反馈</h2>
 
 <p>如果有任何问题或建议，可以提一个 <a href="https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues">Issue</a></p>
 
