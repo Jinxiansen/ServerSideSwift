@@ -22,6 +22,8 @@ let package = Package(
         .package(url: "https://github.com/vapor/console.git", from: "3.0.0"),
         
         .package(url: "https://github.com/vapor/redis.git", from: "3.0.0-rc"),
+        
+        .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "1.7.1"),
         ],
     targets: [
         .target(name: "App", dependencies: ["SwiftSMTP",
@@ -35,6 +37,7 @@ let package = Package(
                                             "Crypto",
                                             "Logging",
                                             "Redis",
+                                            "SwiftSoup",
                                             "APIErrorMiddleware"
             ]),
         .target(name: "Run", dependencies: ["App"]),

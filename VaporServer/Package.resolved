@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/BlueCryptor.git",
         "state": {
           "branch": null,
-          "revision": "4503221a71d49c6075b5042f5ff2d858acbe74a8",
-          "version": "1.0.4"
+          "revision": "7865ad2f864633eb945dc77c43213fb34688bb3e",
+          "version": "1.0.5"
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/BlueSocket.git",
         "state": {
           "branch": null,
-          "revision": "a4370251998438d60335151141968546e2330379",
-          "version": "1.0.8"
+          "revision": "e2f6aee81b9e316f61e173e8350cb69d7714ead8",
+          "version": "1.0.10"
         }
       },
       {
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/BlueSSLService.git",
         "state": {
           "branch": null,
-          "revision": "6225376e53ca2cf59477bca9bb48f4f5acf7a1c1",
-          "version": "1.0.8"
+          "revision": "f4c012b783f8809d4e6597b304357c5324ff459b",
+          "version": "1.0.10"
         }
       },
       {
@@ -260,6 +260,15 @@
           "branch": null,
           "revision": "54fbbb90df7c8e6dd952755701e4921c96b7d2d2",
           "version": "4.0.1"
+        }
+      },
+      {
+        "package": "SwiftSoup",
+        "repositoryURL": "https://github.com/scinfu/SwiftSoup.git",
+        "state": {
+          "branch": null,
+          "revision": "52a9a9e2ae73669111e3f74c7ce833b195e942a3",
+          "version": "1.7.1"
         }
       },
       {

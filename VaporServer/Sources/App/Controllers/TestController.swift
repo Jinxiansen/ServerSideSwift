@@ -27,12 +27,12 @@ struct TestController: RouteCollection {
         }
         
         router.post("post1UserInfo", use: post1UserInfoHandler)
-        
         router.post(UserContainer.self, at: "post2UserInfo", use: post2UserInfoHandler)
     }
 }
 
 extension TestController {
+
     
     func getNameHandler(_ req: Request) throws -> [String:String] {
         guard let name = req.query[String.self, at: "name"] else {
