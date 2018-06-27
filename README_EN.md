@@ -47,6 +47,12 @@ Currently listed in the document [API](Source/API.md) has been deployed in a for
 - [x] [Idiom Query](Source/API.md/#成语查询)
 - [x] [Check Post Query](Source/API.md/#歇后语查询)
 
+About crawler
+
+- [x] [crawler example](Source/API.md/#爬虫示例)
+- [x] [custom crawler](Source/API.md/#自定义爬虫)
+
+
 [Others](Source/API.md/#发送邮件)
 
 - [x] [Send Mail](Source/API.md/#发送邮件)

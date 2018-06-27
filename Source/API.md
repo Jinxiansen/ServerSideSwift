@@ -298,6 +298,10 @@
 
 ##### 请求方式：GET
 
+#### 接口示例
+
+[http://api.jinxiansen.com/record/getRecords?page=0&county=huxian](http://api.jinxiansen.com/record/getRecords?page=0&county=huxian)
+
 ##### 请求参数
 
 |参数|必选|类型|说明|
@@ -313,9 +317,6 @@
 | status | int | 0 = 请求成功 |
 | message | string | 描述 |
 
-#### 接口示例
-
-[http://api.jinxiansen.com/record/getRecords?page=0&county=huxian](http://api.jinxiansen.com/record/getRecords?page=0&county=huxian)
 
 #### 返回示例
 
@@ -368,6 +369,10 @@
 
 ##### 请求方式：GET
 
+#### 接口示例
+
+[http://api.jinxiansen.com/record/getMyRecords?page=0&county=huxian&token=DJ_ssuG_vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4](http://api.jinxiansen.com/record/getMyRecords?page=0&county=huxian&token=DJ_ssuG_vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4)
+
 ##### 请求参数
 
 |参数|必选|类型|说明|
@@ -388,9 +393,6 @@
 | title | string | 标题 |
 | time | string | 发布时间 |
 
-#### 接口示例
-
-[http://api.jinxiansen.com/record/getMyRecords?page=0&county=huxian&token=DJ_ssuG_vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4](http://api.jinxiansen.com/record/getMyRecords?page=0&county=huxian&token=DJ_ssuG_vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4)
   
 #### 返回示例
 
@@ -515,6 +517,10 @@
 
 ##### 请求方式：GET
 
+#### 接口示例
+
+[http://api.jinxiansen.com/words/idiom?str=水性](http://api.jinxiansen.com/words/idiom?str=水性)
+
 ##### 请求参数
 
 |参数|必选|类型|说明|
@@ -534,9 +540,6 @@
 | derivation | string | 来源 |
 | explanation | string | 解释 |
 
-#### 接口示例
-
-[http://api.jinxiansen.com/words/idiom?str=水性](http://api.jinxiansen.com/words/idiom?str=水性)
 
 #### 返回示例
 
@@ -581,6 +584,10 @@
 
 ##### 请求方式：GET
 
+#### 接口示例
+
+[http://api.jinxiansen.com/words/xxidiom?str=菩萨](http://api.jinxiansen.com/words/xxidiom?str=菩萨)
+
 ##### 请求参数
 
 |参数|必选|类型|说明|
@@ -596,9 +603,6 @@
 | riddle | string | 前半句 |
 | answer | string | 后半句 |
 
-#### 接口示例
-
-[http://api.jinxiansen.com/words/xxidiom?str=菩萨](http://api.jinxiansen.com/words/xxidiom?str=菩萨)
 
 #### 返回示例
 
@@ -648,6 +652,101 @@
 {
     "status": 0,
     "message": "发送成功"
+}
+ 
+```
+
+
+<h2 id="爬虫">爬虫</h2>
+
+这里只是简单展示了如何解析URL，你可以在此基础扩展使用，爬取目标URL并解析和创建 SQL Model 保存数据库，然后添加 API 调用，美滋滋。☺️
+
+<h3 id="爬虫示例">爬虫示例</h3>
+
+爬虫示例，目标地址： [http://swiftdoc.org](http://swiftdoc.org)
+
+> crawler/swiftDoc
+
+##### 请求方式：GET
+
+#### 接口示例
+
+[http://api.jinxiansen.com/crawler/swiftDoc](http://api.jinxiansen.com/crawler/swiftDoc)
+
+##### 请求参数
+
+|参数|必选|类型|说明|
+|:--|:---|:---|:--- |
+| 无 |  | | |
+
+#### 返回字段
+
+|返回字段|字段类型|说明 |
+|:----- |:------|:---|
+| status | int | 0 = 请求成功 |
+| message | string | 描述 |
+
+
+#### 返回示例
+
+```
+{
+    "status":0,
+    "message":"解析成功",
+    "data":[
+        {
+            "type":"Types",
+            "titles":[
+                "AnyBidirectionalCollection",
+                "AnyCollection",
+                "AnyHashable",
+                "Zip2Iterator",
+                "Zip2Sequence"
+            ]
+        }
+    ]
+}
+ 
+```
+
+
+
+<h3 id="自定义爬虫">自定义爬虫地址和规则</h3>
+
+> crawler/query
+
+##### 请求方式：GET
+
+#### 接口示例
+
+[http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&parse=div](http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&parse=div)
+
+##### 请求参数
+
+|参数|必选|类型|说明|
+|:--|:---|:---|:--- |
+| url | 是 | string | 目标 URL |
+| parse | 是 | string | 爬取规则标签,例如 `title`,`div`,`div,li` ,更多请参考 [https://github.com/scinfu/SwiftSoup](https://github.com/scinfu/SwiftSoup)|
+
+#### 返回字段
+
+|返回字段|字段类型|说明 |
+|:----- |:------|:---|
+| status | int | 0 = 请求成功 |
+| message | string | 描述 |
+
+#### 返回示例
+
+```
+{
+    "status": 0,
+    "message": "解析成功",
+    "data": [
+        {
+            "text": "Auto-generated documentation for Swift. Command-click no more.",
+            "html": "<p>Auto-generated documentation for <a href=\"https://developer.apple.com/swift/\">Swift</a>. Command-click no more.</p>"
+        }
+    ]
 }
  
 ```
