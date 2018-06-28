@@ -28,7 +28,8 @@ extension CrawlerController {
         
         let urlStr = "http://swiftdoc.org"
         guard let url = URL(string: urlStr) else {
-            return try ResponseJSON<Void>(status: .error, message: "URL 错误").encode(for: req)
+            return try ResponseJSON<Void>(status: .error,
+                                          message: "URL 错误").encode(for: req)
         }
         let client = try req.client()
         return client.get(url)
@@ -38,8 +39,8 @@ extension CrawlerController {
                     var type: String
                     var titles: [String]
                 }
-                
-                let document = try SwiftSoup.parse(clientResponse.description)
+                let html = clientResponse.http.body.utf8String
+                let document = try SwiftSoup.parse(html)
                 
                 var items = [Item]()
                 let elements = try document.select("div[class='col-sm-12']")
@@ -47,7 +48,8 @@ extension CrawlerController {
                     
                     let type = try? element.select("article[class='content']").select("h2").text()
                     guard let mainlist = try? element.select("ul[class='main-list'],li").select("a") else {
-                        return try ResponseJSON<Void>(status: .error, message: "节点 错误").encode(for: req)
+                        return try ResponseJSON<Void>(status: .error,
+                                                      message: "节点 错误").encode(for: req)
                     }
                     var titles = [String]()
                     for list in mainlist {
@@ -56,7 +58,9 @@ extension CrawlerController {
                     }
                     items.append(Item(type: type ?? "", titles: titles))
                 }
-                return try ResponseJSON<[Item]>(status: .ok, message: "解析成功", data: items).encode(for: req)
+                return try ResponseJSON<[Item]>(status: .ok,
+                                                message: "解析成功",
+                                                data: items).encode(for: req)
             })
     }
     
@@ -64,22 +68,26 @@ extension CrawlerController {
     func crawlerQueryHandler(_ req: Request) throws -> Future<Response> {
         
         guard let urlStr = req.query[String.self, at: "url"] else {
-            return try ResponseJSON<Void>(status: .error, message: "缺少 url 参数").encode(for: req)
+            return try ResponseJSON<Void>(status: .error,
+                                          message: "缺少 url 参数").encode(for: req)
         }
         
         guard let parse = req.query[String.self, at: "parse"] else {
-            return try ResponseJSON<Void>(status: .error, message: "缺少 parse 参数").encode(for: req)
+            return try ResponseJSON<Void>(status: .error,
+                                          message: "缺少 parse 参数").encode(for: req)
         }
         
         guard let url = URL(string: urlStr) else {
-            return try ResponseJSON<Void>(status: .error, message: "url 错误").encode(for: req)
+            return try ResponseJSON<Void>(status: .error,
+                                          message: "url 错误").encode(for: req)
         }
         
-//        let header: HTTPHeaders = ["Content-Type":"text/html;charset=UTF-8"]
-        
-        return try req.make(FoundationClient.self).get(url /**,headers: header*/).flatMap(to: Response.self, { (clientResponse) in
+        return try req.make(FoundationClient.self)
+            .get(url)
+            .flatMap(to: Response.self, { (clientResponse) in
             
-            let document = try SwiftSoup.parse(clientResponse.description)
+            let html = clientResponse.http.body.utf8String
+            let document = try SwiftSoup.parse(html)
             let elements = try document.select(parse)
             
             struct Item: Content {
@@ -93,10 +101,18 @@ extension CrawlerController {
                 let html = try element.outerHtml()
                 items.append(Item(text: text, html: html))
             }
-            
-            return try ResponseJSON<[Item]>(status: .ok, message: "解析成功", data: items).encode(for: req)
+            return try ResponseJSON<[Item]>(status: .ok,
+                                            message: "解析成功",
+                                            data: items).encode(for: req)
         })
     }
     
     
+}
+
+
+extension HTTPBody {
+    var utf8String: String {
+        return String(data: data ?? Data(), encoding: .utf8) ?? "n/a"
+    }
 }

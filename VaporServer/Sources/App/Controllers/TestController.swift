@@ -26,21 +26,30 @@ struct TestController: RouteCollection {
             group.post("post1UserInfo", use: post1UserInfoHandler)
             group.post(UserContainer.self, at: "post2UserInfo", use: post2UserInfoHandler)
             
+            
+            
+            
+            
+            
             group.get("doc", use: sendGetRequest)
         }
         
     }
 }
 
+
+
 extension TestController {
 
     func sendGetRequest(req: Request) throws -> Future<String> {
+        
         let client = try req.client()
-        return client.get("http://swiftdoc.org")
+        return client.get("http://api.jinxiansen.com")
             .map(to: String.self, { clientResponse in
-                return clientResponse.description
+                return clientResponse.http.body.utf8String
             })
     }
+ 
     
     func getNameHandler(_ req: Request) throws -> [String:String] {
         guard let name = req.query[String.self, at: "name"] else {
