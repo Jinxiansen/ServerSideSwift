@@ -78,10 +78,6 @@ extension WordController {
             return try ResponseJSON<[XieHouIdiom]>(data: results).encode(for: req)
         })
     }
-    
-    
-    
-    
-    
+ 
     
 }
