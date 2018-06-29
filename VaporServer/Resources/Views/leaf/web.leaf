@@ -1154,19 +1154,75 @@ kbd {
 
 <p><a href="http://api.jinxiansen.com/record/image?name=be0bf2d70f6bbe05efbe2e89578ba84b.jpg">http://api.jinxiansen.com/record/image?name=be0bf2d70f6bbe05efbe2e89578ba84b.jpg</a></p>
 
+<h3 id="获取动态图片二">获取动态图片(2)</h3>
+
+<p>在 URL 后面追加图片名称，见示例</p>
+
+<blockquote>
+<p>record/image</p>
+</blockquote>
+
+<h5 id="toc_39">请求方式：GET</h5>
+
+<h5 id="toc_40">请求参数</h5>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th style="text-align: left">必选</th>
+<th style="text-align: left">类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">图片名称</td>
+<td style="text-align: left">是</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left"></td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_41">返回字段</h4>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">返回字段</th>
+<th style="text-align: left">字段类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">返回一张图片</td>
+<td style="text-align: left"></td>
+<td style="text-align: left"></td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_42">接口示例</h4>
+
+<p><a href="http://api.jinxiansen.com/record/image/be0bf2d70f6bbe05efbe2e89578ba84b.jpg">http://api.jinxiansen.com/record/image/be0bf2d70f6bbe05efbe2e89578ba84b.jpg</a></p>
+
 <h3 id="获取我的动态列表">获取我的动态列表</h3>
 
 <blockquote>
 <p>record/getMyRecords</p>
 </blockquote>
 
-<h5 id="toc_39">请求方式：GET</h5>
+<h5 id="toc_43">请求方式：GET</h5>
 
-<h4 id="toc_40">接口示例</h4>
+<h4 id="toc_44">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/record/getMyRecords?page=0&amp;county=huxian&amp;token=DJ_ssuG_vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4">http://api.jinxiansen.com/record/getMyRecords?page=0&amp;county=huxian&amp;token=DJ<em>ssuG</em>vEpnt4te1ho2fK2PqmhPxaSo5B9SoXxnfn4</a></p>
 
-<h5 id="toc_41">请求参数</h5>
+<h5 id="toc_45">请求参数</h5>
 
 <table>
 <thead>
@@ -1200,7 +1256,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_42">返回字段</h4>
+<h4 id="toc_46">返回字段</h4>
 
 <table>
 <thead>
@@ -1250,7 +1306,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_43">返回示例</h4>
+<h4 id="toc_47">返回示例</h4>
 
 <div><pre><code class="language-none"> {
     &quot;status&quot;: 0,
@@ -1273,9 +1329,9 @@ kbd {
 <p>record/report</p>
 </blockquote>
 
-<h5 id="toc_44">请求方式：POST</h5>
+<h5 id="toc_48">请求方式：POST</h5>
 
-<h5 id="toc_45">请求参数</h5>
+<h5 id="toc_49">请求参数</h5>
 
 <table>
 <thead>
@@ -1321,7 +1377,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_46">返回字段</h4>
+<h4 id="toc_50">返回字段</h4>
 
 <table>
 <thead>
@@ -1346,7 +1402,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_47">返回示例</h4>
+<h4 id="toc_51">返回示例</h4>
 
 <div><pre><code class="language-none"> {
     &quot;status&quot;: 0,
@@ -1367,9 +1423,9 @@ kbd {
 <p>words/word</p>
 </blockquote>
 
-<h5 id="toc_48">请求方式：GET</h5>
+<h5 id="toc_52">请求方式：GET</h5>
 
-<h5 id="toc_49">请求参数</h5>
+<h5 id="toc_53">请求参数</h5>
 
 <table>
 <thead>
@@ -1391,7 +1447,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_50">返回字段</h4>
+<h4 id="toc_54">返回字段</h4>
 
 <table>
 <thead>
@@ -1451,11 +1507,11 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_51">接口示例</h4>
+<h4 id="toc_55">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/words/word?str=%E4%B8%AD">http://api.jinxiansen.com/words/word?str=中</a></p>
 
-<h4 id="toc_52">返回示例</h4>
+<h4 id="toc_56">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -1480,13 +1536,13 @@ kbd {
 <p>words/idiom</p>
 </blockquote>
 
-<h5 id="toc_53">请求方式：GET</h5>
+<h5 id="toc_57">请求方式：GET</h5>
 
-<h4 id="toc_54">接口示例</h4>
+<h4 id="toc_58">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/words/idiom?str=%E6%B0%B4%E6%80%A7">http://api.jinxiansen.com/words/idiom?str=水性</a></p>
 
-<h5 id="toc_55">请求参数</h5>
+<h5 id="toc_59">请求参数</h5>
 
 <table>
 <thead>
@@ -1508,7 +1564,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_56">返回字段</h4>
+<h4 id="toc_60">返回字段</h4>
 
 <table>
 <thead>
@@ -1563,7 +1619,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_57">返回示例</h4>
+<h4 id="toc_61">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -1603,13 +1659,13 @@ kbd {
 <p>words/xxidiom</p>
 </blockquote>
 
-<h5 id="toc_58">请求方式：GET</h5>
+<h5 id="toc_62">请求方式：GET</h5>
 
-<h4 id="toc_59">接口示例</h4>
+<h4 id="toc_63">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/words/xxidiom?str=%E8%8F%A9%E8%90%A8">http://api.jinxiansen.com/words/xxidiom?str=菩萨</a></p>
 
-<h5 id="toc_60">请求参数</h5>
+<h5 id="toc_64">请求参数</h5>
 
 <table>
 <thead>
@@ -1631,7 +1687,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_61">返回字段</h4>
+<h4 id="toc_65">返回字段</h4>
 
 <table>
 <thead>
@@ -1666,7 +1722,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_62">返回示例</h4>
+<h4 id="toc_66">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -1688,9 +1744,9 @@ kbd {
 <p>sendEmail</p>
 </blockquote>
 
-<h5 id="toc_63">请求方式：POST</h5>
+<h5 id="toc_67">请求方式：POST</h5>
 
-<h5 id="toc_64">请求参数</h5>
+<h5 id="toc_68">请求参数</h5>
 
 <table>
 <thead>
@@ -1730,7 +1786,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_65">返回字段</h4>
+<h4 id="toc_69">返回字段</h4>
 
 <table>
 <thead>
@@ -1755,7 +1811,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_66">返回示例</h4>
+<h4 id="toc_70">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -1775,13 +1831,13 @@ kbd {
 <p>crawler/swiftDoc</p>
 </blockquote>
 
-<h5 id="toc_67">请求方式：GET</h5>
+<h5 id="toc_71">请求方式：GET</h5>
 
-<h4 id="toc_68">接口示例</h4>
+<h4 id="toc_72">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/crawler/swiftDoc">http://api.jinxiansen.com/crawler/swiftDoc</a></p>
 
-<h5 id="toc_69">请求参数</h5>
+<h5 id="toc_73">请求参数</h5>
 
 <table>
 <thead>
@@ -1803,7 +1859,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_70">返回字段</h4>
+<h4 id="toc_74">返回字段</h4>
 
 <table>
 <thead>
@@ -1828,7 +1884,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_71">返回示例</h4>
+<h4 id="toc_75">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;:0,
@@ -1854,13 +1910,13 @@ kbd {
 <p>crawler/query</p>
 </blockquote>
 
-<h5 id="toc_72">请求方式：GET</h5>
+<h5 id="toc_76">请求方式：GET</h5>
 
-<h4 id="toc_73">接口示例</h4>
+<h4 id="toc_77">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&amp;parse=div">http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&amp;parse=div</a></p>
 
-<h5 id="toc_74">请求参数</h5>
+<h5 id="toc_78">请求参数</h5>
 
 <table>
 <thead>
@@ -1888,7 +1944,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_75">返回字段</h4>
+<h4 id="toc_79">返回字段</h4>
 
 <table>
 <thead>
@@ -1913,7 +1969,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_76">返回示例</h4>
+<h4 id="toc_80">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -1938,7 +1994,7 @@ kbd {
 <a href="http://api.jinxiansen.com/h5/loader">Loader</a>
 <a href="http://api.jinxiansen.com/h5/login">Login</a></p>
 
-<h2 id="toc_77">反馈</h2>
+<h2 id="toc_81">反馈</h2>
 
 <p>如果有任何问题或建议，可以提一个 <a href="https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues">Issue</a></p>
 
