@@ -362,6 +362,31 @@
 [http://api.jinxiansen.com/record/image?name=be0bf2d70f6bbe05efbe2e89578ba84b.jpg](http://api.jinxiansen.com/record/image?name=be0bf2d70f6bbe05efbe2e89578ba84b.jpg)
 
 
+<h3 id="获取动态图片二">获取动态图片(2)</h3>
+
+在 URL 后面追加图片名称，见示例
+
+> record/image
+
+##### 请求方式：GET
+
+##### 请求参数
+
+|参数|必选|类型|说明|
+|:--|:---|:---|:--- |
+| 图片名称 | 是 | string | |
+
+#### 返回字段
+
+|返回字段|字段类型|说明 |
+|:----- |:------|:---|
+|返回一张图片|
+
+#### 接口示例
+  
+[http://api.jinxiansen.com/record/image/be0bf2d70f6bbe05efbe2e89578ba84b.jpg](http://api.jinxiansen.com/record/image/be0bf2d70f6bbe05efbe2e89578ba84b.jpg)
+
+
 
 <h3 id="获取我的动态列表">获取我的动态列表</h3>
 

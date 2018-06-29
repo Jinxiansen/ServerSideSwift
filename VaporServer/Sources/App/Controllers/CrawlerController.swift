@@ -59,7 +59,7 @@ extension CrawlerController {
                     items.append(Item(type: type ?? "", titles: titles))
                 }
                 return try ResponseJSON<[Item]>(status: .ok,
-                                                message: "解析成功",
+                                                message: "解析成功,解析地址：\(urlStr)",
                                                 data: items).encode(for: req)
             })
     }
@@ -102,7 +102,7 @@ extension CrawlerController {
                 items.append(Item(text: text, html: html))
             }
             return try ResponseJSON<[Item]>(status: .ok,
-                                            message: "解析成功",
+                                            message: "解析成功,解析地址：\(urlStr)",
                                             data: items).encode(for: req)
         })
     }

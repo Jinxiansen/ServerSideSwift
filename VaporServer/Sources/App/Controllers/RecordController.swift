@@ -21,7 +21,9 @@ class RecordController: RouteCollection {
             // record/getRecords 获取全部动态
             group.get("getRecords", use: getAllRecords)
             
+            //取图片的2种方式
             group.get("image", use: getRecordImage)
+            group.get("image",String.parameter, use: getRecordImage2)
             
             //获取我发布的动态。
             group.get("getMyRecords", use: getMyRecords)
@@ -109,14 +111,24 @@ extension RecordController {
         }
         
         let path = try VaporUtils.localRootDir(at: ImagePath.record, req: req) + "/" + name
-        
         if !FileManager.default.fileExists(atPath: path) {
             let json = ResponseJSON<Void>(status: .error, message: "图片不存在")
             return try json.encode(for: req)
         }
-        
         return try req.streamFile(at: path)
     }
+    
+    func getRecordImage2(_ req: Request) throws -> Future<Response> {
+        
+        let name = try req.parameters.next(String.self)
+        let path = try VaporUtils.localRootDir(at: ImagePath.record, req: req) + "/" + name
+        if !FileManager.default.fileExists(atPath: path) {
+            let json = ResponseJSON<Void>(status: .error, message: "图片不存在")
+            return try json.encode(for: req)
+        }
+        return try req.streamFile(at: path)
+    }
+    
     
     //TODO: 举报
     func reportUser(_ req: Request,container: ReportContainer) throws -> Future<Response> {
