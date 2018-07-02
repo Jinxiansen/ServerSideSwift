@@ -27,7 +27,7 @@ struct CrawlerController: RouteCollection {
             
             group.get("lagou", use: crawlerLaGouWebHandler)
             
-            group.get("lagou", use: requestDetailData)
+            group.get("lagou/para", use: requestDetailDataHandler)
         }
     }
 }
@@ -143,7 +143,11 @@ extension CrawlerController {
         let body = ReqBody(first: true, pn: 1, kd: "ios")
         
         //构造请求体。
-        let httpReq = HTTPRequest(method: .POST, url: url, headers: LGHeader)
+        var httpReq = HTTPRequest(method: .POST, url: url, headers: LGHeader)
+        let randomIP = self.randomIP()
+        httpReq.headers.add(name: "Host", value: "www.lagou.com")
+        httpReq.headers.add(name: "X-Real-IP", value: randomIP)
+        httpReq.headers.add(name: "X-Forwarded-For", value: randomIP)
         let postReq = Request(http: httpReq, using: req)
         try postReq.content.encode(body, as: .urlEncodedForm)
         
@@ -152,63 +156,53 @@ extension CrawlerController {
                 
                 let jsonString = clientResponse.http.body.utf8String
                 let data = jsonString.convertToData()
-                print("请求结果 = \n\n\(jsonString)\n\n")
-                do {
-                    let decode = JSONDecoder()
-                    let lgItem = try decode.decode(LGResponseItem.self, from: data)
+                let decode = JSONDecoder()
+                let lgItem = try decode.decode(LGResponseItem.self, from: data)
+                
+                if let result = lgItem.content?.positionResult?.result {
                     
-                    if let result = lgItem.content?.positionResult?.result {
-                        result.forEach({ (item) in
-                            _ = LGWorkItem.query(on: req)
-                                .filter(\.positionId == item.positionId)
-                                .first()
-                                .map({ (exist) in
+                    for index in 0..<result.count {
+                        let item = result[index]
+                        // I need sleep 120 seconds
+                        _ = LGWorkItem.query(on: req).filter(\.positionId == item.positionId).first().flatMap({ (exist) -> EventLoopFuture<LGWorkItem> in
+                            
+                            let fultureDetail = try self.requestDetailData(req, positionId: item.positionId)
+                            return fultureDetail.flatMap({ (detail) in
+                                
+                                if let exist = exist {
+                                    var updateItem = exist
+                                    updateItem.address = detail.address
+                                    updateItem.tag = detail.tag
+                                    updateItem.jobDesc = detail.jobDesc
                                     
-                                    if let exist = exist {
-                                        print("\(exist.positionId) 已存在\n")
-                                        sleep(300)
-                                    }else {
-                                        
-                                        _ = try self.requestDetailData(req, positionId: item.positionId).map({ (detail) in
-                                            
-                                            var saveItem = item
-                                            saveItem.address = detail.address
-                                            saveItem.tag = detail.tag
-                                            saveItem.jobDesc = detail.jobDesc
-                                            
-                                            _ = saveItem.save(on: req).map({ (item) in
-                                                print("当前时间:\(TimeManager.shared.currentTime())已保存: \(item.positionId))")
-                                                //休眠5分钟，请求太快会被拉勾兄封 IP。 在 Vapor 上实现虚拟代理 IP 还没找到合适的方案。
-                                                sleep(300)
-                                            })
-                                        })
-                                    }
-                                })
+                                    return updateItem.update(on: req).flatMap({ (update) in
+                                        debugPrint("已更新:\(TimeManager.shared.currentTime()) id:\(update.positionId))\n")
+                                        return req.eventLoop.newSucceededFuture(result: update)
+                                    })
+                                }else {
+                                    var saveItem = item
+                                    saveItem.address = detail.address
+                                    saveItem.tag = detail.tag
+                                    saveItem.jobDesc = detail.jobDesc
+                                    
+                                    return saveItem.save(on: req).flatMap({ (save) in
+                                        debugPrint("已保存:\(TimeManager.shared.currentTime()) id: \(save.positionId))\n")
+                                        return req.eventLoop.newSucceededFuture(result: save)
+                                    })
+                                }
+                            })
                         })
                     }
-                    
-                } catch {
-                    print("解析出错了： \(error)\n")
                 }
                 
                 return try ResponseJSON<String>(status: .ok, message: "目前爬了第一页", data: "共\(15) 条数据").encode(for: req)
             })
         } catch {
-            print("请求出错了： \(error)\n")
+            debugPrint("请求出错了： \(error)\n")
         }
         
         return try ResponseJSON<String>(status: .ok, message: "已爬完第一页", data: "共爬\(15) 条数据").encode(for: req)
         
-    }
-    
-    
-    func requestDetailData(_ req: Request) throws -> Future<Response> {
-        guard let positionId = req.query[Int.self, at: "id"] else {
-            return try ResponseJSON<Void>(status: .error, message: " 缺少 id").encode(for: req)
-        }
-        return try requestDetailData(req, positionId: positionId).flatMap({ (item) in
-            return try ResponseJSON<LGDetailItem>(data: item).encode(for: req)
-        })
     }
     
     //TODO: 请求详情页
@@ -220,7 +214,15 @@ extension CrawlerController {
             return req.eventLoop.newSucceededFuture(result: LGDetailItem(tag: "空", jobDesc: "空", address: "空"))
         }
         
-        return try req.client().get(url).flatMap(to: LGDetailItem.self, { (clientResp) in
+        //构造请求体。
+        var httpReq = HTTPRequest(method: .GET, url: url)
+        //        httpReq.headers.add(name: "Host", value: "www.lagou.com")
+        let randomIP = self.randomIP()
+        httpReq.headers.add(name: "X-Real-IP", value: randomIP)
+        httpReq.headers.add(name: "X-Forwarded-For", value: randomIP)
+        let getReq = Request(http: httpReq, using: req)
+        
+        return try req.client().send(getReq).flatMap(to: LGDetailItem.self, { (clientResp) in
             let html = clientResp.http.body.utf8String
             let document = try SwiftSoup.parse(html)
             
@@ -228,11 +230,29 @@ extension CrawlerController {
             
             let jobDesc = try document.select("dd[class='job_bt']").text()
             let address = try document.select("div[class='work_addr']").text().replacingOccurrences(of: "查看地图", with: "")
-            print("解析结果 = \(tag)\n\(jobDesc)\naddress: \(address)\n")
+            debugPrint("\(randomIP) 解析结果 = \(tag)\n\(jobDesc)\naddress: \(address)\n")
             
             return req.eventLoop.newSucceededFuture(result: LGDetailItem(tag: tag, jobDesc: jobDesc, address: address))
         })
     }
+    
+    
+    func requestDetailDataHandler(_ req: Request) throws -> Future<Response> {
+        guard let positionId = req.query[Int.self, at: "id"] else {
+            return try ResponseJSON<Void>(status: .error, message: " 缺少 id").encode(for: req)
+        }
+        return try requestDetailData(req, positionId: positionId).flatMap({ (item) in
+            return try ResponseJSON<LGDetailItem>(data: item).encode(for: req)
+        })
+    }
+    
+    
+    
+    func randomIP() -> String {
+        
+        return "\(Int(arc4random()%244) + 10).\(Int(arc4random()%244) + 10).\(Int(arc4random()%244) + 10).\(Int(arc4random()%244) + 10)"
+    }
+    
 }
 
 
