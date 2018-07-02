@@ -40,6 +40,29 @@ struct TestController: RouteCollection {
 
 
 extension TestController {
+    
+    func proxyTest(_ req: Request) {
+        
+        let config = URLSessionConfiguration.default
+        config.requestCachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
+        config.connectionProxyDictionary = [AnyHashable: Any]()
+        config.connectionProxyDictionary?[kCFNetworkProxiesHTTPEnable as String] = 1
+        config.connectionProxyDictionary?[kCFNetworkProxiesHTTPProxy as String] = "proxy-server.com"
+        config.connectionProxyDictionary?[kCFNetworkProxiesHTTPPort as String] = 8080
+        
+        let session = URLSession.init(configuration: config)
+        
+        let client = FoundationClient(session, on: req)
+        let httpReq: HTTPRequest = HTTPRequest(method: HTTPMethod.GET, url: "http://destinationsite.com")
+        
+        let req = Request(http: httpReq, using: req)
+        
+        _ = client.send(req).map { res in
+            debugPrint(res)
+            }.catchMap { err in
+                debugPrint(err)
+        }
+    }
 
     func sendGetRequest(req: Request) throws -> Future<String> {
         

@@ -17,7 +17,6 @@ struct LGWorkItem: BaseSQLModel {
     var adWord: Int?
     var appShow: Int?
     var approve: Int?
-    var businessZones: [String?]?
     var city: String?
     var companyFullName: String?
     var companyId: Int?
@@ -32,7 +31,6 @@ struct LGWorkItem: BaseSQLModel {
     var financeStage: String?
     var firstType: String?
     var formatCreateTime: String?
-    var hiTags: [String?]? //福利待遇
     var imState: String?
     var industryField: String?
 
@@ -45,7 +43,6 @@ struct LGWorkItem: BaseSQLModel {
     var pcShow: Int?
     var positionAdvantage: String?
     var positionId: Int
-    var positionLables: [String]? //职位标签
     var positionName: String?
     var publisherId: Int?
     var resumeProcessDay: Int?
@@ -59,7 +56,12 @@ struct LGWorkItem: BaseSQLModel {
     
     //以下注释数据是因为在 拉勾返回数据中要么一直是 null ，要么一会儿 null 一会儿 字符串数组，解析会崩。
     //目前 Vapor 的 MySQL 内部不支持 Codable 的这种解析，我已经提了1个 issue ，
-    //详情见： 
+    //详情见：
+    
+//    var positionLables: [String]? //职位标签
+//    var hiTags: [String?]? //福利待遇
+//    var businessZones: [String?]?
+    
     //var explain: AnyObject!
     //var gradeDescription: AnyObject!
     //var companyLabelList: [String?]?
