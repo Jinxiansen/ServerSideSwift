@@ -15,7 +15,9 @@ let LGHeader: HTTPHeaders = [
     "User-Agent":"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36     (KHTML, like Gecko) Chrome/59.0.3071.115 Mobile Safari/537.36",
     "Referer":"https://www.lagou.com/jobs/list_ios"]
 
-struct CrawlerController: RouteCollection {
+class CrawlerController: RouteCollection {
+    
+    var timer: Scheduled<()>?
     
     func boot(router: Router) throws {
         
@@ -25,10 +27,31 @@ struct CrawlerController: RouteCollection {
             
             group.get("query", use: crawlerQueryHandler)
             
-            group.get("lagou", use: crawlerLaGouWebHandler)
-            
-            group.get("lagou/para", use: requestDetailDataHandler)
+            #if os(macOS)
+                group.get("lagou/para", use: requestDetailDataHandler)
+                group.get("lagou/start", use: startTimer)
+                group.get("lagou/cancel", use: cancelTimer)
+            #endif
         }
+    }
+}
+
+extension CrawlerController {
+    
+    func startTimer(_ req: Request) throws -> Future<Response> {
+        
+        //未完，待续。
+        let timer = req.eventLoop.scheduleTask(in: TimeAmount.seconds(3)) {
+            _ = try self.crawlerLaGouWebHandler(req)
+            print(TimeManager.shared.currentTime())
+        }
+        self.timer = timer
+        return try ResponseJSON<Void>(status: .ok, message: "开始任务").encode(for: req)
+    }
+    
+    func cancelTimer(_ req: Request) throws -> Future<Response> {
+        self.timer?.cancel()
+        return try ResponseJSON<Void>(status: .ok, message: "已取消").encode(for: req)
     }
 }
 
@@ -160,7 +183,7 @@ extension CrawlerController {
                 let lgItem = try decode.decode(LGResponseItem.self, from: data)
                 
                 if let result = lgItem.content?.positionResult?.result {
-                    
+                   
                     for index in 0..<result.count {
                         let item = result[index]
                         // I need sleep 120 seconds

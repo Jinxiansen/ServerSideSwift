@@ -13,7 +13,7 @@ struct LoginUser: BaseSQLModel {
     var userID: String?
     
     static var entity: String { return self.name + "s" }
-
+    
     private(set) var account: String
     var password: String
  
