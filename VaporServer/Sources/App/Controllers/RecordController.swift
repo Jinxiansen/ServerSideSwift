@@ -12,6 +12,7 @@ import FluentMySQL
 
 class RecordController: RouteCollection {
     
+    
     func boot(router: Router) throws {
         
         router.group("record") { (group) in
@@ -198,11 +199,9 @@ extension RecordController {
             })
         })
     }
-    
-    
-    
-    
+
 }
+
 
 struct PageContainer: Content {
     var page: Int
