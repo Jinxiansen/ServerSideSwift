@@ -27,8 +27,8 @@ class HTMLController: RouteCollection {
             group.get("keyboard", use: keyboard)
             group.get("color", use: color)
             group.get("line", use: line)
+            
         }
-        
         
     }
     
@@ -36,6 +36,7 @@ class HTMLController: RouteCollection {
 }
 
 extension HTMLController {
+
     
     func api(_ req: Request) throws -> Future<View> {
         

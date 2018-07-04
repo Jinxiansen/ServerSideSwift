@@ -10,7 +10,7 @@ import Vapor
 import SwiftSoup
 import FluentMySQL
 
-private let crawlerInterval = TimeAmount.minutes(1) // 间隔1分钟
+private let crawlerInterval = TimeAmount.minutes(2) // 间隔2分钟
 
 class CrawlerController: RouteCollection {
     
@@ -28,11 +28,11 @@ class CrawlerController: RouteCollection {
             
             group.get("query", use: crawlerQueryHandler)
             
-            #if os(macOS)
-                group.get("lagou/para", use: requestDetailDataHandler)
-                group.get("lagou/start", use: startTimer)
-                group.get("lagou/cancel", use: cancelTimer)
-            #endif
+            group.get("lg_ios", use: readLGIOSJSON)
+            
+            group.get("lagou/para", use: requestDetailDataHandler)
+            group.get("lagou/start", use: startTimer)
+            group.get("lagou/cancel", use: cancelTimer)
         }
     }
 }
@@ -40,6 +40,14 @@ class CrawlerController: RouteCollection {
 extension CrawlerController {
     
     func startTimer(_ req: Request) throws -> Future<Response> {
+        
+        #if os(Linux)
+        if let hostName = req.http.remotePeer.hostname?.description {
+            if !hostName.contains("localhost") && !hostName.contains("127.0.0.1") {
+                return try ResponseJSON<Empty>(status: .error, message: "无权访问").encode(for: req)
+            }
+        }
+        #endif
         
         guard self.timer == nil else {
             return try ResponseJSON<Empty>(status: .error, message: "正在运行，请先调用 Cancel api").encode(for: req)
@@ -319,11 +327,18 @@ extension CrawlerController {
     }
     
     
+    func readLGIOSJSON(_ req: Request) throws -> Future<Response> {
+        
+        return LGWorkItem.query(on: req).all().flatMap({ (items) in
+            return try ResponseJSON<[LGWorkItem]>(data: items).encode(for: req)
+        })
+    }
     
     func randomIP() -> String {
         
         return "\(Int(arc4random()%244) + 10).\(Int(arc4random()%244) + 10).\(Int(arc4random()%244) + 10).\(Int(arc4random()%244) + 10)"
     }
+    
     
 }
 
