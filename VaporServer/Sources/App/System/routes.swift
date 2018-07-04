@@ -9,8 +9,11 @@ public func routes(_ router: Router) throws {
     }
 
     router.get("vapor") { req in
-        
         return "Hello, vapor! "
+    }
+    
+    router.get("version") { (req) in
+        return req.description
     }
     
     // Example of configuring a controlle
