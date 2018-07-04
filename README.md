@@ -24,7 +24,7 @@ Currently listed in the document [API](Source/API.md) has been deployed in a for
 ##### Projects are deployed at [http://api.jinxiansen.com](http://api.jinxiansen.com)
 
 ## View
-[User related](Source/API.md/#user)
+[User Related](Source/API.md/#user)
 
 - [x] [Registration](Source/API.md/#注册)
 - [x] [Login](Source/API.md/#登录)
@@ -33,7 +33,7 @@ Currently listed in the document [API](Source/API.md) has been deployed in a for
 - [x] [Modify user info](Source/API.md/#修改用户信息)
 - [x] [Logout](Source/API.md/#退出登录)
 
-[dynamically related](Source/API.md/#动态)
+[Dynamically Related](Source/API.md/#动态)
 
 - [x] [Posting News](Source/API.md/#发布动态)
 - [x] [Get all dynamic list](Source/API.md/#获取全部动态列表)
@@ -47,12 +47,12 @@ Currently listed in the document [API](Source/API.md) has been deployed in a for
 - [x] [Idiom Query](Source/API.md/#成语查询)
 - [x] [Check Post Query](Source/API.md/#歇后语查询)
 
-About crawler
+[About Crawler](Source/API.md/#爬虫)
 
-- [x] [crawler iOS](Source/API.md/#拉勾iOS)
+- [x] [Crawler iOS](Source/API.md/#拉勾iOS)
 - [x] [Get iOS crawler results](Source/API.md/#获取iOS爬取结果)
-- [x] [crawler example](Source/API.md/#爬虫示例)
-- [x] [custom crawler](Source/API.md/#自定义爬虫)
+- [x] [Crawler example](Source/API.md/#爬虫示例)
+- [x] [Custom crawler](Source/API.md/#自定义爬虫)
 
 
 [Others](Source/API.md/#发送邮件)
