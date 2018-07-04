@@ -7,7 +7,7 @@
 
 import Vapor
 
-struct Void: Content {}
+struct Empty: Content {}
 
 struct ResponseJSON<T: Content>: Content {
     
