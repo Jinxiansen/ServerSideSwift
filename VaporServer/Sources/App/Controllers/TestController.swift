@@ -9,6 +9,7 @@ import Foundation
 import Vapor
 import Fluent
 import FluentMySQL
+import Random
 
 struct TestController: RouteCollection {
     
@@ -26,8 +27,9 @@ struct TestController: RouteCollection {
             group.post("post1UserInfo", use: post1UserInfoHandler)
             group.post(UserContainer.self, at: "post2UserInfo", use: post2UserInfoHandler)
             
-            
             group.get("doc", use: sendGetRequest)
+            
+            group.get("random", use: testRandom)
         }
         
     }
@@ -36,28 +38,15 @@ struct TestController: RouteCollection {
 
 
 extension TestController {
-
-    func proxyTest(_ req: Request) {
+    
+    func testRandom(_ req: Request) throws -> Future<Response> {
+        let a: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
+        let b: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
+        let c: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
+        let d: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
         
-        let config = URLSessionConfiguration.default
-        config.requestCachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
-        config.connectionProxyDictionary = [AnyHashable: Any]()
-        config.connectionProxyDictionary?[kCFNetworkProxiesHTTPEnable as String] = 1
-        config.connectionProxyDictionary?[kCFNetworkProxiesHTTPProxy as String] = "proxy-server.com"
-        config.connectionProxyDictionary?[kCFNetworkProxiesHTTPPort as String] = 8080
-        
-        let session = URLSession.init(configuration: config)
-        
-        let client = FoundationClient(session, on: req)
-        let httpReq: HTTPRequest = HTTPRequest(method: HTTPMethod.GET, url: "http://destinationsite.com")
-        
-        let req = Request(http: httpReq, using: req)
-        
-        _ = client.send(req).map { res in
-            debugPrint(res)
-            }.catchMap { err in
-                debugPrint(err)
-        }
+        let ip = "\(a).\(b).\(c).\(d)"
+        return try ResponseJSON<String>(status: .ok, message: "success", data: ip).encode(for: req)
     }
 
     func sendGetRequest(req: Request) throws -> Future<String> {
