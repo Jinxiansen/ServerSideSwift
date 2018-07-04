@@ -38,6 +38,8 @@
 
 爬虫相关
 
+- [拉勾 iOS](#拉勾iOS)
+- [获取拉勾iOS爬取结果](#获取iOS爬取结果)
 - [爬虫示例](#爬虫示例)
 - [自定义爬虫示例](#自定义爬虫)
 
@@ -727,6 +729,132 @@
 <h2 id="爬虫">爬虫</h2>
 
 这里只是简单展示了如何解析URL，你可以在此基础扩展使用，爬取目标URL并解析和创建 SQL Model 保存数据库，然后添加 API 调用，美滋滋。☺️
+
+<h3 id="拉勾iOS">拉勾网iOS爬取示例</h3>
+
+拉勾网爬虫示例，目标地址： [https://www.lagou.com/jobs/list_ios?labelWords=&fromSearch=true&suginput=](https://www.lagou.com/jobs/list_ios?labelWords=&fromSearch=true&suginput=)
+
+
+> crawler/lagou/start
+
+##### 请求方式：GET
+
+#### 接口示例
+
+请运行项目后开始爬取：[http://localhost:8080/crawler/lagou/start](http://localhost:8080/crawler/lagou/start)
+
+
+ <details> 
+  <summary> 查看爬取结果 </summary>
+	http://api.jinxiansen.com/crawler/lagou/ios
+
+</details> 
+
+##### 请求参数
+
+|参数|必选|类型|说明|
+|:--|:---|:---|:--- |
+| 无 |  | | |
+
+#### 返回字段
+
+|返回字段|字段类型|说明 |
+|:----- |:------|:---|
+| status | int | 0 = 请求成功 |
+| message | string | 描述 |
+
+
+#### 返回示例
+
+你可以修改项目中的城市和关键字，以爬取自己需要的数据。
+
+```
+{
+    "status":0,
+    "message":"开始爬取任务：上海 ios"
+}
+```
+
+<h3 id="获取iOS爬取结果">获取iOS爬取结果</h3>
+
+> crawler/lagou/ios
+
+##### 请求方式：GET
+
+#### 接口示例
+
+[http://api.jinxiansen.com/crawler/lagou/ios](http://api.jinxiansen.com/crawler/lagou/ios)
+
+##### 请求参数
+
+|参数|必选|类型|说明|
+|:--|:---|:---|:--- |
+| 无 | | | |
+
+#### 返回字段
+
+|返回字段|字段类型|说明 |
+|:----- |:------|:---|
+| status | int | 0 = 请求成功 |
+| message | string | 描述 |
+
+
+#### 返回示例
+
+```
+{
+    "status":0,
+    "message":"请求成功",
+    "data":[
+        {
+            "industryField":"移动互联网,金融",
+            "firstType":"开发/测试/运维类",
+            "positionAdvantage":"亿级平台,准上市,极客文化,比较",
+            "id":1,
+            "education":"本科",
+            "imState":"today",
+            "workYear":"3-5年",
+            "secondType":"前端开发/移动开发",
+            "appShow":0,
+            "address":"上海 - 徐汇区 - 桂平路391号新漕河泾国际商务中心A座5层 ",
+            "adWord":0,
+            "resumeProcessDay":1,
+            "companySize":"500-2000人",
+            "salary":"15k-25k",
+            "score":0,
+            "subwayline":"9号线",
+            "district":"徐汇区",
+            "tag":"15k-25k /上海 / 经验3-5年 / 本科及以上 / 全职 高级 中级 移动端 iOS Android 09:13 发布于拉勾网",
+            "formatCreateTime":"09:13发布",
+            "stationname":"东兰路",
+            "pcShow":0,
+            "resumeProcessRate":100,
+            "approve":1,
+            "longitude":"121.40391",
+            "positionId":4806768,
+            "city":"上海",
+            "companyId":1738,
+            "positionName":"ios开发",
+            "publisherId":105490,
+            "isSchoolJob":0,
+            "companyShortName":"有鱼金融科技",
+            "financeStage":"不需要融资",
+            "companyLogo":"i/image/M00/61/D3/CgqKkVf8uQeAOqJ2AAArfl5skXY149.png",
+            "companyFullName":"上海彩亿信息技术有限公司",
+            "lastLogin":1530686988000,
+            "createTime":"2018-07-04 09:13:17",
+            "jobNature":"全职",
+            "deliver":0,
+            "linestaion":"9号线_漕河泾开发区;12号线_东兰路;12号线_虹梅路;12号线_虹漕路",
+            "jobDesc":"职位描述： 职位描述： 岗位职责： 1、负责IOS移动端的产品开发及维护； 2、独立完成产品需求的整理和软件设计； 3、高效完成开发任务，提交高质量代码； 4、优化移动端产品的质量、性能、用户体验。 任职资格： 1、本科及以上学历，计算机相关专业，具有独立开发能力； 2、掌握Objective-C语言的特性，精通内存管理、多线程、响应式链条、绘图等； 3、熟练使用IOS主流开发工具、开源框架，如Cocoa touch、Xcode、IOS SDK等； 4、熟悉UI组件以及原理，对交互有造诣者优先； 5、了解算法、数据库、底层架构者优先； 6、逻辑思维强，有钻研精神，Github上有贡献优秀代码者优先； 7、乐观开朗，善于团队合作，有强烈的责任心。",
+            "latitude":"31.164019"
+        }
+    ]
+}
+ 
+```
+
+
 
 <h3 id="爬虫示例">爬虫示例</h3>
 
