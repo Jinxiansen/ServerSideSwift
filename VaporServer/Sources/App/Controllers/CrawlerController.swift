@@ -9,6 +9,7 @@ import Foundation
 import Vapor
 import SwiftSoup
 import FluentMySQL
+import Random
 
 private let crawlerInterval = TimeAmount.minutes(2) // 间隔2分钟
 
@@ -199,7 +200,7 @@ extension CrawlerController {
         
         //构造请求体。
         var httpReq = HTTPRequest(method: .POST, url: url, headers: LGHeader)
-        let randomIP = self.randomIP()
+        let randomIP = try self.randomIP(req)
         httpReq.headers.add(name: "Host", value: "www.lagou.com")
         httpReq.headers.add(name: "X-Real-IP", value: randomIP)
         httpReq.headers.add(name: "X-Forwarded-For", value: randomIP)
@@ -297,8 +298,8 @@ extension CrawlerController {
         
         //构造请求体。
         var httpReq = HTTPRequest(method: .GET, url: url)
-        //        httpReq.headers.add(name: "Host", value: "www.lagou.com")
-        let randomIP = self.randomIP()
+
+        let randomIP = try self.randomIP(req)
         httpReq.headers.add(name: "X-Real-IP", value: randomIP)
         httpReq.headers.add(name: "X-Forwarded-For", value: randomIP)
         let getReq = Request(http: httpReq, using: req)
@@ -335,9 +336,14 @@ extension CrawlerController {
         })
     }
     
-    func randomIP() -> String {
+    func randomIP(_ req: Request) throws -> String {
+        let a: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
+        let b: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
+        let c: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
+        let d: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
         
-        return "\(Int(arc4random()%244) + 10).\(Int(arc4random()%244) + 10).\(Int(arc4random()%244) + 10).\(Int(arc4random()%244) + 10)"
+        let ip = "\(a).\(b).\(c).\(d)"
+        return ip
     }
     
     
