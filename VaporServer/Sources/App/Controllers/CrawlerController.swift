@@ -200,7 +200,7 @@ extension CrawlerController {
         
         //构造请求体。
         var httpReq = HTTPRequest(method: .POST, url: url, headers: LGHeader)
-        let randomIP = try self.randomIP(req)
+        let randomIP = self.randomIP()
         httpReq.headers.add(name: "Host", value: "www.lagou.com")
         httpReq.headers.add(name: "X-Real-IP", value: randomIP)
         httpReq.headers.add(name: "X-Forwarded-For", value: randomIP)
@@ -299,7 +299,7 @@ extension CrawlerController {
         //构造请求体。
         var httpReq = HTTPRequest(method: .GET, url: url)
 
-        let randomIP = try self.randomIP(req)
+        let randomIP = self.randomIP()
         httpReq.headers.add(name: "X-Real-IP", value: randomIP)
         httpReq.headers.add(name: "X-Forwarded-For", value: randomIP)
         let getReq = Request(http: httpReq, using: req)
@@ -336,11 +336,11 @@ extension CrawlerController {
         })
     }
     
-    func randomIP(_ req: Request) throws -> String {
-        let a: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
-        let b: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
-        let c: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
-        let d: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
+    func randomIP() -> String {
+        let a: Int = Int(SimpleRandom.random(10...254))
+        let b: Int = Int(SimpleRandom.random(10...254))
+        let c: Int = Int(SimpleRandom.random(10...254))
+        let d: Int = Int(SimpleRandom.random(10...254))
         
         let ip = "\(a).\(b).\(c).\(d)"
         return ip

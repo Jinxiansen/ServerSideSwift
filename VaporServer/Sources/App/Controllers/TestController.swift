@@ -30,6 +30,12 @@ struct TestController: RouteCollection {
             group.get("doc", use: sendGetRequest)
             
             group.get("random", use: testRandom)
+            
+//            router.get("process") { (req: Request) -> Future<String> in
+//                // asyncExecute returns a Future<Int32> where the value is the exit code of the process
+//                Process.asyncExecute("/bin/bash", ["/Users/zsolt/test.sh"], on: req) { _ in }
+//                .map { $0.description }
+//            }
         }
         
     }
@@ -39,11 +45,12 @@ struct TestController: RouteCollection {
 
 extension TestController {
     
+    
     func testRandom(_ req: Request) throws -> Future<Response> {
-        let a: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
-        let b: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
-        let c: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
-        let d: Int = abs(try (OSRandom().generate(Int.self) % 244)) + 10
+        let a: Int = Int(SimpleRandom.random(10...254))
+        let b: Int = Int(SimpleRandom.random(10...254))
+        let c: Int = Int(SimpleRandom.random(10...254))
+        let d: Int = Int(SimpleRandom.random(10...254))
         
         let ip = "\(a).\(b).\(c).\(d)"
         return try ResponseJSON<String>(status: .ok, message: "success", data: ip).encode(for: req)
