@@ -12,6 +12,9 @@ import FluentMySQL
 
 private let crawlerInterval = TimeAmount.minutes(2) // 间隔2分钟
 
+private let city = "上海" //搜索城市
+private let key = "ios" //搜索关键词
+
 class CrawlerController: RouteCollection {
     
     var timer: Scheduled<()>?
@@ -28,7 +31,7 @@ class CrawlerController: RouteCollection {
             
             group.get("query", use: crawlerQueryHandler)
             
-            group.get("lg_ios", use: readLGIOSJSON)
+            group.get("lagou/ios", use: readLGIOSJSON)
             
             group.get("lagou/para", use: requestDetailDataHandler)
             group.get("lagou/start", use: startTimer)
@@ -55,7 +58,7 @@ extension CrawlerController {
         
          _ = try self.crawlerLaGouWebHandler(req)
 
-        return try ResponseJSON<Empty>(status: .ok, message: "开始任务").encode(for: req)
+        return try ResponseJSON<Empty>(status: .ok, message: "开始爬取任务：\(city) \(key)").encode(for: req)
     }
     
     func cancelTimer(_ req: Request) throws -> Future<Response> {
@@ -174,8 +177,6 @@ extension CrawlerController {
     
     func crawlerLaGouWebHandler(_ req: Request) throws -> Future<Response> {
         
-        let city = "上海" //搜索城市
-        let key = "ios" //搜索关键词
         guard let urlStr = "https://www.lagou.com/jobs/positionAjax.json?city=\(city)&needAddtionalResult=false&isSchoolJob=0".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             return try ResponseJSON<Empty>(status: .error, message: "URL 转码错误").encode(for: req)
         }
