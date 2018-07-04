@@ -20,7 +20,7 @@ func foo(on container: Container) {
         return Future.map(on: container){ "timer running" }
     }
     future.do{ msg in
-        print(msg + " \(arc4random())")
+        print(msg )
         }.catch{ error in
             print("\(error.localizedDescription)")
     }
