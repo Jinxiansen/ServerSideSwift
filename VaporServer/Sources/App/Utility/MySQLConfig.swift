@@ -50,7 +50,7 @@ extension MySQLConfig {
                 port = base.port
             }else {
                 PrintLogger().warning("数据库配置读取失败： 目录 \(path) 不存在！")
-                Abort.init(.gone)
+                Abort(.gone)
             }
         }
         #endif

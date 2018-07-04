@@ -27,10 +27,6 @@ struct TestController: RouteCollection {
             group.post(UserContainer.self, at: "post2UserInfo", use: post2UserInfoHandler)
             
             
-            
-            
-            
-            
             group.get("doc", use: sendGetRequest)
         }
         
@@ -40,7 +36,7 @@ struct TestController: RouteCollection {
 
 
 extension TestController {
-    
+
     func proxyTest(_ req: Request) {
         
         let config = URLSessionConfiguration.default
@@ -109,7 +105,7 @@ extension TestController {
             if let image = receive.image {
                 
                 guard image.count < ImageMaxByteSize else {
-                    return try ResponseJSON<Void>(status: .error, message: "有点大，得压缩！").encode(for: req)
+                    return try ResponseJSON<Empty>(status: .error, message: "有点大，得压缩！").encode(for: req)
                 }
                 
                 try Data(image).write(to: URL(fileURLWithPath: path))
