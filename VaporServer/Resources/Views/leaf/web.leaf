@@ -375,6 +375,8 @@ kbd {
 <p>爬虫相关</p>
 
 <ul>
+<li><a href="#%E6%8B%89%E5%8B%BEiOS">拉勾 iOS</a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96iOS%E7%88%AC%E5%8F%96%E7%BB%93%E6%9E%9C">获取拉勾iOS爬取结果</a></li>
 <li><a href="#%E7%88%AC%E8%99%AB%E7%A4%BA%E4%BE%8B">爬虫示例</a></li>
 <li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%88%AC%E8%99%AB">自定义爬虫示例</a></li>
 </ul>
@@ -1823,19 +1825,25 @@ kbd {
 
 <p>这里只是简单展示了如何解析URL，你可以在此基础扩展使用，爬取目标URL并解析和创建 SQL Model 保存数据库，然后添加 API 调用，美滋滋。☺️</p>
 
-<h3 id="爬虫示例">爬虫示例</h3>
+<h3 id="拉勾iOS">拉勾网iOS爬取示例</h3>
 
-<p>爬虫示例，目标地址： <a href="http://swiftdoc.org">http://swiftdoc.org</a></p>
+<p>拉勾网爬虫示例，目标地址： <a href="https://www.lagou.com/jobs/list_ios?labelWords=&amp;fromSearch=true&amp;suginput=">https://www.lagou.com/jobs/list_ios?labelWords=&amp;fromSearch=true&amp;suginput=</a></p>
 
 <blockquote>
-<p>crawler/swiftDoc</p>
+<p>crawler/lagou/start</p>
 </blockquote>
 
 <h5 id="toc_71">请求方式：GET</h5>
 
 <h4 id="toc_72">接口示例</h4>
 
-<p><a href="http://api.jinxiansen.com/crawler/swiftDoc">http://api.jinxiansen.com/crawler/swiftDoc</a></p>
+<p>请运行项目后开始爬取：<a href="http://localhost:8080/crawler/lagou/start">http://localhost:8080/crawler/lagou/start</a></p>
+
+<p><details> 
+  <summary> 查看爬取结果 </summary>
+    http://api.jinxiansen.com/crawler/lagou/ios</p>
+
+<p></details> </p>
 
 <h5 id="toc_73">请求参数</h5>
 
@@ -1886,35 +1894,24 @@ kbd {
 
 <h4 id="toc_75">返回示例</h4>
 
+<p>你可以修改项目中的城市和关键字，以爬取自己需要的数据。</p>
+
 <div><pre><code class="language-none">{
     &quot;status&quot;:0,
-    &quot;message&quot;:&quot;解析成功&quot;,
-    &quot;data&quot;:[
-        {
-            &quot;type&quot;:&quot;Types&quot;,
-            &quot;titles&quot;:[
-                &quot;AnyBidirectionalCollection&quot;,
-                &quot;AnyCollection&quot;,
-                &quot;AnyHashable&quot;,
-                &quot;Zip2Iterator&quot;,
-                &quot;Zip2Sequence&quot;
-            ]
-        }
-    ]
-}
- </code></pre></div>
+    &quot;message&quot;:&quot;开始爬取任务：上海 ios&quot;
+}</code></pre></div>
 
-<h3 id="自定义爬虫">自定义爬虫地址和规则</h3>
+<h3 id="获取iOS爬取结果">获取iOS爬取结果</h3>
 
 <blockquote>
-<p>crawler/query</p>
+<p>crawler/lagou/ios</p>
 </blockquote>
 
 <h5 id="toc_76">请求方式：GET</h5>
 
 <h4 id="toc_77">接口示例</h4>
 
-<p><a href="http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&amp;parse=div">http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&amp;parse=div</a></p>
+<p><a href="http://api.jinxiansen.com/crawler/lagou/ios">http://api.jinxiansen.com/crawler/lagou/ios</a></p>
 
 <h5 id="toc_78">请求参数</h5>
 
@@ -1930,16 +1927,10 @@ kbd {
 
 <tbody>
 <tr>
-<td style="text-align: left">url</td>
-<td style="text-align: left">是</td>
-<td style="text-align: left">string</td>
-<td style="text-align: left">目标 URL</td>
-</tr>
-<tr>
-<td style="text-align: left">parse</td>
-<td style="text-align: left">是</td>
-<td style="text-align: left">string</td>
-<td style="text-align: left">爬取规则标签,例如 <code>title</code>,<code>div</code>,<code>div,li</code> ,更多请参考 <a href="https://github.com/scinfu/SwiftSoup">https://github.com/scinfu/SwiftSoup</a></td>
+<td style="text-align: left">无</td>
+<td style="text-align: left"></td>
+<td style="text-align: left"></td>
+<td style="text-align: left"></td>
 </tr>
 </tbody>
 </table>
@@ -1972,6 +1963,205 @@ kbd {
 <h4 id="toc_80">返回示例</h4>
 
 <div><pre><code class="language-none">{
+    &quot;status&quot;:0,
+    &quot;message&quot;:&quot;请求成功&quot;,
+    &quot;data&quot;:[
+        {
+            &quot;industryField&quot;:&quot;移动互联网,金融&quot;,
+            &quot;firstType&quot;:&quot;开发/测试/运维类&quot;,
+            &quot;positionAdvantage&quot;:&quot;亿级平台,准上市,极客文化,比较&quot;,
+            &quot;id&quot;:1,
+            &quot;education&quot;:&quot;本科&quot;,
+            &quot;imState&quot;:&quot;today&quot;,
+            &quot;workYear&quot;:&quot;3-5年&quot;,
+            &quot;secondType&quot;:&quot;前端开发/移动开发&quot;,
+            &quot;appShow&quot;:0,
+            &quot;address&quot;:&quot;上海 - 徐汇区 - 桂平路391号新漕河泾国际商务中心A座5层 &quot;,
+            &quot;adWord&quot;:0,
+            &quot;resumeProcessDay&quot;:1,
+            &quot;companySize&quot;:&quot;500-2000人&quot;,
+            &quot;salary&quot;:&quot;15k-25k&quot;,
+            &quot;score&quot;:0,
+            &quot;subwayline&quot;:&quot;9号线&quot;,
+            &quot;district&quot;:&quot;徐汇区&quot;,
+            &quot;tag&quot;:&quot;15k-25k /上海 / 经验3-5年 / 本科及以上 / 全职 高级 中级 移动端 iOS Android 09:13 发布于拉勾网&quot;,
+            &quot;formatCreateTime&quot;:&quot;09:13发布&quot;,
+            &quot;stationname&quot;:&quot;东兰路&quot;,
+            &quot;pcShow&quot;:0,
+            &quot;resumeProcessRate&quot;:100,
+            &quot;approve&quot;:1,
+            &quot;longitude&quot;:&quot;121.40391&quot;,
+            &quot;positionId&quot;:4806768,
+            &quot;city&quot;:&quot;上海&quot;,
+            &quot;companyId&quot;:1738,
+            &quot;positionName&quot;:&quot;ios开发&quot;,
+            &quot;publisherId&quot;:105490,
+            &quot;isSchoolJob&quot;:0,
+            &quot;companyShortName&quot;:&quot;有鱼金融科技&quot;,
+            &quot;financeStage&quot;:&quot;不需要融资&quot;,
+            &quot;companyLogo&quot;:&quot;i/image/M00/61/D3/CgqKkVf8uQeAOqJ2AAArfl5skXY149.png&quot;,
+            &quot;companyFullName&quot;:&quot;上海彩亿信息技术有限公司&quot;,
+            &quot;lastLogin&quot;:1530686988000,
+            &quot;createTime&quot;:&quot;2018-07-04 09:13:17&quot;,
+            &quot;jobNature&quot;:&quot;全职&quot;,
+            &quot;deliver&quot;:0,
+            &quot;linestaion&quot;:&quot;9号线_漕河泾开发区;12号线_东兰路;12号线_虹梅路;12号线_虹漕路&quot;,
+            &quot;jobDesc&quot;:&quot;职位描述： 职位描述： 岗位职责： 1、负责IOS移动端的产品开发及维护； 2、独立完成产品需求的整理和软件设计； 3、高效完成开发任务，提交高质量代码； 4、优化移动端产品的质量、性能、用户体验。 任职资格： 1、本科及以上学历，计算机相关专业，具有独立开发能力； 2、掌握Objective-C语言的特性，精通内存管理、多线程、响应式链条、绘图等； 3、熟练使用IOS主流开发工具、开源框架，如Cocoa touch、Xcode、IOS SDK等； 4、熟悉UI组件以及原理，对交互有造诣者优先； 5、了解算法、数据库、底层架构者优先； 6、逻辑思维强，有钻研精神，Github上有贡献优秀代码者优先； 7、乐观开朗，善于团队合作，有强烈的责任心。&quot;,
+            &quot;latitude&quot;:&quot;31.164019&quot;
+        }
+    ]
+}
+ </code></pre></div>
+
+<h3 id="爬虫示例">爬虫示例</h3>
+
+<p>爬虫示例，目标地址： <a href="http://swiftdoc.org">http://swiftdoc.org</a></p>
+
+<blockquote>
+<p>crawler/swiftDoc</p>
+</blockquote>
+
+<h5 id="toc_81">请求方式：GET</h5>
+
+<h4 id="toc_82">接口示例</h4>
+
+<p><a href="http://api.jinxiansen.com/crawler/swiftDoc">http://api.jinxiansen.com/crawler/swiftDoc</a></p>
+
+<h5 id="toc_83">请求参数</h5>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th style="text-align: left">必选</th>
+<th style="text-align: left">类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">无</td>
+<td style="text-align: left"></td>
+<td style="text-align: left"></td>
+<td style="text-align: left"></td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_84">返回字段</h4>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">返回字段</th>
+<th style="text-align: left">字段类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">status</td>
+<td style="text-align: left">int</td>
+<td style="text-align: left">0 = 请求成功</td>
+</tr>
+<tr>
+<td style="text-align: left">message</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">描述</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_85">返回示例</h4>
+
+<div><pre><code class="language-none">{
+    &quot;status&quot;:0,
+    &quot;message&quot;:&quot;解析成功&quot;,
+    &quot;data&quot;:[
+        {
+            &quot;type&quot;:&quot;Types&quot;,
+            &quot;titles&quot;:[
+                &quot;AnyBidirectionalCollection&quot;,
+                &quot;AnyCollection&quot;,
+                &quot;AnyHashable&quot;,
+                &quot;Zip2Iterator&quot;,
+                &quot;Zip2Sequence&quot;
+            ]
+        }
+    ]
+}
+ </code></pre></div>
+
+<h3 id="自定义爬虫">自定义爬虫地址和规则</h3>
+
+<blockquote>
+<p>crawler/query</p>
+</blockquote>
+
+<h5 id="toc_86">请求方式：GET</h5>
+
+<h4 id="toc_87">接口示例</h4>
+
+<p><a href="http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&amp;parse=div">http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&amp;parse=div</a></p>
+
+<h5 id="toc_88">请求参数</h5>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th style="text-align: left">必选</th>
+<th style="text-align: left">类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">url</td>
+<td style="text-align: left">是</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">目标 URL</td>
+</tr>
+<tr>
+<td style="text-align: left">parse</td>
+<td style="text-align: left">是</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">爬取规则标签,例如 <code>title</code>,<code>div</code>,<code>div,li</code> ,更多请参考 <a href="https://github.com/scinfu/SwiftSoup">https://github.com/scinfu/SwiftSoup</a></td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_89">返回字段</h4>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">返回字段</th>
+<th style="text-align: left">字段类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">status</td>
+<td style="text-align: left">int</td>
+<td style="text-align: left">0 = 请求成功</td>
+</tr>
+<tr>
+<td style="text-align: left">message</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">描述</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_90">返回示例</h4>
+
+<div><pre><code class="language-none">{
     &quot;status&quot;: 0,
     &quot;message&quot;: &quot;解析成功&quot;,
     &quot;data&quot;: [
@@ -1994,7 +2184,7 @@ kbd {
 <a href="http://api.jinxiansen.com/h5/loader">Loader</a>
 <a href="http://api.jinxiansen.com/h5/login">Login</a></p>
 
-<h2 id="toc_81">反馈</h2>
+<h2 id="toc_91">反馈</h2>
 
 <p>如果有任何问题或建议，可以提一个 <a href="https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues">Issue</a></p>
 
