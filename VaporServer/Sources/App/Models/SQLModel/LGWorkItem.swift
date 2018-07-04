@@ -54,26 +54,95 @@ struct LGWorkItem: BaseSQLModel {
     var subwayline: String?
     var workYear: String?
     
-    //以下注释数据是因为在 拉勾返回数据中要么一直是 null ，要么一会儿 null 一会儿 字符串数组，解析会崩。
-    //目前 Vapor 的 MySQL 内部不支持 Codable 的这种解析，我已经提了1个 issue ，
-    //详情见：
-    
-//    var positionLables: [String]? //职位标签
-//    var hiTags: [String?]? //福利待遇
-//    var businessZones: [String?]?
-    
-    //var explain: AnyObject!
-    //var gradeDescription: AnyObject!
-    //var companyLabelList: [String?]?
-    //var industryLables: [String]? // 行业标签
-    //var plus: String? // 不确定类型
-    //var promotionScoreExplain: Any?
-    
     // 构造的详情数据
     var tag: String?
     var jobDesc: String?
     var address: String?
     
+    
+    //以下注释数据是因为在 拉勾返回数据中要么一直是 null ，要么一会儿 null 一会儿 字符串数组，解析会崩。
+    //目前 Vapor 的 MySQL 内部不支持 Codable 的这种解析，我已经提了1个 issue ，
+    //详情见： https://github.com/vapor/mysql/issues/195
+    
+//    var positionLables: String? //职位标签
+//    var hiTags: String? //福利待遇
+//    var businessZones: String?
+//    var explain: String?
+//    var gradeDescription: String?
+//
+//    var companyLabelList: String?
+//    var industryLables: String? // 行业标签
+//    var plus: String? // 不确定类型
+//    var promotionScoreExplain: String?
+    
+}
+
+extension LGWorkItem {
+    
+    static func prepare(on connection: MySQLConnection) -> Future<Void> {
+        return Database.create(self, on: connection, closure: { (builder) in
+            builder.field(for: \.id, isIdentifier: true)
+            builder.field(for: \.adWord)
+            builder.field(for: \.appShow)
+            builder.field(for: \.approve)
+            builder.field(for: \.companyId)
+            builder.field(for: \.deliver)
+            builder.field(for: \.isSchoolJob)
+            builder.field(for: \.lastLogin)
+            
+            builder.field(for: \.city)
+            builder.field(for: \.companyFullName)
+            builder.field(for: \.companyLogo)
+            builder.field(for: \.companyShortName)
+            builder.field(for: \.companySize)
+            builder.field(for: \.createTime)
+            builder.field(for: \.district)
+            builder.field(for: \.education)
+            
+            builder.field(for: \.financeStage)
+            builder.field(for: \.firstType)
+            builder.field(for: \.formatCreateTime)
+            builder.field(for: \.imState)
+            builder.field(for: \.industryField)
+            
+            builder.field(for: \.jobNature)
+            builder.field(for: \.latitude)
+            builder.field(for: \.linestaion)
+            builder.field(for: \.longitude)
+            builder.field(for: \.pcShow)
+            builder.field(for: \.positionAdvantage)
+            builder.field(for: \.positionId)
+            builder.field(for: \.positionName)
+            builder.field(for: \.publisherId)
+            builder.field(for: \.resumeProcessDay)
+            builder.field(for: \.resumeProcessRate)
+            builder.field(for: \.salary)
+            builder.field(for: \.score)
+            builder.field(for: \.secondType)
+            builder.field(for: \.stationname)
+            builder.field(for: \.subwayline)
+            builder.field(for: \.workYear)
+            
+//            builder.field(for: \.positionLables)
+//            builder.field(for: \.hiTags)
+//            builder.field(for: \.businessZones)
+//            builder.field(for: \.explain)
+//            builder.field(for: \.gradeDescription)
+//
+//            builder.field(for: \.companyLabelList)
+//            builder.field(for: \.industryLables)
+//            builder.field(for: \.plus)
+//            builder.field(for: \.promotionScoreExplain)
+            
+            builder.field(for: \.address)
+            builder.field(for: \.jobDesc, type: .text)
+            builder.field(for: \.tag, type: .text)
+        })
+    }
+    
+    static func revert(on connection: MySQLConnection) -> Future<Void> {
+        return Database.delete(self, on: connection)
+    }
 }
 
 
