@@ -41,7 +41,8 @@ extension CrawlerLog {
             builder.field(for: \.id, isIdentifier: true)
             builder.field(for: \.title)
             builder.field(for: \.time)
-
+            builder.field(for: \.createdAt)
+            builder.field(for: \.updatedAt)
             builder.field(for: \.content, type: .text)
             builder.field(for: \.desc, type: .text)
         })

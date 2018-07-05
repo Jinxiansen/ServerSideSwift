@@ -239,7 +239,11 @@ extension CrawlerController {
         let d = desc ?? ""
         let t = TimeManager.currentTime()
         debugPrint( t + c + "\n" + d + "\n")
-        _ = CrawlerLog(title: self.logTitle(), content: content, time: t, desc: desc).save(on: req)
+        let log = CrawlerLog(title: self.logTitle(), content: content, time: t, desc: desc)
+        log.save(on: req).whenFailure { (error) in
+            debugPrint( "\(error)" + "\n")
+        }
+        _ = log.save(on: req)
     }
     
     func logTitle() -> String {
