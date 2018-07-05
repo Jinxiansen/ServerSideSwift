@@ -1,5 +1,5 @@
 <p align="center">
-    <img height="120" src="images/icon.png"/>
+    <img src="images/icon.png"/>
 </p>
 
 本项目开源在：[https://github.com/Jinxiansen/SwiftServerSide-Vapor](https://github.com/Jinxiansen/SwiftServerSide-Vapor)
