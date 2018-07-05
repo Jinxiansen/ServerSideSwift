@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img height="80" src="Source/icon.png"/>
+    <img height="80" src="Source/icon2.png"/>
     <br>
     <br>
     <a href="http://swift.org">
