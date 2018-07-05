@@ -697,9 +697,7 @@
 
 #### 接口示例
 
-请运行项目后查看效果
-
-[http://localhost:8080/crawler/lagou/start](http://localhost:8080/crawler/lagou/start)
+请运行项目后开始爬取：[http://localhost:8080/crawler/lagou/start](http://localhost:8080/crawler/lagou/start)
 
 
  <details> 
