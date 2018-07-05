@@ -21,6 +21,10 @@ struct TimeManager {
     func currentTime() -> String {
         return matter.string(from: Date())
     }
+    
+    static func currentTime() -> String {
+        return self.shared.matter.string(from: Date())
+    }
 }
 
 

@@ -13,9 +13,6 @@ import Random
 
 private let crawlerInterval = TimeAmount.minutes(2) // 间隔2分钟
 
-private let city = "上海" //搜索城市
-private let key = "ios" //搜索关键词
-
 class CrawlerController: RouteCollection {
     
     var timer: Scheduled<()>?
@@ -24,19 +21,22 @@ class CrawlerController: RouteCollection {
     var filterIndex: Int = 0
     var result: [LGWorkItem]?
     
+    var searchCity = "上海" //搜索城市
+    var searchKey = "ios" //搜索关键词
+    
     func boot(router: Router) throws {
         
-        router.group("crawler") { (group) in
+        router.group("crawler") { (crawler) in
             
-            group.get("swiftDoc", use: crawlerSwiftDocHandler)
+            crawler.get("swiftDoc", use: crawlerSwiftDocHandler)
+            crawler.get("query", use: crawlerQueryHandler)
             
-            group.get("query", use: crawlerQueryHandler)
-            
-            group.get("lagou/ios", use: readLGIOSJSON)
-            
-            group.get("lagou/para", use: requestDetailDataHandler)
-            group.get("lagou/start", use: startTimer)
-            group.get("lagou/cancel", use: cancelTimer)
+            let lagou = crawler.grouped("lagou").grouped(LocalHostMiddleware.self)
+            lagou.get("ios", use: readLGIOSJSON)
+            lagou.get("para", use: requestDetailDataHandler)
+            lagou.get("start", use: startTimer)
+            lagou.get("cancel", use: cancelTimer)
+            lagou.get("getLogs", use: getCrawlerLogHandler)
         }
     }
 }
@@ -45,33 +45,34 @@ extension CrawlerController {
     
     func startTimer(_ req: Request) throws -> Future<Response> {
         
-        #if os(Linux)
-        if let hostName = req.http.remotePeer.hostname?.description {
-            if !hostName.contains("localhost") && !hostName.contains("127.0.0.1") {
-                return try ResponseJSON<Empty>(status: .error, message: "无权访问").encode(for: req)
-            }
-        }
-        #endif
-        
         guard self.timer == nil else {
             return try ResponseJSON<Empty>(status: .error, message: "正在运行，请先调用 Cancel api").encode(for: req)
         }
         
+        if let city = req.query[String.self, at: "city"],let key = req.query[String.self, at: "key"] {
+            self.searchCity = city
+            self.searchKey = key
+        }
+        
          _ = try self.crawlerLaGouWebHandler(req)
 
-        return try ResponseJSON<Empty>(status: .ok, message: "开始爬取任务：\(city) \(key)").encode(for: req)
+        return try ResponseJSON<Empty>(status: .ok, message: "开始爬取任务：\(searchCity) \(searchKey)").encode(for: req)
     }
     
     func cancelTimer(_ req: Request) throws -> Future<Response> {
         self.timer?.cancel()
-        return try ResponseJSON<Empty>(status: .ok, message: "已取消").encode(for: req)
+        self.timer = nil
+        let content = "已取消"
+        self.saveLog(req: req, content: content)
+        return try ResponseJSON<Empty>(status: .ok, message: content).encode(for: req)
     }
     
     func runRepeatTimer(_ req: Request) throws {
         
         if let result = self.result,result.count > 0 {
             if self.filterIndex == result.count - 1 {
-                debugPrint("第\(page)页已爬完。\n")
+
+                self.saveLog(req: req, content: "第\(page)页已爬完。\n")
                 page += 1
                 _ = try self.crawlerLaGouWebHandler(req)
                 return
@@ -79,7 +80,6 @@ extension CrawlerController {
         }
             
         self.timer = req.eventLoop.scheduleTask(in: crawlerInterval) {
-            debugPrint("当前运行时间：" + TimeManager.shared.currentTime())
             _ = try self.parseResultHandler(req)
         }
     }
@@ -178,7 +178,7 @@ extension CrawlerController {
     
     func crawlerLaGouWebHandler(_ req: Request) throws -> Future<Response> {
         
-        guard let urlStr = "https://www.lagou.com/jobs/positionAjax.json?city=\(city)&needAddtionalResult=false&isSchoolJob=0".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+        guard let urlStr = "https://www.lagou.com/jobs/positionAjax.json?city=\(searchCity)&needAddtionalResult=false&isSchoolJob=0".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             return try ResponseJSON<Empty>(status: .error, message: "URL 转码错误").encode(for: req)
         }
         
@@ -188,7 +188,7 @@ extension CrawlerController {
         
         let LGHeader: HTTPHeaders = [
             "User-Agent":"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36     (KHTML, like Gecko) Chrome/59.0.3071.115 Mobile Safari/537.36",
-            "Referer":"https://www.lagou.com/jobs/list_\(key)"]
+            "Referer":"https://www.lagou.com/jobs/list_\(searchKey)"]
         
         struct ReqBody: Content {
             var first: Bool = false //是否第一页
@@ -196,7 +196,7 @@ extension CrawlerController {
             var kd: String //搜索关键字
         }
         //第一页 first = true
-        let body = ReqBody(first: page == 1 ? true: false, pn: page, kd: key)
+        let body = ReqBody(first: page == 1 ? true: false, pn: page, kd: searchKey)
         
         //构造请求体。
         var httpReq = HTTPRequest(method: .POST, url: url, headers: LGHeader)
@@ -218,18 +218,31 @@ extension CrawlerController {
                 self.result = result
                 self.filterIndex = 0
                 
-                print("取到第\(self.page)页,\(result.count)条数据 -> 启动定时器：" + TimeManager.shared.currentTime())
+                let content = "取到第\(self.page)页,\(result.count)条数据 -> 启动定时器:\(TimeManager.currentTime())"
+                self.saveLog(req: req, content: content)
                 try self.runRepeatTimer(req) //取到数据开始定时解析
                 
                 return try ResponseJSON<Empty>(status: .ok, message: "爬到\(result.count)条数据").encode(for: req)
             }else {
-                self.timer?.cancel()
+                _ = try self.cancelTimer(req)
+                let content = "没有数据了，任务已取消"
+                self.saveLog(req: req ,content: content)
+                return try ResponseJSON<Empty>(status: .error, message: content).encode(for: req)
             }
-            return try ResponseJSON<Empty>(status: .error, message: "没有数据了，任务已取消").encode(for: req)
         })
-        
     }
     
+    func saveLog(req: Request,content: String?,desc: String? = nil) {
+        let c = content ?? ""
+        let d = desc ?? ""
+        let t = TimeManager.currentTime()
+        debugPrint( t + c + "\n" + d + "\n")
+        _ = CrawlerLog(title: self.logTitle(), content: content, time: t, desc: desc).save(on: req)
+    }
+    
+    func logTitle() -> String {
+        return "\(searchCity)-\(searchKey)"
+    }
     
     func parseResultHandler(_ req: Request) throws -> Future<LGWorkItem?> {
         
@@ -252,7 +265,7 @@ extension CrawlerController {
                     self.filterIndex += 1
                     try self.runRepeatTimer(req)
                     return exist.update(on: req).flatMap({ (update) in
-                        debugPrint("已更新:\(TimeManager.shared.currentTime()) id:\(update.positionId))\n")
+                        self.saveLog(req: req, content: "已更新 positionId:\(update.positionId))\n")
                         return req.eventLoop.newSucceededFuture(result: update)
                     })
                 }else {
@@ -274,12 +287,12 @@ extension CrawlerController {
                     
                     let save = newItem.save(on: req)
                     save.whenFailure({ (error) in
-                        debugPrint("保存失败: \(error)\n")
+                        self.saveLog(req: req, content: "保存失败: \(error)\n")
                     })
                     self.filterIndex += 1
                     try self.runRepeatTimer(req)
                     return save.flatMap({ (saveResult) in
-                        debugPrint("已保存:\(TimeManager.shared.currentTime()) id: \(saveResult.positionId))\n")
+                        self.saveLog(req: req, content: "第\(self.page)页,第\(self.filterIndex)条数据", desc: "已保存 positionId:\(saveResult.positionId)")
                         return req.eventLoop.newSucceededFuture(result: saveResult)
                     })
                 }
@@ -312,8 +325,10 @@ extension CrawlerController {
             
             let jobDesc = try document.select("dd[class='job_bt']").text()
             let address = try document.select("div[class='work_addr']").text().replacingOccurrences(of: "查看地图", with: "")
-            debugPrint("\(randomIP) 解析结果 = \(tag)\n\n")
             
+            let content = "\(randomIP) 解析结果 = \(tag)\n\n"
+            
+            self.saveLog(req: req, content: content, desc: html)
             return req.eventLoop.newSucceededFuture(result: LGDetailItem(tag: tag, jobDesc: jobDesc, address: address))
         })
     }
@@ -336,6 +351,19 @@ extension CrawlerController {
         })
     }
     
+    func getCrawlerLogHandler(_ req: Request) throws -> Future<Response> {
+        
+        guard let city = req.query[String.self, at: "city"],let key = req.query[String.self, at: "key"] else {
+            return try ResponseJSON<Empty>(status: .error, message: "缺少 key 或 city 参数").encode(for: req)
+        }
+        let title = "\(city)-\(key)"
+        let all = CrawlerLog.query(on: req).filter(\.title == title).all()
+        return all.flatMap({ (logs) in
+            return try ResponseJSON<[CrawlerLog]>(data: logs).encode(for: req)
+        })
+    }
+    
+    
     func randomIP() -> String {
         let a: Int = Int(SimpleRandom.random(10...254))
         let b: Int = Int(SimpleRandom.random(10...254))
@@ -345,7 +373,6 @@ extension CrawlerController {
         let ip = "\(a).\(b).\(c).\(d)"
         return ip
     }
-    
     
 }
 

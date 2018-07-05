@@ -12,11 +12,16 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     
     // Leaf
     try services.register(LeafProvider())
+    
     config.prefer(LeafRenderer.self, for: ViewRenderer.self)
     
     // 认证
     services.register(DirectoryConfig.detect())
     try services.register(AuthenticationProvider())
+    
+    
+    // router middle
+    services.register(LocalHostMiddleware())
 
     /// Register routes to the router
     let router = EngineRouter.default()
@@ -75,6 +80,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: Report.self, database: .mysql)
     migrations.add(model: UserInfo.self, database: .mysql)
     migrations.add(model: LGWorkItem.self, database: .mysql)
+    migrations.add(model: CrawlerLog.self, database: .mysql)
     
     services.register(migrations)
     
