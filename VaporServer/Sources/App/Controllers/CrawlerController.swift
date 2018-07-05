@@ -49,13 +49,15 @@ extension CrawlerController {
             return try ResponseJSON<Empty>(status: .error, message: "正在运行，请先调用 Cancel api").encode(for: req)
         }
         
-        if let city = req.query[String.self, at: "city"],let key = req.query[String.self, at: "key"] {
-            self.searchCity = city
-            self.searchKey = key
+        guard let city = req.query[String.self, at: "city"],let key = req.query[String.self, at: "key"] else {
+            return try ResponseJSON<Empty>(status: .error, message: "缺少 key 或 city 参数").encode(for: req)
         }
         
+        self.searchCity = city
+        self.searchKey = key
+        
          _ = try self.crawlerLaGouWebHandler(req)
-
+        
         return try ResponseJSON<Empty>(status: .ok, message: "开始爬取任务：\(searchCity) \(searchKey)").encode(for: req)
     }
     
