@@ -328,7 +328,7 @@ kbd {
 <body>
 
 <p align="center">
-    <img height="120" src="images/icon.png"/>
+    <img src="images/icon.png"/>
 </p>
 
 <p>本项目开源在：<a href="https://github.com/Jinxiansen/SwiftServerSide-Vapor">https://github.com/Jinxiansen/SwiftServerSide-Vapor</a></p>
