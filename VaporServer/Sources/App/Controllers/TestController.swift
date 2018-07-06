@@ -11,6 +11,7 @@ import Fluent
 import FluentMySQL
 import Random
 
+// 这里是测试 controller 
 struct TestController: RouteCollection {
     
     func boot(router: Router) throws {
@@ -33,6 +34,11 @@ struct TestController: RouteCollection {
             
             group.post("postCity", use: postCityHandler)
             
+            group.post("send") { req -> Future<Response> in
+                let city: String = try req.content.syncGet(at: "city")
+                return try ["hello":city].encode(for: req)
+            }
+            
 //            router.get("process") { (req: Request) -> Future<String> in
 //                // asyncExecute returns a Future<Int32> where the value is the exit code of the process
 //                Process.asyncExecute("/bin/bash", ["/Users/zsolt/test.sh"], on: req) { _ in }
@@ -46,7 +52,13 @@ struct TestController: RouteCollection {
 
 
 extension TestController {
+    
+    // post
+    func postCityHandler(_ req: Request) throws -> Future<Response> {
+        let name: String = try req.content.syncGet(at: "city")
 
+        return try ResponseJSON<Empty>(status: .ok,message: name).encode(for: req)
+    }
     
     func deleteRecord(_ req: Request) throws -> Future<Response> {
         
