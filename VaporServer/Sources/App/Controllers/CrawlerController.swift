@@ -32,7 +32,7 @@ class CrawlerController: RouteCollection {
             crawler.get("query", use: crawlerQueryHandler)
             
             let lagou = crawler.grouped("lagou").grouped(LocalHostMiddleware.self)
-            lagou.get("ios", use: readLGIOSJSON)
+            lagou.get("getInfo", use: getWorksInfoHandler)
             lagou.get("para", use: requestDetailDataHandler)
             lagou.get("start", use: startTimer)
             lagou.get("cancel", use: cancelTimer)
@@ -350,9 +350,19 @@ extension CrawlerController {
     }
     
     
-    func readLGIOSJSON(_ req: Request) throws -> Future<Response> {
+    func getWorksInfoHandler(_ req: Request) throws -> Future<Response> {
         
-        return LGWorkItem.query(on: req).all().flatMap({ (items) in
+        guard let city = req.query[String.self, at: "city"],
+            let key = req.query[String.self, at: "key"],
+            let page = req.query[Int.self, at: "page"] else {
+                return try ResponseJSON<Empty>(status: .error, message: "缺少 key 或 city 参数").encode(for: req)
+        }
+        let all = LGWorkItem.query(on: req)
+            .filter(\.city,.like, "%\(city)%") //模糊查询包含city的
+            .filter(\.positionName,.like, "%\(key)%")
+            .range(VaporUtils.queryRange(page: page)).all()
+        
+        return all.flatMap({ (items) in
             return try ResponseJSON<[LGWorkItem]>(data: items).encode(for: req)
         })
     }
