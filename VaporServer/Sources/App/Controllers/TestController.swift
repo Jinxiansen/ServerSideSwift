@@ -46,6 +46,25 @@ struct TestController: RouteCollection {
 extension TestController {
     
     
+    // post
+    
+    func readCityHandler(_ req: Request) throws -> Future<Response> {
+        let name = try req.content.syncGet(String.self, at: "city")
+        return try ResponseJSON<Empty>.init(status: .ok,message: name).encode(for: req)
+    }
+    
+    func deleteRecord(_ req: Request) throws -> Future<Response> {
+        
+        return Record.find(3, on: req).flatMap { (record) in
+            guard let record = record else {
+                return try ResponseJSON<Empty>(status: .error, message: "not found").encode(for: req)
+            }
+            return record.delete(on: req).flatMap({ _ in
+                return try ResponseJSON<Empty>(status: .ok, message: "delete success").encode(for: req)
+            })
+        }
+    }
+    
     func testRandom(_ req: Request) throws -> Future<Response> {
         let a: Int = Int(SimpleRandom.random(10...254))
         let b: Int = Int(SimpleRandom.random(10...254))
