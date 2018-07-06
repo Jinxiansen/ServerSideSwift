@@ -32,6 +32,7 @@ class CrawlerController: RouteCollection {
             crawler.get("query", use: crawlerQueryHandler)
             
             let lagou = crawler.grouped("lagou").grouped(LocalHostMiddleware.self)
+            lagou.get("ios", use: readAllIOSItemsHandler)
             lagou.get("getInfo", use: getWorksInfoHandler)
             lagou.get("para", use: requestDetailDataHandler)
             lagou.get("start", use: startTimer)
@@ -349,6 +350,12 @@ extension CrawlerController {
         })
     }
     
+    func readAllIOSItemsHandler(_ req: Request) throws -> Future<Response> {
+        
+        return LGWorkItem.query(on: req).all().flatMap({ (items) in
+            return try ResponseJSON<[LGWorkItem]>(status: .ok, message: "共\(items.count)条数据", data: items).encode(for: req)
+        })
+    }
     
     func getWorksInfoHandler(_ req: Request) throws -> Future<Response> {
         
