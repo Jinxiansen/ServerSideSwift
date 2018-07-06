@@ -31,6 +31,8 @@ struct TestController: RouteCollection {
             
             group.get("random", use: testRandom)
             
+            group.post("postCity", use: postCityHandler)
+            
 //            router.get("process") { (req: Request) -> Future<String> in
 //                // asyncExecute returns a Future<Int32> where the value is the exit code of the process
 //                Process.asyncExecute("/bin/bash", ["/Users/zsolt/test.sh"], on: req) { _ in }
@@ -44,14 +46,7 @@ struct TestController: RouteCollection {
 
 
 extension TestController {
-    
-    
-    // post
-    
-    func readCityHandler(_ req: Request) throws -> Future<Response> {
-        let name = try req.content.syncGet(String.self, at: "city")
-        return try ResponseJSON<Empty>.init(status: .ok,message: name).encode(for: req)
-    }
+
     
     func deleteRecord(_ req: Request) throws -> Future<Response> {
         

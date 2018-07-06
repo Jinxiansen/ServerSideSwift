@@ -32,8 +32,8 @@ class CrawlerController: RouteCollection {
             crawler.get("query", use: crawlerQueryHandler)
             
             let lagou = crawler.grouped("lagou").grouped(LocalHostMiddleware.self)
-            lagou.get("ios", use: readAllIOSItemsHandler)
-            lagou.get("getInfo", use: getWorksInfoHandler)
+            lagou.get("ios", use: readAllIOSWorksHandler)
+            lagou.get("getWork", use: getWorksInfoHandler)
             lagou.get("para", use: requestDetailDataHandler)
             lagou.get("start", use: startTimer)
             lagou.get("cancel", use: cancelTimer)
@@ -87,94 +87,6 @@ extension CrawlerController {
         }
     }
 }
-
-extension CrawlerController {
-    
-    func crawlerSwiftDocHandler(_ req: Request) throws -> Future<Response> {
-        
-        let urlStr = "http://swiftdoc.org"
-        guard let url = URL(string: urlStr) else {
-            return try ResponseJSON<Empty>(status: .error,
-                                          message: "URL 错误").encode(for: req)
-        }
-        let client = try req.client()
-        return client.get(url)
-            .flatMap(to: Response.self, { clientResponse in
-                
-                struct Item: Content {
-                    var type: String
-                    var titles: [String]
-                }
-                let html = clientResponse.http.body.utf8String
-                let document = try SwiftSoup.parse(html)
-                
-                var items = [Item]()
-                let elements = try document.select("div[class='col-sm-12']")
-                for element in elements {
-                    
-                    let type = try? element.select("article[class='content']").select("h2").text()
-                    guard let mainlist = try? element.select("ul[class='main-list'],li").select("a") else {
-                        return try ResponseJSON<Empty>(status: .error,
-                                                      message: "节点 错误").encode(for: req)
-                    }
-                    var titles = [String]()
-                    for list in mainlist {
-                        let text = try list.text()
-                        titles.append(text)
-                    }
-                    items.append(Item(type: type ?? "", titles: titles))
-                }
-                return try ResponseJSON<[Item]>(status: .ok,
-                                                message: "解析成功,解析地址：\(urlStr)",
-                    data: items).encode(for: req)
-            })
-    }
-    
-    
-    func crawlerQueryHandler(_ req: Request) throws -> Future<Response> {
-        
-        guard let urlStr = req.query[String.self, at: "url"] else {
-            return try ResponseJSON<Empty>(status: .error,
-                                          message: "缺少 url 参数").encode(for: req)
-        }
-        
-        guard let parse = req.query[String.self, at: "parse"] else {
-            return try ResponseJSON<Empty>(status: .error,
-                                          message: "缺少 parse 参数").encode(for: req)
-        }
-        
-        guard let url = URL(string: urlStr) else {
-            return try ResponseJSON<Empty>(status: .error,
-                                          message: "url 错误").encode(for: req)
-        }
-        
-        return try req.make(FoundationClient.self)
-            .get(url)
-            .flatMap(to: Response.self, { (clientResponse) in
-                
-                let html = clientResponse.http.body.utf8String
-                let document = try SwiftSoup.parse(html)
-                let elements = try document.select(parse)
-                
-                struct Item: Content {
-                    var text: String?
-                    var html: String?
-                }
-                
-                var items = [Item]()
-                for element in elements {
-                    let text = try element.text()
-                    let html = try element.outerHtml()
-                    items.append(Item(text: text, html: html))
-                }
-                return try ResponseJSON<[Item]>(status: .ok,
-                                                message: "解析成功,解析地址：\(urlStr)",
-                    data: items).encode(for: req)
-            })
-    }
-    
-}
-
 
 //TODO: Static Func
 extension CrawlerController {
@@ -342,6 +254,7 @@ extension CrawlerController {
     
     
     func requestDetailDataHandler(_ req: Request) throws -> Future<Response> {
+        
         guard let positionId = req.query[Int.self, at: "id"] else {
             return try ResponseJSON<Empty>(status: .error, message: " 缺少 id").encode(for: req)
         }
@@ -350,9 +263,10 @@ extension CrawlerController {
         })
     }
     
-    func readAllIOSItemsHandler(_ req: Request) throws -> Future<Response> {
+    func readAllIOSWorksHandler(_ req: Request) throws -> Future<Response> {
         
-        return LGWorkItem.query(on: req).all().flatMap({ (items) in
+        let all = LGWorkItem.query(on: req).filter(\.positionName,.like,"%ios%").all()
+        return all.flatMap({ (items) in
             return try ResponseJSON<[LGWorkItem]>(status: .ok, message: "共\(items.count)条数据", data: items).encode(for: req)
         })
     }
@@ -395,6 +309,93 @@ extension CrawlerController {
         
         let ip = "\(a).\(b).\(c).\(d)"
         return ip
+    }
+    
+}
+
+extension CrawlerController {
+    
+    func crawlerSwiftDocHandler(_ req: Request) throws -> Future<Response> {
+        
+        let urlStr = "http://swiftdoc.org"
+        guard let url = URL(string: urlStr) else {
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: "URL 错误").encode(for: req)
+        }
+        let client = try req.client()
+        return client.get(url)
+            .flatMap(to: Response.self, { clientResponse in
+                
+                struct Item: Content {
+                    var type: String
+                    var titles: [String]
+                }
+                let html = clientResponse.http.body.utf8String
+                let document = try SwiftSoup.parse(html)
+                
+                var items = [Item]()
+                let elements = try document.select("div[class='col-sm-12']")
+                for element in elements {
+                    
+                    let type = try? element.select("article[class='content']").select("h2").text()
+                    guard let mainlist = try? element.select("ul[class='main-list'],li").select("a") else {
+                        return try ResponseJSON<Empty>(status: .error,
+                                                       message: "节点 错误").encode(for: req)
+                    }
+                    var titles = [String]()
+                    for list in mainlist {
+                        let text = try list.text()
+                        titles.append(text)
+                    }
+                    items.append(Item(type: type ?? "", titles: titles))
+                }
+                return try ResponseJSON<[Item]>(status: .ok,
+                                                message: "解析成功,解析地址：\(urlStr)",
+                    data: items).encode(for: req)
+            })
+    }
+    
+    
+    func crawlerQueryHandler(_ req: Request) throws -> Future<Response> {
+        
+        guard let urlStr = req.query[String.self, at: "url"] else {
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: "缺少 url 参数").encode(for: req)
+        }
+        
+        guard let parse = req.query[String.self, at: "parse"] else {
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: "缺少 parse 参数").encode(for: req)
+        }
+        
+        guard let url = URL(string: urlStr) else {
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: "url 错误").encode(for: req)
+        }
+        
+        return try req.make(FoundationClient.self)
+            .get(url)
+            .flatMap(to: Response.self, { (clientResponse) in
+                
+                let html = clientResponse.http.body.utf8String
+                let document = try SwiftSoup.parse(html)
+                let elements = try document.select(parse)
+                
+                struct Item: Content {
+                    var text: String?
+                    var html: String?
+                }
+                
+                var items = [Item]()
+                for element in elements {
+                    let text = try element.text()
+                    let html = try element.outerHtml()
+                    items.append(Item(text: text, html: html))
+                }
+                return try ResponseJSON<[Item]>(status: .ok,
+                                                message: "解析成功,解析地址：\(urlStr)",
+                    data: items).encode(for: req)
+            })
     }
     
 }
