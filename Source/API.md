@@ -9,41 +9,41 @@ example: [http://api.jinxiansen.com/words/idiom?str=天道](http://api.jinxianse
 
 [User Related / 用户相关](API.md/#用户)
 
-- [x] [register / 注册](API.md/#注册)
-- [x] [login / 登录](API.md/#登录)
-- [x] [change password / 修改密码](API.md/#修改密码)
-- [x] [get user info / 获取用户信息](API.md/#获取用户信息)
-- [x] [modify user info / 修改用户信息](API.md/#修改用户信息)
-- [x] [logout / 退出登录](API.md/#退出登录)
+- [x] [register](API.md/#注册)
+- [x] [login](API.md/#登录)
+- [x] [change password](API.md/#修改密码)
+- [x] [get user info ](API.md/#获取用户信息)
+- [x] [modify user info ](API.md/#修改用户信息)
+- [x] [logout ](API.md/#退出登录)
 
 [Dynamically Related / 动态相关](API.md/#动态)
 
-- [x] [posting news / 发布动态](API.md/#发布动态)
-- [x] [get all dynamic list / 获取全部动态列表](API.md/#获取全部动态列表)
-- [x] [get my dynamic list / 获取我的动态列表](API.md/#获取我的动态列表)
-- [x] [get dynamic image / 获取动态图片](API.md/#获取动态图片)
-- [x] [report / 举报](API.md/#举报)
+- [x] [posting news](API.md/#发布动态)
+- [x] [get all dynamic list ](API.md/#获取全部动态列表)
+- [x] [get my dynamic list](API.md/#获取我的动态列表)
+- [x] [get dynamic image ](API.md/#获取动态图片)
+- [x] [report ](API.md/#举报)
 
 [Dictionary Query / 字典查询](API.md/字典)
 
-- [x] [chinese query / 汉字查询](API.md/#汉字查询)
-- [x] [idiom query / 成语查询](API.md/#成语查询)
-- [x] [check post query / 歇后语查询](API.md/#歇后语查询)
+- [x] [chinese query ](API.md/#汉字查询)
+- [x] [idiom query ](API.md/#成语查询)
+- [x] [check post query ](API.md/#歇后语查询)
 
-[About Crawler](API.md/#爬虫)
+[Crawler Related / 爬虫](API.md/#爬虫)
 
-- [x] [crawler iOS / 拉勾iOS](API.md/#拉勾iOS)
-- [x] [get iOS crawler results / 获取iOS爬取结果](API.md/#获取iOS爬取结果)
-- [x] [crawler example / 爬虫示例](API.md/#爬虫示例)
-- [x] [custom crawler / 自定义爬虫](API.md/#自定义爬虫)
+- [x] [crawler iOS ](API.md/#拉勾iOS)
+- [x] [get iOS crawler results ](API.md/#获取iOS爬取结果)
+- [x] [crawler example ](API.md/#爬虫示例)
+- [x] [custom crawler](API.md/#自定义爬虫)
 
 
 [Others / 其他](API.md/#发送邮件)
 
-- [x] [send mail / 发送邮件](API.md/#发送邮件)
-- [x] [web deployment / 网页示例](API.md/#网页)
-- [x] [custom 404 middleware / 自定义404](VaporUsage.md/#自定义404)
-- [x] [custom access frequency middleware / 自定义中间件，比如控制访问频率](VaporUsage.md/#自定义访问频率)
+- [x] [send mail ](API.md/#发送邮件)
+- [x] [web deployment ](API.md/#网页)
+- [x] [custom 404 middleware ](VaporUsage.md/#自定义404)
+- [x] [custom access frequency middleware](VaporUsage.md/#自定义访问频率)
 - [ ] ...
 
 
