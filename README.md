@@ -14,7 +14,7 @@
     </a>
 </p>
 
-[中文文档🇨🇳](README_CN.md)
+[中文文档🇨🇳](README_CN.md) 
 
 This is a Swift server open source project based on the [Swift 4.1](https://swift.org) and [Vapor 3](http://vapor.codes) frameworks.
 
@@ -32,18 +32,19 @@ Currently listed in the document [API](Source/API.md) has been deployed in a for
 
 **Preliminary work of running the project:**
 
-[Ddownload](https://github.com/Jinxiansen/SwiftServerSide-Vapor/archive/master.zip) the project, [Install](Source/Install.md) Vapor3 and PostgreSQL.
 
-* [**Ddownload**](https://github.com/Jinxiansen/SwiftServerSide-Vapor/archive/master.zip) the project；
-* [**View**](Source/Install.md) Vapor 3 and PostgreSQL quick installation steps.
-	* If you prefer MySQL, you can see [here](https://github.com/Jinxiansen/SwiftServerSide-Vapor/tree/mysql).
+* [**Ddownload**](https://github.com/Jinxiansen/SwiftServerSide-Vapor/archive/master.zip) the server side swift project；
+* [**Learn**](Source/Install.md) how to `Vapor 3` and `PostgreSQL` quick installation steps.
 
 
-## Feedback ![](Source/z.jpg)
+> If you prefer MySQL, you can see [here](https://github.com/Jinxiansen/SwiftServerSide-Vapor/tree/mysql).
+
+
+## Feedback 
 
 If you have any questions or suggestions, you can submit a [Issue](https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues) ,or contact me: 
 
-Email : [@JinXiansen](hi@jinxiansen.com)
+Email : [@JinXiansen](hi@jinxiansen.com) 
 
 ## License 📄
 

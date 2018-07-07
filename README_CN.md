@@ -24,9 +24,7 @@
 
 ##### 项目部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) ，大部分 API 可直接在此进行调试。
 
-这里只是列举了一些基本的 API 和说明：
-
-> 更多内容建议 [下载](https://github.com/Jinxiansen/SwiftServerSide-Vapor) 项目，查看源码。
+这里只是列举了一些基本的 API 和说明，更多内容请下载项目查看。
 
 ## 预览
 
@@ -37,9 +35,11 @@
 **运行项目前的准备：**
 
 
-* [**下载**](https://github.com/Jinxiansen/SwiftServerSide-Vapor/archive/master.zip) 项目；
+* [**下载**](https://github.com/Jinxiansen/SwiftServerSide-Vapor/archive/master.zip) 当前项目；
 * [**查看**](Source/Install.md) Vapor 3 和 PostgreSQL 的快速安装步骤。
-	* 如果你偏爱 MySQL，可以查看 [这里](https://github.com/Jinxiansen/SwiftServerSide-Vapor/tree/mysql)
+
+>
+>  如果你偏爱 MySQL，可以查看 [这里](https://github.com/Jinxiansen/SwiftServerSide-Vapor/tree/mysql)
 
 ## 反馈 ![](Source/zz.jpg) 
 
