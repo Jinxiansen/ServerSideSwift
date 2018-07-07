@@ -21,8 +21,10 @@ swift --version
 
 You should see output similar to:
 
+```
 Apple Swift version 4.1.0 (swiftlang-900.0.69.2 clang-900.0.38)
 Target: x86_64-apple-macosx10.9
+```
 
 Vapor requires Swift 4.1 or greater.
 
@@ -41,6 +43,9 @@ Now whenever you want to know what services are running just execute:
 
 `brew services list`
 
+> You must install Homebrew before you can install vapor.
+
+
 ## Install Vapor
 
 Now that you have Swift 4.1, let's install the Vapor Toolbox.
@@ -52,7 +57,18 @@ brew install vapor/tap/vapor
 ```
 
 
-<h3 id="InstallPostgreSQL">Install PostgreSQL</h3>
+### Verify Installation
+
+Double check the installation was successful by opening Terminal and running:
+
+```
+vapor --help
+```
+
+You should see a long list of available commands.
+
+
+## Install PostgreSQL
 
 Installing PostgreSQL with Homebrew is so easy, what am I even here for 😄?
 
@@ -92,6 +108,6 @@ Now, you can open the project,
 3. wait for Xcode to run, click `Run` to start the project.
 
 
-
-Now let's get started! good luck! 🤝 🤝 
+### Done
+Now that you have installed Vapor, let's get started! good luck! 🤝 🤝 
 
