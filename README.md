@@ -16,12 +16,14 @@
 
 [中文文档🇨🇳](README_CN.md) 
 
-This is a Swift server open source project based on the [Swift 4.1](https://swift.org) and [Vapor 3](http://vapor.codes) frameworks.
+This is a Swift Server Side open source project build on the [Swift 4.1](https://swift.org) and [Vapor 3](http://vapor.codes) frameworks.
 
 Because of apple’s release of the cool event-driven non-blocking network framework [SwiftNIO](https://github.com/apple/swift-nio), Vapor 3 introduced it at a blazing pace, leading to Vapor2 and Vapor3. The grammar is very different. For me personally, it looks like the difference between Swift 2 -> Swift 3 is awkward. So I used Vapor 3 to rewrite part of the interface and open it for reference and communication with interested partners.
 Currently listed in the document [API](Source/API.md) has been deployed in a formal environment application, and will continue to be perfected as needed.
 
-##### Projects are deployed at [http://api.jinxiansen.com](http://api.jinxiansen.com)
+##### Projects are deployed at [http://api.jinxiansen.com](http://api.jinxiansen.com) , most api can be debugged directly here.
+
+Here are just a few basic API and instructions. For more information, please download the project.
 
 ## Preview
 
@@ -37,7 +39,7 @@ Currently listed in the document [API](Source/API.md) has been deployed in a for
 * [**Learn**](Source/Install.md) how to `Vapor 3` and `PostgreSQL` quick installation steps.
 
 
-> If you prefer MySQL, you can see [here](https://github.com/Jinxiansen/SwiftServerSide-Vapor/tree/mysql).
+> If you prefer mysql, you can see [here](https://github.com/Jinxiansen/SwiftServerSide-Vapor/tree/mysql).
 
 
 ## Feedback 
