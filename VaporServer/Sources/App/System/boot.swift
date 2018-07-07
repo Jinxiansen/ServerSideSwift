@@ -1,4 +1,5 @@
 import Vapor
+import FluentPostgreSQL
 
 /// Called after your application has initialized.
 
@@ -16,7 +17,7 @@ public func boot(_ app: Application) throws {
 
 func foo(on container: Container) {
     
-    let future = container.withPooledConnection(to: .mysql) { db in
+    let future = container.withPooledConnection(to: .psql) { db in
         return Future.map(on: container){ "timer running" }
     }
     future.do{ msg in

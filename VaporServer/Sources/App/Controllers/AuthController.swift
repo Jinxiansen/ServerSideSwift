@@ -8,7 +8,6 @@
 import Foundation
 import Vapor
 import Fluent
-import FluentMySQL
 import Crypto
 
 struct AuthController {

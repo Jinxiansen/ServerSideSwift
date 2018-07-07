@@ -7,7 +7,7 @@
 
 import Foundation
 import Vapor
-import FluentMySQL
+import FluentPostgreSQL
 
 struct LGWorkItem: BaseSQLModel {
     
@@ -79,7 +79,7 @@ struct LGWorkItem: BaseSQLModel {
 
 extension LGWorkItem {
     
-    static func prepare(on connection: MySQLConnection) -> Future<Void> {
+    static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
         return Database.create(self, on: connection, closure: { (builder) in
             builder.field(for: \.id, isIdentifier: true)
             builder.field(for: \.adWord)
@@ -140,7 +140,7 @@ extension LGWorkItem {
         })
     }
     
-    static func revert(on connection: MySQLConnection) -> Future<Void> {
+    static func revert(on connection: PostgreSQLConnection) -> Future<Void> {
         return Database.delete(self, on: connection)
     }
 }

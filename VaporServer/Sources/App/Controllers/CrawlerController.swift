@@ -8,8 +8,8 @@
 import Foundation
 import Vapor
 import SwiftSoup
-import FluentMySQL
 import Random
+import FluentPostgreSQL
 
 private let crawlerInterval = TimeAmount.minutes(2) // 间隔2分钟
 

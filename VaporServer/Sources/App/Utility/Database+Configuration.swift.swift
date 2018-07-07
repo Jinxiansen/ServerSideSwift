@@ -7,28 +7,18 @@
 
 import Foundation
 import Vapor
+import FluentPostgreSQL
 
-struct MySQLConfig {
+extension PostgreSQLDatabaseConfig {
     
-    var hostname: String
-    var port: Int
-    var username: String
-    var password: String
-    var database: String
-    
-}
-
-
-extension MySQLConfig {
-    
-    static func sqlData(_ env: Environment) -> MySQLConfig {
+    static func loadSQLConfig(_ env: Environment) -> PostgreSQLDatabaseConfig {
         
         let database = env.isRelease ? "vaporDB":"vaporDebugDB"
         
-        var hostname = "localhost"
-        var username = "sqluser"
-        var password = "qwer1234"
-        var port = 3306
+        var hostname = "127.0.0.1"
+        var username = "vapor"
+        var password = "vapor"
+        var port = 5432
         
         #if os(Linux)
         let manager = FileManager.default
@@ -55,7 +45,10 @@ extension MySQLConfig {
         #endif
         
         PrintLogger().info("启动数据库：\(database) \n")
-        return MySQLConfig(hostname: hostname, port: port, username: username, password: password, database: database)
+        return PostgreSQLDatabaseConfig(hostname: hostname,
+                                        port: port,
+                                        username: username,
+                                        database: database)
     }
         
 }

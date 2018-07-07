@@ -8,7 +8,7 @@
 import Vapor
 import Crypto
 import Authentication
-import FluentMySQL
+
 
 class RecordController: RouteCollection {
     

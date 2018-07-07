@@ -7,7 +7,10 @@ let package = Package(
         // 💧 A server-side Swift web framework.
         .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0"),
         .package(url: "https://github.com/vapor/leaf.git", from: "3.0.0-rc"),
-        .package(url: "https://github.com/vapor/fluent-mysql.git", from: "3.0.0-rc"),
+        
+        .package(url: "https://github.com/vapor/fluent-postgresql.git", from: "1.0.0-rc"),
+//        .package(url: "https://github.com/vapor/fluent-mysql.git", from: "3.0.0-rc"),
+        
         .package(url: "https://github.com/skelpo/APIErrorMiddleware.git", from: "0.1.0"),
         .package(url: "https://github.com/IBM-Swift/Swift-SMTP.git", from: "4.0.1"),
         
@@ -28,7 +31,8 @@ let package = Package(
     targets: [
         .target(name: "App", dependencies: ["SwiftSMTP",
                                             "Leaf",
-                                            "FluentMySQL",
+                                            "FluentPostgreSQL",
+//                                            "FluentMySQL",
                                             "Vapor",
                                             "JWTMiddleware",
                                             "JWT",

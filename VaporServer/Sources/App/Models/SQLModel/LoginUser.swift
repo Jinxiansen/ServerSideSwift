@@ -8,6 +8,7 @@
 import Authentication
 
 struct LoginUser: BaseSQLModel {
+    
     var id: Int?
     
     var userID: String?

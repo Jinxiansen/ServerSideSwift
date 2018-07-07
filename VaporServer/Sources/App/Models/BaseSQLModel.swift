@@ -7,8 +7,8 @@
 
 import Foundation
 import Vapor
-import FluentMySQL
+import FluentPostgreSQL
 import Authentication
 
-public typealias BaseSQLModel = MySQLModel & Migration & Content
+public typealias BaseSQLModel = PostgreSQLModel & Migration & Content
 

@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>web</title>
 
 
@@ -288,21 +289,6 @@ sup {
     vertical-align: super;
     line-height: 0;
 }
-
-kbd {
-  display: inline-block;
-  padding: 3px 5px;
-  font-size: 11px;
-  line-height: 10px;
-  color: #555;
-  vertical-align: middle;
-  background-color: #fcfcfc;
-  border: solid 1px #ccc;
-  border-bottom-color: #bbb;
-  border-radius: 3px;
-  box-shadow: inset 0 -1px 0 #bbb
-}
-
 * {
 	-webkit-print-color-adjust: exact;
 }
@@ -337,9 +323,13 @@ kbd {
 
 <p>由于 Apple 发布了酷炫的事件驱动的非阻塞网络框架 <a href="https://github.com/apple/swift-nio">SwiftNIO</a> 的缘故，Vapor 3 以迅雷不及掩耳盗铃当之势将其接入，导致 Vapor2 和 Vapor3 的语法差异很大，所以用 Vapor 3 重写了部分接口并开源出来，供感兴趣的伙伴参考、交流。</p>
 
-<p>以下列举的 API 已经部署在正式环境应用中，后续根据需求会不断完善。</p>
+<h5 id="toc_0">项目部署在 <a href="http://api.jinxiansen.com">http://api.jinxiansen.com</a> ，大部分 API 可直接在此进行调试。</h5>
 
-<h5 id="toc_0">项目部署在 <a href="http://api.jinxiansen.com">http://api.jinxiansen.com</a></h5>
+<p>这里只是列举了一些基本的 API 和说明：</p>
+
+<blockquote>
+<p>更多内容建议 <a href="https://github.com/Jinxiansen/SwiftServerSide-Vapor">下载</a> 项目，查看源码。</p>
+</blockquote>
 
 <h2 id="toc_1">查看</h2>
 

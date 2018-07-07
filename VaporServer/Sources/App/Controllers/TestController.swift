@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 import Fluent
-import FluentMySQL
+
 import Random
 
 // 这里是测试 controller 

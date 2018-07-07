@@ -8,7 +8,7 @@
 
 import Vapor
 import Fluent
-import FluentMySQL
+import FluentPostgreSQL
 
 
 struct WordController: RouteCollection {

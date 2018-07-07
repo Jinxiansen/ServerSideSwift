@@ -7,7 +7,7 @@
 
 import Vapor
 import SwiftSMTP
-import FluentMySQL
+
 
 fileprivate let emailPassword = "drfnsdklpxirbibb"
 

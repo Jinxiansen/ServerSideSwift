@@ -1,29 +1,25 @@
-import FluentMySQL
 import Vapor
 import APIErrorMiddleware
 import Leaf
 import Authentication
-import Fluent
+import FluentPostgreSQL
 
 /// Called before your application initializes.
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
     /// Register providers first
-    try services.register(FluentMySQLProvider())
     
     // Leaf
     try services.register(LeafProvider())
-    
     config.prefer(LeafRenderer.self, for: ViewRenderer.self)
     
     // 认证
     services.register(DirectoryConfig.detect())
     try services.register(AuthenticationProvider())
     
-    
-    // router middle
-    services.register(LocalHostMiddleware())
 
     /// Register routes to the router
+    services.register(LocalHostMiddleware())
+    
     let router = EngineRouter.default()
     try routes(router)
     services.register(router, as: Router.self)
@@ -55,32 +51,29 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     
     services.register(middlewares)
     
-    let dbConfig = MySQLConfig.sqlData(env)
-    let sqlite = MySQLDatabaseConfig.init(hostname: dbConfig.hostname,
-                                          port: dbConfig.port,
-                                          username: dbConfig.username,
-                                          password: dbConfig.password,
-                                          database: dbConfig.database)
-    services.register(sqlite)
+    /* * ** ** ** ** *** ** ** ** SQL ** ** ** ** ** ** ** ** ** */
+    try services.register(FluentPostgreSQLProvider())
+    let pgSQL = PostgreSQLDatabaseConfig.loadSQLConfig(env)
+    services.register(pgSQL)
     
+    /* * ** ** ** ** *** ** ** ** 𝐌odels ** ** ** ** ** ** ** ** ** */
     var migrations = MigrationConfig()
     
-    /* * ** ** ** ** *** ** ** ** Models ** ** ** ** ** ** ** ** ** */
-    migrations.add(model: LoginUser.self, database:.mysql)
-    migrations.add(model: EmailSendResult.self, database: .mysql)
+    migrations.add(model: LoginUser.self, database: .psql)
+    migrations.add(model: EmailSendResult.self, database: .psql)
     
-    migrations.add(model: PageView.self, database: .mysql)
-    migrations.add(model: AccessToken.self, database: .mysql)
-    migrations.add(model: RefreshToken.self, database: .mysql)
-    migrations.add(model: Record.self, database: .mysql)
+    migrations.add(model: PageView.self, database: .psql)
+    migrations.add(model: AccessToken.self, database: .psql)
+    migrations.add(model: RefreshToken.self, database: .psql)
+    migrations.add(model: Record.self, database: .psql)
     
-    migrations.add(model: Word.self, database: .mysql)
-    migrations.add(model: Idiom.self, database: .mysql)
-    migrations.add(model: XieHouIdiom.self, database: .mysql)
-    migrations.add(model: Report.self, database: .mysql)
-    migrations.add(model: UserInfo.self, database: .mysql)
-    migrations.add(model: LGWorkItem.self, database: .mysql)
-    migrations.add(model: CrawlerLog.self, database: .mysql)
+    migrations.add(model: Word.self, database: .psql)
+    migrations.add(model: Idiom.self, database: .psql)
+    migrations.add(model: XieHouIdiom.self, database: .psql)
+    migrations.add(model: Report.self, database: .psql)
+    migrations.add(model: UserInfo.self, database: .psql)
+    migrations.add(model: LGWorkItem.self, database: .psql)
+    migrations.add(model: CrawlerLog.self, database: .psql)
     
     services.register(migrations)
     
