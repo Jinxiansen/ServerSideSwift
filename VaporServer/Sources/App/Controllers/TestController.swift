@@ -17,6 +17,8 @@ struct TestController: RouteCollection {
     func boot(router: Router) throws {
         
         router.group("test") { (group) in
+            
+            //localhost:8080/test/upload
             group.post("upload", use: uploadImage)
             
             group.get("getName", use: getNameHandler)
@@ -39,6 +41,8 @@ struct TestController: RouteCollection {
                 return try ["hello":city].encode(for: req)
             }
             
+            group.get("myModel", use: saveMyModelHandler)
+            
 //            router.get("process") { (req: Request) -> Future<String> in
 //                // asyncExecute returns a Future<Int32> where the value is the exit code of the process
 //                Process.asyncExecute("/bin/bash", ["/Users/zsolt/test.sh"], on: req) { _ in }
@@ -53,10 +57,17 @@ struct TestController: RouteCollection {
 
 extension TestController {
     
+    func saveMyModelHandler(_ req: Request) throws -> Future<MyModel> {
+        
+        return MyModel(name: "4ks", count: Int(arc4random())).save(on: req).flatMap({ (model) in
+            return req.eventLoop.newSucceededFuture(result: model)
+        })
+    }
+    
     // post
     func postCityHandler(_ req: Request) throws -> Future<Response> {
+        
         let name: String = try req.content.syncGet(at: "city")
-
         return try ResponseJSON<Empty>(status: .ok,message: name).encode(for: req)
     }
     
@@ -85,10 +96,9 @@ extension TestController {
     func sendGetRequest(req: Request) throws -> Future<String> {
         
         let client = try req.client()
-        return client.get("http://api.jinxiansen.com")
-            .map(to: String.self, { clientResponse in
-                return clientResponse.http.body.utf8String
-            })
+        return client.get("http://api.jinxiansen.com").map(to: String.self, { clientResponse in
+            return clientResponse.http.body.utf8String
+        })
     }
  
     
@@ -96,7 +106,6 @@ extension TestController {
         guard let name = req.query[String.self, at: "name"] else {
             return ["status":"-1","message": "缺少 name 参数"]
         }
-        
         return ["status":"0","message":"Hello,\(name) !"]
     }
     
@@ -123,16 +132,12 @@ extension TestController {
             print(receive.imgName ?? "")
 
             let path = try VaporUtils.localRootDir(at: ImagePath.record, req: req) + "/" + VaporUtils.imageName()
-            
             if let image = receive.image {
-                
                 guard image.count < ImageMaxByteSize else {
                     return try ResponseJSON<Empty>(status: .error, message: "有点大，得压缩！").encode(for: req)
                 }
-                
                 try Data(image).write(to: URL(fileURLWithPath: path))
             }
- 
             return try ResponseJSON<ImageContainer>(data: receive).encode(for: req)
         })
         

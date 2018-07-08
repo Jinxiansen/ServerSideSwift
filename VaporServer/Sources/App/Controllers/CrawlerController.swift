@@ -188,7 +188,7 @@ extension CrawlerController {
                         return req.eventLoop.newSucceededFuture(result: update)
                     })
                 }else {
-                    let newItem = LGWorkItem(
+                    var newItem = LGWorkItem(
                         id: nil, adWord: item.adWord, appShow: item.appShow,
                         approve: item.approve, city: item.city, companyFullName: item.companyFullName,
                         companyId: item.companyId, companyLogo: item.companyLogo, companyShortName: item.companyShortName,
@@ -203,6 +203,8 @@ extension CrawlerController {
                         salary: item.salary, score: item.score, secondType: item.secondType,
                         stationname: item.stationname, subwayline: item.subwayline, workYear: item.workYear,
                         tag: detail.tag, jobDesc: detail.jobDesc, address: detail.address)
+                    
+                    newItem.companyLogo = "https://www.lagou.com/" + (item.companyLogo ?? "")
                     
                     let save = newItem.save(on: req)
                     save.whenFailure({ (error) in
@@ -245,7 +247,7 @@ extension CrawlerController {
             let jobDesc = try document.select("dd[class='job_bt']").text()
             let address = try document.select("div[class='work_addr']").text().replacingOccurrences(of: "查看地图", with: "")
             
-            let content = "\(randomIP) 解析结果 = \(tag)\n\n"
+            let content = "\(randomIP) 解析 jobDesc 长度 = \(jobDesc.count)\n\n"
             
             self.saveLog(req: req, content: content, desc: html)
             return req.eventLoop.newSucceededFuture(result: LGDetailItem(tag: tag, jobDesc: jobDesc, address: address))

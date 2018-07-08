@@ -22,7 +22,7 @@
 
 由于 Apple 发布了酷炫的事件驱动的非阻塞网络框架 [SwiftNIO](https://github.com/apple/swift-nio) 的缘故，Vapor 3 以迅雷不及掩耳盗铃当之势将其接入，导致 Vapor 2 和 Vapor 3 的语法差异很大，所以用 Vapor 3 重写了部分接口并开源出来，供感兴趣的伙伴参考、交流。
 
-##### 项目部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) ，大部分 API 可直接在此进行调试。
+##### 项目部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) (Ubuntu 16.04)，大部分 API 可直接在此进行调试。
 
 这里只是列举了一些基本的 API 和说明，更多内容请下载项目查看。
 

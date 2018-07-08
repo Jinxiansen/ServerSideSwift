@@ -19,8 +19,8 @@ struct CrawlerLog: BaseSQLModel {
     var time: String?
     var desc: String?
     
-    static let createdAtKey: TimestampKey? = \CrawlerLog.createdAt
-    static let updatedAtKey: TimestampKey? = \CrawlerLog.updatedAt
+    static var createdAtKey: TimestampKey? = \CrawlerLog.createdAt
+    static var updatedAtKey: TimestampKey? = \CrawlerLog.updatedAt
     var createdAt: Date?
     var updatedAt: Date?
     
@@ -45,6 +45,9 @@ extension CrawlerLog {
             builder.field(for: \.updatedAt)
             builder.field(for: \.content, type: .text)
             builder.field(for: \.desc, type: .text)
+            
+            // 在MySQL 数据库中，String 默认为 varchar(256) ，如果大于 256 将导致无法存储，所以需要声明为 .text ，
+            // 但是在 PostgreSQL 中，则没有这个问题，默认即为 .text 自增。
         })
     }
     

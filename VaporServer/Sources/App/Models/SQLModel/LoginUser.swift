@@ -24,8 +24,8 @@ struct LoginUser: BaseSQLModel {
         self.password = password
     }
    
-    static let createdAtKey: TimestampKey? = \LoginUser.createdAt
-    static let updatedAtKey: TimestampKey? = \LoginUser.updatedAt
+    static var createdAtKey: TimestampKey? = \LoginUser.createdAt
+    static var updatedAtKey: TimestampKey? = \LoginUser.updatedAt
     var createdAt: Date?
     var updatedAt: Date?
     
