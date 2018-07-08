@@ -25,28 +25,28 @@ Currently listed in the document [API](Source/API.md) has been deployed in a for
 
 Here are just a few basic API and instructions. For more information, please download the project.
 
-## Preview
+## Preview 📑
 
-##### [Preview ](Source/API.md) the currently completed API sample documentation and debugging.
+ [👉 **From here**](Source/API.md) , preview the currently completed API sample documentation and debugging.
 
 
-## Installation
+## Installation 🚀
 
 **Preliminary work of running the project:**
 
 
-* [**Ddownload**](https://github.com/Jinxiansen/SwiftServerSide-Vapor/archive/master.zip) the server side swift project；
-* [**Learn**](Source/Install.md) how to `Vapor 3` and `PostgreSQL` quick installation steps.
+* [**Ddownload 📁**](https://github.com/Jinxiansen/SwiftServerSide-Vapor/archive/master.zip) the server side swift project；
+* [**Learn 📚**](Source/Install.md) how to quickly install `Vapor 3` and `PostgreSQL`.
 
 
 > If you prefer mysql, you can see [here](https://github.com/Jinxiansen/SwiftServerSide-Vapor/tree/mysql).
 
 
-## Feedback 
+## Feedback 🤔
 
-If you have any questions or suggestions, you can submit a [Issue](https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues) ,or contact me: 
+If you have any questions or suggestions, you can submit a [Issue](https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues) , 
 
-Email : [@JinXiansen](hi@jinxiansen.com) 
+or contact me with email: [hi@jinxiansen.com](hi@jinxiansen.com) 
 
 ## License 📄
 

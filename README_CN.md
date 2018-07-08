@@ -20,31 +20,33 @@
 
 这是基于 [Swift 4.1](https://swift.org) 和 [Vapor 3](http://vapor.codes) 框架的 Swift 服务端开源项目。
 
-由于 Apple 发布了酷炫的事件驱动的非阻塞网络框架 [SwiftNIO](https://github.com/apple/swift-nio) 的缘故，Vapor 3 以迅雷不及掩耳盗铃当之势将其接入，导致 Vapor2 和 Vapor3 的语法差异很大，所以用 Vapor 3 重写了部分接口并开源出来，供感兴趣的伙伴参考、交流。
+由于 Apple 发布了酷炫的事件驱动的非阻塞网络框架 [SwiftNIO](https://github.com/apple/swift-nio) 的缘故，Vapor 3 以迅雷不及掩耳盗铃当之势将其接入，导致 Vapor 2 和 Vapor 3 的语法差异很大，所以用 Vapor 3 重写了部分接口并开源出来，供感兴趣的伙伴参考、交流。
 
 ##### 项目部署在 [http://api.jinxiansen.com](http://api.jinxiansen.com) ，大部分 API 可直接在此进行调试。
 
 这里只是列举了一些基本的 API 和说明，更多内容请下载项目查看。
 
-## 预览
+## 预览 📑
 
-##### [查看👈](Source/API.md) API 示例文档和调试。
+ [👉 **从这里**](Source/API.md) 查看列出的 API 示例文档和调试。
 
-## 安装
+## 安装 🚀
 
-**运行项目前的准备：**
+运行项目前的准备：
 
 
-* [**下载**](https://github.com/Jinxiansen/SwiftServerSide-Vapor/archive/master.zip) 当前项目；
-* [**查看**](Source/Install.md) Vapor 3 和 PostgreSQL 的快速安装步骤。
+* [**下载 📁**](https://github.com/Jinxiansen/SwiftServerSide-Vapor/archive/master.zip) 这个项目；
+* [**查看 📚**](Source/Install.md) Vapor 3 和 PostgreSQL 的快速安装步骤。
 
 >
 >  如果你偏爱 MySQL，可以查看 [这里](https://github.com/Jinxiansen/SwiftServerSide-Vapor/tree/mysql)
 
-## 反馈 ![](Source/zz.jpg) 
+## 反馈 🤔
 
-如果有任何问题或建议，可以提一个 [Issue](https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues)
-，或 Q 我邮箱 [hi@jinxiansen.com](hi@jinxiansen.com)
+如果你有任何问题或建议，可以提一个 [Issue](https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues)
+，
+
+或 Q 我邮箱： [hi@jinxiansen.com](hi@jinxiansen.com)
 
 ## License 📄
 
