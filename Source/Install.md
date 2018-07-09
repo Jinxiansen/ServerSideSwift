@@ -72,7 +72,9 @@ You should see a long list of available commands.
 
 Installing PostgreSQL with Homebrew is so easy, what am I even here for 😄?
 
+```
 brew install postgresql
+```
 
 That’s it. Done. Now to init postgresql just execute the following command:
 
