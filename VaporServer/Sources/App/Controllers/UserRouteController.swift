@@ -77,10 +77,17 @@ extension UserRouteController {
                 return try ResponseJSON<Empty>(status: .userExist).encode(for: req)
             }
             
-            if newUser.validation().0 == false {
+            if newUser.account.isAccount().0 == false {
                 return try ResponseJSON<Empty>(status: .error,
-                                              message: newUser.validation().1).encode(for: req)
+                                              message: newUser.account.isAccount().1).encode(for: req)
             }
+            
+            if newUser.password.isPassword().0 == false {
+                return try ResponseJSON<Empty>(status: .error,
+                                               message: newUser.password.isPassword().1).encode(for: req)
+            }
+            
+            
             return try newUser.user(with: req.make(BCryptDigest.self)).save(on: req).flatMap { user in
                 
                 let logger = try req.make(Logger.self)

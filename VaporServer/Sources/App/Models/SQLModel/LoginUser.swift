@@ -32,25 +32,6 @@ struct LoginUser: BaseSQLModel {
 }
 
 
-extension LoginUser {
- 
-    func validation() -> (Bool,String) {
-        
-        if account.isAccount().0 == true {
-            return account.isAccount()
-        }
-        
-        if password.isPassword().0 == true {
-            return account.isPassword()
-        }
-        
-        if password == account {
-            return (false,"账号密码不能一样")
-        }
-        return (true,"验证成功")
-    }
-}
-
 extension LoginUser: BasicAuthenticatable {
     static var usernameKey: WritableKeyPath<LoginUser, String> = \.account
     static var passwordKey: WritableKeyPath<LoginUser, String> = \.password
