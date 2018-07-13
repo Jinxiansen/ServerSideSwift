@@ -57,6 +57,18 @@ struct TestController: RouteCollection {
 
 extension TestController {
     
+    func compactMap(_ req: Request) throws -> Future<Int> {
+        
+        let firstFuture = MyModel.query(on: req).first()
+        let allFuture = MyModel.query(on: req).all()
+        
+        return map(to: Int.self, firstFuture, allFuture) { (first, all) in
+            let f = first?.count ?? 0
+            let a = all.count
+            return f + a
+        }
+    }
+    
     func saveMyModelHandler(_ req: Request) throws -> Future<MyModel> {
         
         return MyModel(name: "4ks", count: Int(arc4random())).save(on: req).flatMap({ (model) in
