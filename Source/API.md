@@ -6,7 +6,6 @@ Here are some basic APIs and instructions. For more information, please [downloa
 
 example: [http://api.jinxiansen.com/words/idiom?str=天道](http://api.jinxiansen.com/words/idiom?str=天道)
 
-
 [User Related / 用户相关](API.md/#用户)
 
 - [x] [register](API.md/#注册)
@@ -47,8 +46,7 @@ example: [http://api.jinxiansen.com/words/idiom?str=天道](http://api.jinxianse
 - [ ] ...
 
 
-##### [View ✍️](VaporUsage.md) Some basic usages of Vapor(查看一些基础用法).
-
+##### [View ✍️](VaporUsage.md) Some basic usages of Vapor (查看一些基础用法)
 
 <h2 id="用户">用户</h2>
 
@@ -959,8 +957,8 @@ example: [http://api.jinxiansen.com/words/idiom?str=天道](http://api.jinxianse
 
 ## 反馈
 
-如果有任何问题或建议，可以提一个 [Issue](https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues)
+如果有任何问题或建议，可以提一个 [Issue](https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues)，
 
-或联系我：[Jinxiansen](http://jinxiansen.com)
+或联系我：[Jinxiansen](http://jinxiansen.com)。
 
 
