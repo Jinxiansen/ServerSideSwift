@@ -8,7 +8,6 @@
 import Foundation
 import Vapor
 import Fluent
-
 import Random
 
 // 这里是测试 controller 
@@ -43,11 +42,6 @@ struct TestController: RouteCollection {
             
             group.get("myModel", use: saveMyModelHandler)
             
-//            router.get("process") { (req: Request) -> Future<String> in
-//                // asyncExecute returns a Future<Int32> where the value is the exit code of the process
-//                Process.asyncExecute("/bin/bash", ["/Users/zsolt/test.sh"], on: req) { _ in }
-//                .map { $0.description }
-//            }
         }
         
     }
