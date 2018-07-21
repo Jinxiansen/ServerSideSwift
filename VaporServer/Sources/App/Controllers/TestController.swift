@@ -64,8 +64,8 @@ extension TestController {
     }
     
     func saveMyModelHandler(_ req: Request) throws -> Future<MyModel> {
-        
-        return MyModel(name: "4ks", count: Int(arc4random())).save(on: req).flatMap({ (model) in
+        let a: Int = Int(SimpleRandom.random(1...2540))
+        return MyModel(name: "4ks", count: a).save(on: req).flatMap({ (model) in
             return req.eventLoop.newSucceededFuture(result: model)
         })
     }
