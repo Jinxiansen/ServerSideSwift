@@ -72,7 +72,7 @@ def convertImage():
 
 	if not os.path.exists(filePath):
 		print('creat the path',filePath)
-		os.makedirs(filePath)
+		os.makedirs(filePath,0777)
 	else:
 		print('path is exist')
 
