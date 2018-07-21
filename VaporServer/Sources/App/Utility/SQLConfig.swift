@@ -17,7 +17,7 @@ extension PostgreSQLDatabaseConfig {
         
         var hostname = "127.0.0.1"
         var username = "vapor"
-        var password = "vapor"
+        var password = ""
         var port = 5432
         
         #if os(Linux)
@@ -48,7 +48,8 @@ extension PostgreSQLDatabaseConfig {
         return PostgreSQLDatabaseConfig(hostname: hostname,
                                         port: port,
                                         username: username,
-                                        database: database)
+                                        database: database,
+                                        password:password)
     }
         
 }
