@@ -20,7 +20,7 @@ bgPath = args.bgPath
 
 imgName = key + '.jpg'
 
-# print('args = ',imgName,d,' count = ',len(sys.argv[1:])) # 
+print('args = ',imgName,d,imgPath,bgPath,' count = ',len(sys.argv[1:])) # 
 
 def convertImage():
 
@@ -80,6 +80,7 @@ def convertImage():
 
 	toImage = toImage.convert("RGB")
 	toImage.save(namePath)
+	print('save success!')
 
 
 convertImage()
