@@ -14,7 +14,7 @@ class ProcessController: RouteCollection {
         
         router.group("process") { (group) in
             
-            group.get("upload", use: uploadLeafHandler)
+            group.get("screenshot", use: uploadLeafHandler)
             group.post(ConvertImage.self, at: "convertImage", use: convertImagesUsePythonHandler)
         }
     }
@@ -25,7 +25,7 @@ class ProcessController: RouteCollection {
 extension ProcessController {
     
     func uploadLeafHandler(_ req: Request) throws -> Future<View> {
-        return try req.view().render("process/upload")
+        return try req.view().render("process/screenshot")
     }
     
     func convertImagesUsePythonHandler(_ req: Request,container: ConvertImage) throws -> Future<Response> {
