@@ -16,8 +16,8 @@ class VaporUtils {
         
         let workDir = DirectoryConfig.detect().workDir
         
-        let envPath = req.environment.isRelease ? "":"debug_"
-        let addPath = "\(envPath)\(path)"
+        let envPath = req.environment.isRelease ? "":"debug"
+        let addPath = "vapor_\(envPath)/\(path)"
         
         var localPath = ""
         if (workDir.contains("jinxiansen")) {
@@ -38,13 +38,17 @@ class VaporUtils {
         return localPath
     }
     
+    
     class func imageName() throws -> String {
-        let r = try CryptoRandom().generate(Int.self)
-        let fileName = (r.description + Date().description).md5 + ".jpg"
-        
-        return fileName
+        return try randomString() + ".jpg"
     }
     
+    class func randomString() throws -> String {
+        let r = try CryptoRandom().generate(Int.self)
+        let d = Date().timeIntervalSince1970.description
+        let fileName = (r.description + d).md5
+        return fileName
+    }
     
     class func queryRange(page: Int) -> Range<Int> {
         let start = page * pageCount

@@ -14,8 +14,8 @@ class ProcessController: RouteCollection {
         
         router.group("process") { (group) in
             
-            group.get("convertImage", use: convertImagesUsePythonHandler)
-            
+            group.get("upload", use: uploadLeafHandler)
+            group.post(ConvertImage.self, at: "convertImage", use: convertImagesUsePythonHandler)
         }
     }
     
@@ -24,25 +24,60 @@ class ProcessController: RouteCollection {
 
 extension ProcessController {
     
-    func convertImagesUsePythonHandler(_ req: Request) throws -> Future<Response> {
+    func uploadLeafHandler(_ req: Request) throws -> Future<View> {
+        return try req.view().render("process/upload")
+    }
+    
+    func convertImagesUsePythonHandler(_ req: Request,container: ConvertImage) throws -> Future<Response> {
         
         let promise = req.eventLoop.newPromise(Response.self)
         
-        let roomPath = "/Users/jinxiansen/Desktop/toImage"
-        let task = Process()
+        let pyFileDir = DirectoryConfig.detect().workDir + "Public/py"
+
+        let inputPath = pyFileDir + "/convert/input"
+        let manager = FileManager.default
+        if !manager.fileExists(atPath: inputPath) { //不存在则创建
+            try manager.createDirectory(atPath: inputPath, withIntermediateDirectories: true, attributes: nil)
+        }
         
-        task.launchPath = "/usr/local/bin/python3"
-        task.arguments = ["toImage.py"]
-        task.currentDirectoryPath = roomPath
-        task.terminationHandler = { proce in
-            print("proce: \( proce)\n")
-            let filePath = roomPath + "/out.png"
+        var imgPath: String?
+        if let file = container.img {
+            guard file.data.count < ImageMaxByteSize else {
+                return try ResponseJSON<Empty>(status: .error,
+                                               message: "图片过大，得压缩！").encode(for: req)
+            }
+            let imgName = try VaporUtils.randomString() + ".png"
+            imgPath = inputPath + "/" + imgName
+
+            try Data(file.data).write(to: URL(fileURLWithPath: imgPath!))
+        }
+        
+        var bgPath: String?
+        if let file = container.bg {
+            guard file.data.count < ImageMaxByteSize else {
+                return try ResponseJSON<Empty>(status: .error,
+                                               message: "图片过大，得压缩！").encode(for: req)
+            }
+            let bgName = try VaporUtils.randomString() + ".png"
+            bgPath = inputPath + "/" + bgName
             
-            if let data = FileManager.default.contents(atPath: filePath) {
+            try Data(file.data).write(to: URL(fileURLWithPath: bgPath!))
+        }
+        
+        let arcName = try VaporUtils.randomString()
+        let task = Process()
+        task.launchPath = "/usr/local/bin/python3"
+        task.arguments = ["toImage.py",arcName,container.d ?? "1",imgPath ?? "",bgPath ?? ""]
+        
+        task.currentDirectoryPath = pyFileDir + "/convert"
+        task.terminationHandler = { proce in
+            
+            let filePath = pyFileDir + "/convert/out/\(arcName).jpg"
+            if let data = manager.contents(atPath: filePath) {
                 let res = req.makeResponse(data)
                 promise.succeed(result: res)
             }else {
-                promise.succeed(result: req.makeResponse())
+                promise.succeed(result: req.makeResponse("必须上传2张图片"))
             }
         }
         
@@ -60,3 +95,18 @@ extension ProcessController {
     }
     
 }
+
+
+
+struct ConvertImage: Content {
+    var d: String?
+    var img: File?
+    var bg: File?
+    
+}
+
+
+
+
+
+

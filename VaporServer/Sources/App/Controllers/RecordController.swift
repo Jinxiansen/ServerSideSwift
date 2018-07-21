@@ -17,22 +17,22 @@ class RecordController: RouteCollection {
         
         router.group("record") { (group) in
             // record/add
-            group.post(RecordContainer.self, at: "add", use: postRecord)
+            group.post(RecordContainer.self, at: "add", use: postRecordHandler)
             
             // record/getRecords 获取全部动态
-            group.get("getRecords", use: getAllRecords)
+            group.get("getRecords", use: getAllRecordsHandler)
             
             //取图片的2种方式
-            group.get("image", use: getRecordImage)
-            group.get("image",String.parameter, use: getRecordImage2)
+            group.get("image", use: getRecordImageHandler)
+            group.get("image",String.parameter, use: getRecordImage2Handler)
             
             //获取我发布的动态。
-            group.get("getMyRecords", use: getMyRecords)
+            group.get("getMyRecords", use: getMyRecordsHandler)
         }
         
         //举报
         router.group("report") { (group) in
-            group.post(ReportContainer.self, at: "add", use: reportUser)
+            group.post(ReportContainer.self, at: "add", use: reportUserHandler)
         }
         
     }
@@ -43,7 +43,7 @@ class RecordController: RouteCollection {
 extension RecordController {
     
     //TODO: 发个动态。
-    func postRecord(_ req: Request,container: RecordContainer) throws -> Future<Response> {
+    func postRecordHandler(_ req: Request,container: RecordContainer) throws -> Future<Response> {
         
         let token = BearerAuthorization(token: container.token)
         return AccessToken.authenticate(using: token, on: req)
@@ -79,7 +79,7 @@ extension RecordController {
     }
     
     //TODO: 获取动态
-    func getAllRecords(_ req: Request) throws -> Future<Response> {
+    func getAllRecordsHandler(_ req: Request) throws -> Future<Response> {
         
         guard let county = req.query[String.self, at: "county"],county.count > 0 else {
             return try ResponseJSON<Empty>(status: .error,
@@ -104,7 +104,7 @@ extension RecordController {
     }
     
     //TODO: 获取图片
-    func getRecordImage(_ req: Request) throws -> Future<Response> {
+    func getRecordImageHandler(_ req: Request) throws -> Future<Response> {
         
         guard let name = req.query[String.self, at: "name"] else {
             let json = ResponseJSON<Empty>(status: .error, message: "缺少图片参数")
@@ -119,7 +119,7 @@ extension RecordController {
         return try req.streamFile(at: path)
     }
     
-    func getRecordImage2(_ req: Request) throws -> Future<Response> {
+    func getRecordImage2Handler(_ req: Request) throws -> Future<Response> {
         
         let name = try req.parameters.next(String.self)
         let path = try VaporUtils.localRootDir(at: ImagePath.record, req: req) + "/" + name
@@ -132,7 +132,7 @@ extension RecordController {
     
     
     //TODO: 举报
-    func reportUser(_ req: Request,container: ReportContainer) throws -> Future<Response> {
+    func reportUserHandler(_ req: Request,container: ReportContainer) throws -> Future<Response> {
         
         let token = BearerAuthorization(token: container.token)
         return AccessToken.authenticate(using: token, on: req)
@@ -167,7 +167,7 @@ extension RecordController {
     }
     
     //TODO: 获取我发布的动态
-    func getMyRecords(_ req: Request) throws -> Future<Response> {
+    func getMyRecordsHandler(_ req: Request) throws -> Future<Response> {
         
         guard let token = req.query[String.self, at: "token"] else {
             return try ResponseJSON<Empty>(status: .error, message: "缺少 token 参数").encode(for: req)
