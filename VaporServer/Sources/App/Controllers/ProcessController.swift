@@ -116,6 +116,18 @@ extension ProcessController {
             
             let filePath = pyFileDir + "/convert/out/\(arcName).jpg"
             if let data = manager.contents(atPath: filePath) {
+                
+                let shot = ScreenShot(id: nil,
+                                      imgPath: imgPath,
+                                      bgPath: bgPath,
+                                      outPath: filePath,
+                                      desc: req.http.headers.description,
+                                      time: TimeManager.currentTime())
+                shot.save(on: req).whenFailure({ (error) in
+                    print("保存失败 \(error)")
+                })
+                _ = shot.save(on: req)
+                
                 let res = req.makeResponse(data)
                 promise.succeed(result: res)
             }else {
