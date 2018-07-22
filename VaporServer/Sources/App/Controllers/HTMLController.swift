@@ -54,11 +54,9 @@ extension HTMLController {
             var name: String?
             var age: Int?
         }
-        let per = Person.init(name: "jack", age: 18)
+        let per = Person(name: "jack", age: 18)
         return try req.view().render("leaf/hello",per)
     }
-    
-    
     
     //TODO: Animation
     

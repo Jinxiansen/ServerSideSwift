@@ -16,6 +16,8 @@ class ProcessController: RouteCollection {
             
             group.get("screenshot", use: uploadLeafHandler)
             group.post(ConvertImage.self, at: "convertImage", use: convertImagesUsePythonHandler)
+            
+            group.get("sum", use: sumTestHandler)
         }
     }
     
@@ -23,6 +25,38 @@ class ProcessController: RouteCollection {
 
 
 extension ProcessController {
+    
+    func sumTestHandler(_ req: Request) throws -> Future<String> {
+        
+        let promise = req.eventLoop.newPromise(String.self)
+        
+        let a = req.query[String.self,at: "a"] ?? "0"
+        let b = req.query[String.self,at: "b"] ?? "0"
+        
+        let task = Process()
+        task.launchPath = VaporUtils.python3Path()
+        task.arguments = ["sum.py",a,b]
+        
+        let outPipe = Pipe()
+        let errPipe = Pipe()
+        task.standardOutput = outPipe
+        task.standardError = errPipe
+        
+        let pyFileDir = DirectoryConfig.detect().workDir + "Public/py"
+        task.currentDirectoryPath = pyFileDir + "/demo"
+        task.terminationHandler = { proce in
+            
+            let data = outPipe.fileHandleForReading.readDataToEndOfFile()
+            let result = String(data: data, encoding: .utf8) ?? ""
+            promise.succeed(result: result)
+        }
+        
+        task.launch()
+        task.waitUntilExit()
+        
+        return promise.futureResult
+        
+    }
     
     func uploadLeafHandler(_ req: Request) throws -> Future<View> {
         return try req.view().render("process/screenshot")
@@ -33,7 +67,7 @@ extension ProcessController {
         let promise = req.eventLoop.newPromise(Response.self)
         
         let pyFileDir = DirectoryConfig.detect().workDir + "Public/py"
-
+        
         let inputPath = pyFileDir + "/convert/input"
         let manager = FileManager.default
         if !manager.fileExists(atPath: inputPath) { //不存在则创建
@@ -48,7 +82,7 @@ extension ProcessController {
             }
             let imgName = try VaporUtils.randomString() + ".png"
             imgPath = inputPath + "/" + imgName
-
+            
             try Data(file.data).write(to: URL(fileURLWithPath: imgPath!))
         }
         
@@ -67,13 +101,14 @@ extension ProcessController {
         let arcName = try VaporUtils.randomString()
         let task = Process()
         
-        #if os(macOS)
-            task.launchPath = "/usr/local/bin/python3"
-        #else // Linux
-            task.launchPath = "/usr/bin/python3"
-        #endif
+        task.launchPath = VaporUtils.python3Path()
         
         task.arguments = ["toImage.py",arcName,container.d ?? "1",imgPath ?? "",bgPath ?? ""]
+        
+        //        let outPipe = Pipe()
+        //        let errPipe = Pipe()
+        //        task.standardOutput = outPipe
+        //        task.standardError = errPipe
         
         task.currentDirectoryPath = pyFileDir + "/convert"
         
@@ -91,10 +126,6 @@ extension ProcessController {
         task.launch()
         task.waitUntilExit()
         
-        //        let outPipe = Pipe()
-        //        let errPipe = Pipe()
-        //        task.standardOutput = outPipe
-        //        task.standardError = errPipe
         //        let data = outPipe.fileHandleForReading.readDataToEndOfFile()
         //        print(String(data: data, encoding: .utf8) ?? "gg")
         

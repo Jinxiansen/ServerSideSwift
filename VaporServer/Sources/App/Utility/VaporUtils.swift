@@ -50,6 +50,16 @@ class VaporUtils {
         return fileName
     }
     
+    class func python3Path() -> String {
+        var path = ""
+        #if os(macOS)
+            path = "/usr/local/bin/python3"
+        #else // Linux
+            path = "/usr/bin/python3"
+        #endif
+        return path
+    }
+    
     class func queryRange(page: Int) -> Range<Int> {
         let start = page * pageCount
         let end = start + pageCount

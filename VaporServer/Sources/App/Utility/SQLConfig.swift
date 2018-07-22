@@ -33,7 +33,7 @@ extension PostgreSQLDatabaseConfig {
             }
             
             if let base = try? JSONDecoder().decode(Base.self, from: data) {
-                print(base.username,base.password,"\n\n")
+                print(base.username,"\n\n")
                 hostname = base.hostname
                 username = base.username
                 password = base.password
@@ -45,11 +45,19 @@ extension PostgreSQLDatabaseConfig {
         #endif
         
         PrintLogger().info("启动数据库：\(database) \n")
+        
+        #if os(Linux)
         return PostgreSQLDatabaseConfig(hostname: hostname,
                                         port: port,
                                         username: username,
                                         database: database,
                                         password:password)
+        #else
+        return PostgreSQLDatabaseConfig(hostname: hostname,
+                                        port: port,
+                                        username: username,
+                                        database: database)
+        #endif
     }
         
 }
