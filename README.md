@@ -28,6 +28,17 @@ Here are just a few basic API and instructions. For more information, please dow
 
 ## Preview 📑
 
+This project includes but is not limited to the following:
+
+- [x] Complete login, registration, password change, and exit function
+- [x] Send personal updates, get dynamic lists, get dynamic pictures, report
+- [x] Chinese characters, idioms, and after-sentence queries
+- [x] Crawler example: Crawling the iOS job information to get the crawl results
+- [x] Example of crawling novels: mortal cultivation into a biography of God
+- [x] **Python** interaction: `Swift` calls native `Python(.py)` with parameter interaction examples;
+- [x] Example of mail delivery
+- [x] HTML display example.
+
  [👉 **From here**](Source/API.md) , preview the currently completed API sample documentation and debugging.
 
 
