@@ -415,4 +415,22 @@ extension HTTPBody {
     var utf8String: String {
         return String(data: data ?? Data(), encoding: .utf8) ?? "n/a"
     }
+    
+    var gbkString: String {
+        
+        //获取GBK编码，使用GB18030是因为它向下兼容GBK
+        let cfEncoding = CFStringEncodings.GB_18030_2000
+        let encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(cfEncoding.rawValue))
+        //从GBK编码的Data里初始化NSString，返回的NSString是UTF-16编码
+        if let str = NSString(data: data ?? Data(), encoding: encoding) {
+            return str as String
+        } else {
+            return "n/a"
+        }
+    }
+    
+    
 }
+
+
+

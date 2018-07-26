@@ -13,7 +13,7 @@ public final class LocalHostMiddleware: Middleware,Service {
     public func respond(to request: Request, chainingTo next: Responder) throws -> EventLoopFuture<Response> {
         
         let urlString = request.http.urlString
-        let container = urlString.contains("lagou/start") || urlString.contains("lagou/getLogs") || urlString.contains("lagou/cancel")
+        let container = urlString.contains("lagou/start") || urlString.contains("lagou/getLogs") || urlString.contains("lagou/cancel") || urlString.contains("book/start")
         
         #if os(Linux)
         if container {

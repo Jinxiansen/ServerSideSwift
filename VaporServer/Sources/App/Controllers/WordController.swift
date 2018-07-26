@@ -10,7 +10,6 @@ import Vapor
 import Fluent
 import FluentPostgreSQL
 
-
 struct WordController: RouteCollection {
     
     func boot(router: Router) throws {

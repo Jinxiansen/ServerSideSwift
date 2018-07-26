@@ -12,10 +12,15 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     try services.register(LeafProvider())
     config.prefer(LeafRenderer.self, for: ViewRenderer.self)
     
+    var commands = CommandConfig.default()
+    commands.useFluentCommands()
+    services.register(commands)
+    
     // 认证
     services.register(DirectoryConfig.detect())
     try services.register(AuthenticationProvider())
     
+    try services.register(FanRenCrawleProvider())
 
     /// Register routes to the router
     services.register(LocalHostMiddleware())
@@ -75,6 +80,8 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: LGWorkItem.self, database: .psql)
     migrations.add(model: CrawlerLog.self, database: .psql)
     migrations.add(model: ScreenShot.self, database: .psql)
+    migrations.add(model: BookChapter.self, database: .psql)
+    migrations.add(model: BookInfo.self, database: .psql)
     
     //test
     migrations.add(model: MyModel.self, database: .psql)
