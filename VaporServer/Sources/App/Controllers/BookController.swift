@@ -10,6 +10,7 @@ import Vapor
 import Fluent
 import FluentPostgreSQL
 import SwiftSoup
+import PerfectICONV
 
 private let header: HTTPHeaders = ["User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
     ,"Cookie": "yunsuo_session_verify=2a87ab507187674302f32bbc33248656"]
@@ -30,6 +31,9 @@ class BookController: RouteCollection {
         group.get("story", use: getBookLastChapterContentHandler)
         group.get("start", use: crawlerFanRenBookHandler)
         
+        //test
+        group.get("html", use: getHtmlDataHandler)
+        
     }
 }
 
@@ -38,26 +42,70 @@ extension BookController {
     func getBookLastChapterContentHandler(_ req: Request) throws -> Future<Response> {
         let name = req.query[String.self,at:"name"] ?? ""
         
-        return BookChapter.query(on: req).filter(\.bookName,.like,"%\(name)%").all().flatMap({ (books) in
-            if books.count > 0 {
-                return try ResponseJSON<BookChapter>(data: books.last).encode(for: req)
-            }else {
-                return try ResponseJSON<BookChapter>(status: .error, message: "没有此书: \(name)").encode(for: req)
-            }
-        })
+        return BookInfo.query(on: req)
+            .filter(\.bookName,.like,"%\(name)%")
+            .first()
+            .flatMap({ (info) in
+                guard let info = info else {
+                    return try ResponseJSON<Empty>(status: .error, message: "没有此书: \(name)").encode(for: req)
+                }
+                return BookChapter
+                    .query(on: req)
+                    .filter(\.bookId == info.bookId)
+                    .sort(\.chapterId,.descending)
+                    .first()
+                    .flatMap({ (chapter) in
+                        struct Chapter: Content {
+                            var bookName: String?
+                            var time: String?
+                            var chaptName: String?
+                            var content: String?
+                        }
+                        let pter = Chapter(bookName: info.bookName, time: chapter?.updateTime, chaptName: "最新章节：" + (chapter?.chapterName ?? ""), content: chapter?.content)
+                        return try req.view().render("leaf/book",pter).encode(for: req)
+                    })
+            })
+        
     }
     
-    func crawlerFanRenBookHandler(_ req: Request) throws -> Future<Response> {
+    func getHtmlDataHandler(_ req: Request) throws -> Future<String> {
+        
+        let client = try req.make(Client.self)
+        let iconv = try Iconv(from: Iconv.CodePage.GBK, to: Iconv.CodePage.UTF8)
+        let url = "https://www.piaotian.com/html/9/9102/"
+        return client.get(url)
+            .flatMap { $0.http.body.consumeData(on: req) } // 1) read complete body as raw Data
+            .map { (data: Data) -> String in
+                // 2) convert Data to [UInt8] for Iconv
+                var bytes = [UInt8](repeating: 0, count: data.count)
+                let buffer = UnsafeMutableBufferPointer(start: &bytes, count: bytes.count)
+                _ = data.copyBytes(to: buffer)
+                
+                // 3) convert GBK -> UTF8
+                return iconv.utf8(buf: bytes) ?? ""
+        }
+        
+    }
+    
+    func crawlerFanRenBookHandler(_ req: Request) throws -> Future<ResponseJSON<Empty>> {
         
         typeId = 9
         bookId = 9102
         let url = "https://www.piaotian.com/html/\(typeId)/\(bookId)/"
         
-        let client = try req.make(FoundationClient.self)
-        return client.get(url,headers: header)
-            .flatMap(to: Response.self, { clientResponse in
+        
+        return try req.client().get(url)
+            .flatMap { $0.http.body.consumeData(on: req) }
+            .map { (data) -> String in
+                let iconv = try Iconv(from: Iconv.CodePage.GBK, to: Iconv.CodePage.UTF8)
+                var bytes = [UInt8](repeating: 0, count: data.count)
+                let buffer = UnsafeMutableBufferPointer(start: &bytes, count: bytes.count)
+                _ = data.copyBytes(to: buffer)
                 
-                let html = clientResponse.http.body.gbkString
+                return iconv.utf8(buf: bytes) ?? "g/u"
+            }.map({ html -> ResponseJSON<Empty> in
+                
+                print(html,"\n\n\n")
                 let document = try SwiftSoup.parse(html)
                 let mainBody = try document.select("div[class='mainbody']")
                 
@@ -77,21 +125,14 @@ extension BookController {
                 self.elements = revertLis
                 self.currentIndex = 0
                 
-                _ = BookInfo.query(on: req).filter(\.bookId == self.bookId).first().map({ (exist) in
-                    
-                    if var exist = exist {
-                        exist.chapterCount = revertLis.count
-                        exist.updateTime = TimeManager.currentTime()
-                        _ = exist.update(on: req)
-                        debugPrint("本书已存在:\(exist.bookName ?? "") \(TimeManager.currentTime())")
-                    }else {
-                        let bookInfo = BookInfo(id: nil, typeId: self.typeId, bookId: self.bookId, bookName: bookName, chapterCount: revertLis.count, updateTime: TimeManager.currentTime(), content: nil, auther: auther,bookImg: nil)
-                        _ = bookInfo.save(on: req).map({ (info) in
-                            debugPrint("已保存本书:\(info)")
-                        })
-                    }
-                    
-                })
+                try self.bookExistHandler(req,
+                                          revertLis: revertLis,
+                                          bookName: bookName,
+                                          auther: auther)
+                
+                if self.elements == nil || self.elements?.count == 0 {
+                    return ResponseJSON<Empty>(status: .error, message: "没有数据")
+                }
                 
                 func runRepeatTimer() throws {
                     
@@ -108,10 +149,29 @@ extension BookController {
                 }
                 try runRepeatTimer()
                 
-                return try ResponseJSON<Empty>(status: .ok, message: "开始爬取 \(self.typeId)/\(self.bookId)").encode(for: req)
+                return ResponseJSON<Empty>(status: .ok, message: "开始爬取 \(self.typeId)/\(self.bookId)")
             })
+        
     }
     
+    
+    func bookExistHandler(_ req: Request,revertLis: [Element],bookName: String, auther: String) throws {
+        
+        _ = BookInfo.query(on: req).filter(\.bookId == self.bookId).first().map({ (exist) in
+            
+            if var exist = exist {
+                exist.chapterCount = revertLis.count
+                exist.updateTime = TimeManager.currentTime()
+                _ = exist.update(on: req)
+                debugPrint("本书已存在:\(exist.bookName ?? "") \(TimeManager.currentTime())")
+            }else {
+                let bookInfo = BookInfo(id: nil, typeId: self.typeId, bookId: self.bookId, bookName: bookName, chapterCount: revertLis.count, updateTime: TimeManager.currentTime(), content: nil, auther: auther,bookImg: nil)
+                _ = bookInfo.save(on: req).map({ (info) in
+                    debugPrint("已保存本书:\(info)")
+                })
+            }
+        })
+    }
     
     // 保存每一章内容。
     func saveBookContentHandler(req: Request,bookName: String,auther: String,bookId: Int,typeId: Int) throws {

@@ -173,6 +173,15 @@
         }
       },
       {
+        "package": "PerfectICONV",
+        "repositoryURL": "https://github.com/PerfectSideRepos/Perfect-ICONV.git",
+        "state": {
+          "branch": null,
+          "revision": "9158e26559b7e33eff6b9bd890fd1e80134dd3af",
+          "version": "3.0.1"
+        }
+      },
+      {
         "package": "PostgreSQL",
         "repositoryURL": "https://github.com/vapor/postgresql.git",
         "state": {

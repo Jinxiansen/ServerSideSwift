@@ -27,12 +27,13 @@ let package = Package(
         .package(url: "https://github.com/vapor/redis.git", from: "3.0.0-rc"),
         
         .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "1.7.1"),
+        .package(url: "https://github.com/PerfectSideRepos/Perfect-ICONV.git",from:"3.0.1")
         ],
     targets: [
         .target(name: "App", dependencies: ["SwiftSMTP",
                                             "Leaf",
                                             "FluentPostgreSQL",
-//                                            "FluentMySQL",
+                                            "PerfectICONV",
                                             "Vapor",
                                             "JWTMiddleware",
                                             "JWT",

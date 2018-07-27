@@ -35,7 +35,7 @@ This project includes but is not limited to the following:
 - [x] Chinese characters, idioms, and after-sentence queries
 - [x] Crawler example: Crawling the iOS job information to get the crawl results
 - [x] Example of crawling novels: mortal cultivation into a biography of God
-- [x] **Python** interaction: `Swift` calls native `Python(.py)` with parameter interaction examples;
+- [x] **Python** interaction: `Swift` calls native `Python(.py)` with parameter interaction examples
 - [x] Example of mail delivery
 - [x] HTML display example.
 
