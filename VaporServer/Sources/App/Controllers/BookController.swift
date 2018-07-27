@@ -105,15 +105,15 @@ extension BookController {
                 
                 self.elements = revertLis
                 self.currentIndex = 0
+
+                if self.elements == nil || self.elements?.count == 0 {
+                    return ResponseJSON<Empty>(status: .error, message: "\(html)")
+                }
                 
                 try self.bookExistHandler(req,
                                           revertLis: revertLis,
                                           bookName: bookName,
                                           auther: auther)
-                
-                if self.elements == nil || self.elements?.count == 0 {
-                    return ResponseJSON<Empty>(status: .error, message: "\(html)")
-                }
                 
                 func runRepeatTimer() throws {
                     
