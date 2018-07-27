@@ -99,7 +99,7 @@ extension BookController {
                 }
                 let lis = try mainBody.select("div[class='centent']").select("a")
                 
-                debugPrint("\n\(bookName) \(auther) 当前总章节 \(lis.array().count) \(TimeManager.currentTime())")
+                print("\n\(bookName) \(auther) 当前总章节 \(lis.array().count) \(TimeManager.currentTime())")
                 
                 let revertLis = lis.reversed()
                 
@@ -112,7 +112,7 @@ extension BookController {
                                           auther: auther)
                 
                 if self.elements == nil || self.elements?.count == 0 {
-                    return ResponseJSON<Empty>(status: .error, message: "没有数据")
+                    return ResponseJSON<Empty>(status: .error, message: "\(html)")
                 }
                 
                 func runRepeatTimer() throws {
@@ -144,11 +144,11 @@ extension BookController {
                 exist.chapterCount = revertLis.count
                 exist.updateTime = TimeManager.currentTime()
                 _ = exist.update(on: req)
-                debugPrint("本书已存在:\(exist.bookName ?? "") \(TimeManager.currentTime())")
+                print("本书已存在:\(exist.bookName ?? "") \(TimeManager.currentTime())")
             }else {
                 let bookInfo = BookInfo(id: nil, typeId: self.typeId, bookId: self.bookId, bookName: bookName, chapterCount: revertLis.count, updateTime: TimeManager.currentTime(), content: nil, auther: auther,bookImg: nil)
                 _ = bookInfo.save(on: req).map({ (info) in
-                    debugPrint("已保存本书:\(info)")
+                    print("已保存本书:\(info)")
                 })
             }
         })
@@ -172,11 +172,11 @@ extension BookController {
             
             //如果已经存在，则结束，并定时重新爬取。
             if let exist = exist {
-                debugPrint("已存在: \(exist.chapterName ?? "none") \(TimeManager.currentTime())\n")
+                print("已存在: \(exist.chapterName ?? "none") \(TimeManager.currentTime())\n")
                 self.amount = nil
                 
                 _ =  req.eventLoop.scheduleTask(in: TimeAmount.minutes(90), {
-                    debugPrint("重启检查 \(TimeManager.currentTime())\n\n")
+                    print("重启检查 \(TimeManager.currentTime())\n\n")
                     self.amount = TimeAmount.seconds(10)
                     _ = try self.crawlerFanRenBookHandler(req)
                 })
@@ -184,7 +184,7 @@ extension BookController {
             }else {
                 _ = try self.getDetailContentHandler(req, detailURL: detailURL).map({ (content) -> EventLoopFuture<BookChapter> in
                     let book = BookChapter(id: nil,typeId: typeId, bookId: bookId, bookName: bookName, chapterId: chpId, chapterName: chpName, updateTime: TimeManager.currentTime(), content: content, auther: auther, desc: "")
-                    debugPrint("已保存：\(book.chapterName ?? "") \(TimeManager.currentTime())")
+                    print("已保存：\(book.chapterName ?? "") \(TimeManager.currentTime())")
                     
                     if self.currentIndex == 0 {
                         let em = EmailContent(email: "hi@jinxiansen.com", myName: bookName, subject: chpName, text: content)
@@ -200,7 +200,7 @@ extension BookController {
             if self.currentIndex < elements.count {
                 self.currentIndex += 1
             }else {
-                debugPrint("已是最后一条。\(TimeManager.currentTime())")
+                print("已是最后一条。\(TimeManager.currentTime())")
                 self.amount = nil
             }
             return req.eventLoop.newSucceededFuture(result: Empty())
