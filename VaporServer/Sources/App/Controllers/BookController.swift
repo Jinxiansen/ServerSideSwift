@@ -71,20 +71,9 @@ extension BookController {
     func getHtmlDataHandler(_ req: Request) throws -> Future<String> {
         
         let client = try req.make(Client.self)
-        let iconv = try Iconv(from: Iconv.CodePage.GBK, to: Iconv.CodePage.UTF8)
         let url = "https://www.piaotian.com/html/9/9102/"
         return client.get(url)
-            .flatMap { $0.http.body.consumeData(on: req) } // 1) read complete body as raw Data
-            .map { (data: Data) -> String in
-                // 2) convert Data to [UInt8] for Iconv
-                var bytes = [UInt8](repeating: 0, count: data.count)
-                let buffer = UnsafeMutableBufferPointer(start: &bytes, count: bytes.count)
-                _ = data.copyBytes(to: buffer)
-                
-                // 3) convert GBK -> UTF8
-                return iconv.utf8(buf: bytes) ?? ""
-        }
-        
+            .flatMap { $0.convertGBKString(req) } // 1) read complete body as raw Data
     }
     
     func crawlerFanRenBookHandler(_ req: Request) throws -> Future<ResponseJSON<Empty>> {
@@ -95,16 +84,8 @@ extension BookController {
         
         
         return try req.client().get(url)
-            .flatMap { $0.http.body.consumeData(on: req) }
-            .map { (data) -> String in
-                let iconv = try Iconv(from: Iconv.CodePage.GBK, to: Iconv.CodePage.UTF8)
-                var bytes = [UInt8](repeating: 0, count: data.count)
-                let buffer = UnsafeMutableBufferPointer(start: &bytes, count: bytes.count)
-                _ = data.copyBytes(to: buffer)
-                
-                return iconv.utf8(buf: bytes) ?? "g/u"
-            }.map({ html -> ResponseJSON<Empty> in
-                
+            .flatMap { $0.convertGBKString(req) }
+            .map({ html -> ResponseJSON<Empty> in
                 print(html,"\n\n\n")
                 let document = try SwiftSoup.parse(html)
                 let mainBody = try document.select("div[class='mainbody']")
@@ -231,21 +212,35 @@ extension BookController {
         
         let client = try req.make(FoundationClient.self)
         
-        return client.get(detailURL,headers: header).flatMap(to: String.self, { detailResponse in
-            let html = detailResponse.http.body.gbkString
-            let document = try SwiftSoup.parse(html)
-            let content = try document.text().components(separatedBy: "返回书页     ").last?.components(separatedBy: " （快捷键 ←）上一章").first?.replacingOccurrences(of: "     ", with: "\n\n") ?? ""
-            
-            return req.eventLoop.newSucceededFuture(result: content)
-        })
+        return client.get(detailURL)
+            .flatMap { $0.convertGBKString(req) }
+            .map ({ html -> String in
+                let document = try SwiftSoup.parse(html)
+                let content = try document.text().components(separatedBy: "返回书页     ").last?.components(separatedBy: " （快捷键 ←）上一章").first?.replacingOccurrences(of: "     ", with: "\n\n") ?? ""
+                
+                return content
+            })
     }
-    
-    
-    
     
 }
 
-
+extension Response {
+    
+    func convertGBKString(_ req: Request) -> Future<String> {
+        
+        return http.body.consumeData(on: req) // 1) read complete body as raw Data
+            .map { (data: Data) -> String in
+                // 2) convert Data to [UInt8] for Iconv
+                var bytes = [UInt8](repeating: 0, count: data.count)
+                let buffer = UnsafeMutableBufferPointer(start: &bytes, count: bytes.count)
+                _ = data.copyBytes(to: buffer)
+                
+                let iconv = try Iconv(from: Iconv.CodePage.GBK, to: Iconv.CodePage.UTF8)
+                // 3) convert GBK -> UTF8
+                return iconv.utf8(buf: bytes) ?? ""
+        }
+    }
+}
 
 
 
