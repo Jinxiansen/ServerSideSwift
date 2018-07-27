@@ -246,7 +246,7 @@ extension Response {
                 _ = data.copyBytes(to: buffer)
                 
                 // 3) convert GBK -> UTF8
-                return iconv.utf8(buf: bytes) ?? ""
+                return iconv.utf8(buf: bytes) ?? "g/u"
         }
     }
 }
