@@ -86,7 +86,8 @@ extension BookController {
         return try req.client().get(url)
             .flatMap { $0.convertGBKString(req) }
             .map({ html -> ResponseJSON<Empty> in
-                print(html,"\n\n\n")
+                print("\nHTML = \(html)\n\n")
+                
                 let document = try SwiftSoup.parse(html)
                 let mainBody = try document.select("div[class='mainbody']")
                 
@@ -137,6 +138,8 @@ extension BookController {
     
     
     func bookExistHandler(_ req: Request,revertLis: [Element],bookName: String, auther: String) throws {
+        
+        guard revertLis.count > 0 else { return }
         
         _ = BookInfo.query(on: req).filter(\.bookId == self.bookId).first().map({ (exist) in
             
