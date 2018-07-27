@@ -31,7 +31,7 @@ class CrawlerController: RouteCollection {
             crawler.get("swiftDoc", use: crawlerSwiftDocHandler)
             crawler.get("query", use: crawlerQueryHandler)
             
-            let lagou = crawler.grouped("lagou").grouped(LocalHostMiddleware.self)
+            let lagou = crawler.grouped("lagou")
             lagou.get("ios", use: readAllIOSWorksHandler)
             lagou.get("getWork", use: getWorksInfoHandler)
             lagou.get("para", use: requestDetailDataHandler)

@@ -23,7 +23,6 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     try services.register(FanRenCrawleProvider())
 
     /// Register routes to the router
-    services.register(LocalHostMiddleware())
     
     let router = EngineRouter.default()
     try routes(router)
@@ -31,6 +30,8 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
 
     /* * ** ** ** ** *** ** ** ** Middleware ** ** ** ** ** ** ** ** ** */
     var middlewares = MiddlewareConfig()
+    
+    middlewares.use(LocalHostMiddleware())
     
     middlewares.use(APIErrorMiddleware.init(environment: env, specializations: [
         ModelNotFound()

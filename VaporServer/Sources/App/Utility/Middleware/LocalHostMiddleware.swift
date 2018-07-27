@@ -8,12 +8,17 @@
 import Foundation
 import Vapor
 
+//以下 uris 中包含的 api，只允许本地访问。
 public final class LocalHostMiddleware: Middleware,Service {
     
     public func respond(to request: Request, chainingTo next: Responder) throws -> EventLoopFuture<Response> {
         
         let urlString = request.http.urlString
-        let container = urlString.contains("lagou/start") || urlString.contains("lagou/getLogs") || urlString.contains("lagou/cancel") || urlString.contains("book/start")
+        var container = false
+        
+        let uris = ["lagou/start","lagou/getLogs","lagou/cancel","book/start"]
+        
+        _ = uris.map { if urlString.contains($0) { container = true } }
         
         #if os(Linux)
         if container {
@@ -21,7 +26,8 @@ public final class LocalHostMiddleware: Middleware,Service {
                 if hostName.contains("localhost") || hostName.contains("127.0.0.1") {
                     return try next.respond(to: request)
                 }else{
-                    return try ResponseJSON<Empty>(status: .error, message: "无权访问").encode(for: request)
+                    return try ResponseJSON<Empty>(status: .error,
+                                                   message: "无权访问").encode(for: request)
                 }
             }
         }
