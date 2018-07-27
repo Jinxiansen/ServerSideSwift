@@ -84,9 +84,14 @@ extension BookController {
         
         
         return try req.client().get(url)
-            .flatMap { try $0.convertGBKString(req) }
+            .map({ res -> Response in
+                print("原始数据 -> \(res)\n")
+                return res
+            })
+            .flatMap {
+                try $0.convertGBKString(req) }
             .map({ html -> ResponseJSON<Empty> in
-                print("\nHTML = \(html)\n\n")
+                print("输出结果 -> \(html)\n\n")
                 
                 let document = try SwiftSoup.parse(html)
                 let mainBody = try document.select("div[class='mainbody']")
