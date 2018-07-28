@@ -240,13 +240,13 @@ extension Response {
         
         return http.body.consumeData(on: req) // 1) read complete body as raw Data
             .map { (data: Data) -> String in
-                // 2) convert Data to [UInt8] for Iconv
                 var bytes = [UInt8](repeating: 0, count: data.count)
                 let buffer = UnsafeMutableBufferPointer(start: &bytes, count: bytes.count)
                 _ = data.copyBytes(to: buffer)
                 
-                // 3) convert GBK -> UTF8
-                return iconv.utf8(buf: bytes) ?? "g/u"
+                let utf8Bytes = iconv.convert(buf: bytes) // !
+                let utf8String = String(bytes: utf8Bytes, encoding: .utf8) // !
+                return utf8String ?? "g/u"
         }
     }
 }
