@@ -2,9 +2,9 @@
     <img src="images/icon.png"/>
 </p>
 
-本项目开源在：[https://github.com/Jinxiansen/SwiftServerSide-Vapor](https://github.com/Jinxiansen/SwiftServerSide-Vapor)
-
 这是基于 [Swift 4.1](https://swift.org) 和 [Vapor 3](http://vapor.codes) 框架的 Swift 服务端开源项目。
+
+开源在：[https://github.com/Jinxiansen/SwiftServerSide-Vapor](https://github.com/Jinxiansen/SwiftServerSide-Vapor)
 
 由于 Apple 发布了酷炫的事件驱动的非阻塞网络框架 [SwiftNIO](https://github.com/apple/swift-nio) 的缘故，Vapor 3 以迅雷不及掩耳盗铃当之势将其接入，导致 Vapor2 和 Vapor3 的语法差异很大，所以用 Vapor 3 重写了部分接口并开源出来，供感兴趣的伙伴参考、交流。
 
@@ -16,6 +16,19 @@
 
 
 ## 查看
+
+本项目包括但不限于以下内容：
+
+- 完整登录、注册、修改密码、退出功能；
+- 发送个人动态、获取动态列表，获取动态图片、举报；
+- 汉字、成语、歇后语查询；
+- 爬虫示例：爬取 拉勾网 iOS 职位信息，获取爬取结果；
+- 小说爬取示例：凡人修仙传；
+- **Python** 交互：`Swift` 调用 本地 `Python(.py)` 带参交互示例；
+- 邮件发送示例；
+- HTML 展示示例。
+
+
 [用户相关](#用户)
 
 - [注册](#注册)
@@ -45,7 +58,7 @@
 - [获取拉勾iOS爬取结果](#获取iOS爬取结果)
 - [爬虫示例](#爬虫示例)
 - [自定义爬虫示例](#自定义爬虫)
-
+- ...
 
 [其他](#发送邮件)
 
@@ -54,7 +67,7 @@
 - ...
 
 
-建议配合 [Postman](https://documenter.getpostman.com/view/1150787/RWEgsK1B#1337a0be-f49e-4c56-b470-8c438af20030) 使用效果更佳。
+建议配合使用 [Postman](https://www.getpostman.com/apps) 进行调试。
 
 
 <h2 id="用户">用户</h2>

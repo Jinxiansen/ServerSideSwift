@@ -2,11 +2,9 @@
 
 ## API Instructions
 
-Here are some basic APIs and instructions. For more information, please [download](https://github.com/Jinxiansen/SwiftServerSide-Vapor) and view the project source code.
+以下是一些基本的 API 使用用例及说明，更多精彩内容请 [下载](https://github.com/Jinxiansen/SwiftServerSide-Vapor) 本项目并查看源码。
 
-example: [http://api.jinxiansen.com/words/idiom?str=天道](http://api.jinxiansen.com/words/idiom?str=天道)
-
-[User Related / 用户相关](API.md/#用户)
+[User / 用户](API.md/#用户)
 
 - [x] [register](API.md/#注册)
 - [x] [login](API.md/#登录)
@@ -15,7 +13,7 @@ example: [http://api.jinxiansen.com/words/idiom?str=天道](http://api.jinxianse
 - [x] [modify user info ](API.md/#修改用户信息)
 - [x] [logout ](API.md/#退出登录)
 
-[Dynamically Related / 动态相关](API.md/#动态)
+[Dynamically / 动态](API.md/#动态)
 
 - [x] [posting news](API.md/#发布动态)
 - [x] [get all dynamic list ](API.md/#获取全部动态列表)

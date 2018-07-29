@@ -317,9 +317,9 @@ sup {
     <img src="images/icon.png"/>
 </p>
 
-<p>本项目开源在：<a href="https://github.com/Jinxiansen/SwiftServerSide-Vapor">https://github.com/Jinxiansen/SwiftServerSide-Vapor</a></p>
-
 <p>这是基于 <a href="https://swift.org">Swift 4.1</a> 和 <a href="http://vapor.codes">Vapor 3</a> 框架的 Swift 服务端开源项目。</p>
+
+<p>开源在：<a href="https://github.com/Jinxiansen/SwiftServerSide-Vapor">https://github.com/Jinxiansen/SwiftServerSide-Vapor</a></p>
 
 <p>由于 Apple 发布了酷炫的事件驱动的非阻塞网络框架 <a href="https://github.com/apple/swift-nio">SwiftNIO</a> 的缘故，Vapor 3 以迅雷不及掩耳盗铃当之势将其接入，导致 Vapor2 和 Vapor3 的语法差异很大，所以用 Vapor 3 重写了部分接口并开源出来，供感兴趣的伙伴参考、交流。</p>
 
@@ -332,6 +332,19 @@ sup {
 </blockquote>
 
 <h2 id="toc_1">查看</h2>
+
+<p>本项目包括但不限于以下内容：</p>
+
+<ul>
+<li>完整登录、注册、修改密码、退出功能；</li>
+<li>发送个人动态、获取动态列表，获取动态图片、举报；</li>
+<li>汉字、成语、歇后语查询；</li>
+<li>爬虫示例：爬取 拉勾网 iOS 职位信息，获取爬取结果；</li>
+<li>小说爬取示例：凡人修仙传；</li>
+<li><strong>Python</strong> 交互：<code>Swift</code> 调用 本地 <code>Python(.py)</code> 带参交互示例；</li>
+<li>邮件发送示例；</li>
+<li>HTML 展示示例。</li>
+</ul>
 
 <p><a href="#%E7%94%A8%E6%88%B7">用户相关</a></p>
 
@@ -369,6 +382,7 @@ sup {
 <li><a href="#%E8%8E%B7%E5%8F%96iOS%E7%88%AC%E5%8F%96%E7%BB%93%E6%9E%9C">获取拉勾iOS爬取结果</a></li>
 <li><a href="#%E7%88%AC%E8%99%AB%E7%A4%BA%E4%BE%8B">爬虫示例</a></li>
 <li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%88%AC%E8%99%AB">自定义爬虫示例</a></li>
+<li>...</li>
 </ul>
 
 <p><a href="#%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6">其他</a></p>
@@ -379,7 +393,7 @@ sup {
 <li>...</li>
 </ul>
 
-<p>建议配合 <a href="https://documenter.getpostman.com/view/1150787/RWEgsK1B#1337a0be-f49e-4c56-b470-8c438af20030">Postman</a> 使用效果更佳。</p>
+<p>建议配合使用 <a href="https://www.getpostman.com/apps">Postman</a> 进行调试。</p>
 
 <h2 id="用户">用户</h2>
 
