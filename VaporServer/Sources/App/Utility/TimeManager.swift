@@ -15,7 +15,7 @@ struct TimeManager {
     
     init() {
         matter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        matter.locale = Locale(identifier: "zh_CN")
+        matter.timeZone = TimeZone.current
     }
     
     func currentTime() -> String {
