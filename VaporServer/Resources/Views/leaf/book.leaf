@@ -1,24 +1,39 @@
 
 <!DOCTYPE html>
 <html>
-
-<head>
+    
+    <head>
         <title>#(bookName)</title>
         <style>
             *{
-                background: #ffffff;
-                padding: left:15,right:15,top:15,bottom:15;
+                padding: 5px;
+                background: #f3f3f3;
             }
-            .container {
-                margin: auto;
-                position: absolute;
-                text-overline-color: #f2f2f2;
-            }
-        </style>
-</head>
-
-    <div class="container">
-        <body> <h2> #(chaptName),#(time) </h2> </body>
-        <body> <h4> #(content) </h4> </body>
+        .container {
+            margin: auto;
+            position: absolute;
+            text-overline-color: #f2f2f2;
+            background-image: url(/images/bg1.jpg);
+            background-repeat: repeat-xy;
+            background-position:center;
+            background-attachment:fixed;
+        }
+        h3 {
+            color: #f
+        }
+        .div {
+            color: #0c1616;
+            font-size: 18px;
+        }
+        
+            </style>
+        
+    </head>
+    <div class='div'>
+        <h3> #(chaptName) </h3>
+        <h4> #(time) </h4>
+        #for(content in contents) {
+            <p> #(content) </p>
+        }
     </div>
 </html>

@@ -59,9 +59,16 @@ extension BookController {
                             var bookName: String?
                             var time: String?
                             var chaptName: String?
-                            var content: String?
+                            var contents: [String]
                         }
-                        let pter = Chapter(bookName: info.bookName, time: chapter?.updateTime, chaptName: "最新章节：" + (chapter?.chapterName ?? ""), content: chapter?.content)
+                        
+                        let contents = chapter?.content?.components(separatedBy: "\n\n") ?? []
+                    
+                        let pter = Chapter(bookName: info.bookName,
+                                           time: chapter?.updateTime,
+                                           chaptName: "最新章节：" + (chapter?.chapterName ?? ""),
+                                           contents: contents)
+                        
                         return try req.view().render("leaf/book",pter).encode(for: req)
                     })
             })
