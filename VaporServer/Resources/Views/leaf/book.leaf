@@ -4,6 +4,7 @@
     
     <head>
         <title>#(bookName)</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <style>
             *{
                 padding: 5px;
@@ -18,15 +19,12 @@
             background-position:center;
             background-attachment:fixed;
         }
-        h3 {
-            color: #f
-        }
         .div {
             color: #0c1616;
-            font-size: 18px;
+            font-size: 20px;
         }
         
-            </style>
+        </style>
         
     </head>
     <div class='div'>

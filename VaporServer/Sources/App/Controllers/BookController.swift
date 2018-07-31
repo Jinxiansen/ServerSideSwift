@@ -89,7 +89,6 @@ extension BookController {
         bookId = 9102
         let url = "https://www.piaotian.com/html/\(typeId)/\(bookId)/"
         
-        
         return try req.client().get(url)
             .flatMap {
                 try $0.convertGBKString(req) }
