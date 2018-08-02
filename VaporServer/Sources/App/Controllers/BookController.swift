@@ -69,7 +69,7 @@ extension BookController {
                                            chaptName: "最新章节：" + (chapter?.chapterName ?? ""),
                                            contents: contents)
                         
-                        return try req.view().render("leaf/book",pter).encode(for: req)
+                        return try req.view().render("leaf/chapter",pter).encode(for: req)
                     })
             })
         
