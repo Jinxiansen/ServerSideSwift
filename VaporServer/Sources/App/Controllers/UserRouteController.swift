@@ -44,18 +44,24 @@ extension UserRouteController {
     //TODO: 登录
     func loginUserHandler(_ req: Request,user: LoginUser) throws -> Future<Response> {
         
-        let first = LoginUser.query(on: req).filter(\.account == user.account).first()
+        let first = LoginUser
+            .query(on: req)
+            .filter(\.account == user.account)
+            .first()
         return first.flatMap({ (existingUser) in
             guard let existingUser = existingUser else {
                 return try ResponseJSON<Empty>(status: .userNotExist).encode(for: req)
             }
             
             let digest = try req.make(BCryptDigest.self)
-            guard try digest.verify(user.password, created: existingUser.password) else {
+            guard try digest.verify(user.password,
+                                    created: existingUser.password) else {
                 return try ResponseJSON<Empty>(status: .passwordError).encode(for: req)
             }
             
-            return try self.authController.authContainer(for: existingUser, on: req).flatMap({ (container) in
+            return try self.authController
+                .authContainer(for: existingUser, on: req)
+                .flatMap({ (container) in
                 
                 var access = AccessContainer(accessToken: container.accessToken)
                 if !req.environment.isRelease {
@@ -88,12 +94,17 @@ extension UserRouteController {
             }
             
             
-            return try newUser.user(with: req.make(BCryptDigest.self)).save(on: req).flatMap { user in
+            return try newUser
+                .user(with: req.make(BCryptDigest.self))
+                .save(on: req)
+                .flatMap { user in
                 
                 let logger = try req.make(Logger.self)
                 logger.warning("New user creatd: \(user.account)")
                 
-                return try self.authController.authContainer(for: user, on: req).flatMap({ (container) in
+                return try self.authController
+                    .authContainer(for: user, on: req)
+                    .flatMap({ (container) in
                     
                     var access = AccessContainer(accessToken: container.accessToken)
                     if !req.environment.isRelease {
@@ -133,7 +144,8 @@ extension UserRouteController {
                 return try ResponseJSON<Empty>(status: .userNotExist).encode(for: req)
             }
             let digest = try req.make(BCryptDigest.self)
-            guard try digest.verify(inputContent.password, created: existUser.password) else {
+            guard try digest.verify(inputContent.password,
+                                    created: existUser.password) else {
                 return try ResponseJSON<Empty>(status: .passwordError).encode(for: req)
             }
             
@@ -157,18 +169,25 @@ extension UserRouteController {
     
     func getUserInfoHandler(_ req: Request) throws -> Future<Response> {
         
-        guard let token = req.query[String.self, at: "token"] else {
-            return try ResponseJSON<Empty>(status: .error, message: "缺少 token 参数").encode(for: req)
+        guard let token = req.query[String.self,
+                                    at: "token"] else {
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: "缺少 token 参数").encode(for: req)
         }
         
         let bearToken = BearerAuthorization(token: token)
-        return AccessToken.authenticate(using: bearToken, on: req).flatMap({ (existToken) in
+        return AccessToken
+            .authenticate(using: bearToken, on: req)
+            .flatMap({ (existToken) in
             
             guard let existToken = existToken else {
                 return try ResponseJSON<Empty>(status: .token).encode(for: req)
             }
             
-            let first = UserInfo.query(on: req).filter(\.userID == existToken.userID).first()
+            let first = UserInfo
+                .query(on: req)
+                .filter(\.userID == existToken.userID)
+                .first()
             
             return first.flatMap({ (existInfo) in
                 guard let existInfo = existInfo else {
@@ -184,12 +203,19 @@ extension UserRouteController {
     func updateUserInfoHandler(_ req: Request,container: UserInfoContainer) throws -> Future<Response> {
         
         let bearToken = BearerAuthorization(token: container.token)
-        return AccessToken.authenticate(using: bearToken, on: req).flatMap({ (existToken) in
+        return AccessToken
+            .authenticate(using: bearToken, on: req)
+            .flatMap({ (existToken) in
             guard let existToken = existToken else {
                 return try ResponseJSON<Empty>(status: .token).encode(for: req)
             }
             
-            return UserInfo.query(on: req).filter(\.userID == existToken.userID).first().flatMap({ (existInfo) in
+            return UserInfo
+                .query(on: req)
+                .filter(\.userID == existToken.userID)
+                .first()
+                .flatMap({ (existInfo) in
+                    
                 var imgName: String?
                 if let file = container.picImage { //如果上传了图片，就判断下大小，否则就揭过这一茬。
                     guard file.data.count < ImageMaxByteSize else {
@@ -212,14 +238,20 @@ extension UserRouteController {
                     }
                     userInfo?.picName = imgName
                 }else {
-                    userInfo = UserInfo(id: nil, userID: existToken.userID, age: container.age,
-                                        sex: container.sex, nickName: container.nickName,
-                                        phone: container.phone, birthday: container.birthday,
-                                        location: container.location, picName: imgName)
+                    userInfo = UserInfo(id: nil,
+                                        userID: existToken.userID,
+                                        age: container.age,
+                                        sex: container.sex,
+                                        nickName: container.nickName,
+                                        phone: container.phone,
+                                        birthday: container.birthday,
+                                        location: container.location,
+                                        picName: imgName)
                 }
                 
                 return (userInfo!.save(on: req).flatMap({ (info) in
-                    return try ResponseJSON<Empty>(status: .ok, message: "更新成功").encode(for: req)
+                    return try ResponseJSON<Empty>(status: .ok,
+                                                   message: "更新成功").encode(for: req)
                 }))
             })
         })

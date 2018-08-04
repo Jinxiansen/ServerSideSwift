@@ -23,9 +23,14 @@ extension EmailController {
     func sendEmail(_ req: Request) throws -> Future<Response> {
         
         return try req.content.decode(EmailContent.self).flatMap({ content in
-            return EmailSendResult.query(on: req).filter(\.email == content.email).count().flatMap({ (count) in
+            return EmailSendResult
+                .query(on: req)
+                .filter(\.email == content.email)
+                .count()
+                .flatMap({ (count) in
                 guard count < 3 else {
-                   return try ResponseJSON<Empty>(status: .error, message: "达到发送上限").encode(for: req)
+                   return try ResponseJSON<Empty>(status: .error,
+                                                  message: "达到发送上限").encode(for: req)
                 }
                 return try EmailSender.sendEmail(req, content: content).flatMap({ (state) in
                     let result = EmailSendResult.init(id: nil,
@@ -33,7 +38,8 @@ extension EmailController {
                                                       email: content.email,
                                                       sendTime: TimeManager.shared.currentTime())
                     return result.save(on: req).flatMap({ (us) in
-                        return try ResponseJSON(status: .ok, message: "发送成功", data: result).encode(for: req)
+                        return try ResponseJSON(status: .ok,
+                                                message: "发送成功", data: result).encode(for: req)
                     })
                 })
             })

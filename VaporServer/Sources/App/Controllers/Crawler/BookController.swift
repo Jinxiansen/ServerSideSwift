@@ -47,7 +47,8 @@ extension BookController {
             .first()
             .flatMap({ (info) in
                 guard let info = info else {
-                    return try ResponseJSON<Empty>(status: .error, message: "没有此书: \(name)").encode(for: req)
+                    return try ResponseJSON<Empty>(status: .error,
+                                                   message: "没有此书: \(name)").encode(for: req)
                 }
                 return BookChapter
                     .query(on: req)
@@ -115,7 +116,8 @@ extension BookController {
                 self.currentIndex = 0
 
                 if self.elements == nil || self.elements?.count == 0 {
-                    return ResponseJSON<Empty>(status: .error, message: "\(html)")
+                    return ResponseJSON<Empty>(status: .error,
+                                               message: "\(html)")
                 }
                 
                 try self.bookExistHandler(req,
@@ -156,7 +158,15 @@ extension BookController {
                 _ = exist.update(on: req)
                 debugPrint("本书已存在:\(exist.bookName ?? "") \(TimeManager.currentTime())")
             }else {
-                let bookInfo = BookInfo(id: nil, typeId: self.typeId, bookId: self.bookId, bookName: bookName, chapterCount: revertLis.count, updateTime: TimeManager.currentTime(), content: nil, auther: auther,bookImg: nil)
+                let bookInfo = BookInfo(id: nil,
+                                        typeId: self.typeId,
+                                        bookId: self.bookId,
+                                        bookName: bookName,
+                                        chapterCount: revertLis.count,
+                                        updateTime: TimeManager.currentTime(),
+                                        content: nil,
+                                        auther: auther,bookImg: nil)
+                
                 _ = bookInfo.save(on: req).map({ (info) in
                     debugPrint("已保存本书:\(info)")
                 })
@@ -193,13 +203,24 @@ extension BookController {
                 
             }else {
                 _ = try self.getDetailContentHandler(req, detailURL: detailURL).map({ (content) -> EventLoopFuture<BookChapter> in
-                    let book = BookChapter(id: nil,typeId: typeId, bookId: bookId, bookName: bookName, chapterId: chpId, chapterName: chpName, updateTime: TimeManager.currentTime(), content: content, auther: auther, desc: "")
+                    let book = BookChapter(id: nil,typeId: typeId,
+                                           bookId: bookId,
+                                           bookName: bookName,
+                                           chapterId: chpId,
+                                           chapterName: chpName,
+                                           updateTime: TimeManager.currentTime(),
+                                           content: content,
+                                           auther: auther,
+                                           desc: "")
                     debugPrint("已保存：\(book.chapterName ?? "") \(TimeManager.currentTime())")
                     
                     if self.currentIndex == 0 {
                         let em = EmailContent(email: "hi@jinxiansen.com", myName: bookName, subject: chpName, text: content)
                         _ = try EmailSender.sendEmail(req, content: em).map({ (state) in
-                            _ = EmailSendResult(id: nil, state: state, email: em.email, sendTime: TimeManager.currentTime()).save(on: req)
+                            _ = EmailSendResult(id: nil, state: state,
+                                                email: em.email,
+                                                sendTime: TimeManager.currentTime())
+                                .save(on: req)
                         })
                     }
                     

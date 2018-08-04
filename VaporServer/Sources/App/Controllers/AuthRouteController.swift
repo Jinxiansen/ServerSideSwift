@@ -38,7 +38,8 @@ extension AuthenRouteController {
     }
     
     func accessTokenRevocationHandler(_ req: Request,container: UserIDContainer) throws -> Future<HTTPResponseStatus> {
-        return try authController.remokeTokens(userID: container.userID, on: req).transform(to: .noContent)
+        return try authController.remokeTokens(userID: container.userID,
+                                               on: req).transform(to: .noContent)
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  CrawlerController.swift
+//  LaGouController.swift
 //  App
 //
 //  Created by Jinxiansen on 2018/6/27.
@@ -13,7 +13,7 @@ import FluentPostgreSQL
 
 private let crawlerInterval = TimeAmount.minutes(2) // 间隔2分钟
 
-class CrawlerController: RouteCollection {
+class LaGouController: RouteCollection {
     
     var timer: Scheduled<()>?
     
@@ -42,16 +42,19 @@ class CrawlerController: RouteCollection {
     }
 }
 
-extension CrawlerController {
+extension LaGouController {
     
     func startTimer(_ req: Request) throws -> Future<Response> {
         
         guard self.timer == nil else {
-            return try ResponseJSON<Empty>(status: .error, message: "正在运行，请先调用 Cancel api").encode(for: req)
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: "正在运行，请先调用 Cancel api").encode(for: req)
         }
         
-        guard let city = req.query[String.self, at: "city"],let key = req.query[String.self, at: "key"] else {
-            return try ResponseJSON<Empty>(status: .error, message: "缺少 key 或 city 参数").encode(for: req)
+        guard let city = req.query[String.self, at: "city"],
+              let key = req.query[String.self, at: "key"] else {
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: "缺少 key 或 city 参数").encode(for: req)
         }
         
         self.searchCity = city
@@ -59,7 +62,8 @@ extension CrawlerController {
         
          _ = try self.crawlerLaGouWebHandler(req)
         
-        return try ResponseJSON<Empty>(status: .ok, message: "开始爬取任务：\(searchCity) \(searchKey)").encode(for: req)
+        return try ResponseJSON<Empty>(status: .ok,
+                                       message: "开始爬取任务：\(searchCity) \(searchKey)").encode(for: req)
     }
     
     func cancelTimer(_ req: Request) throws -> Future<Response> {
@@ -67,7 +71,8 @@ extension CrawlerController {
         self.timer = nil
         let content = "已取消"
         self.saveLog(req: req, content: content)
-        return try ResponseJSON<Empty>(status: .ok, message: content).encode(for: req)
+        return try ResponseJSON<Empty>(status: .ok,
+                                       message: content).encode(for: req)
     }
     
     func runRepeatTimer(_ req: Request) throws {
@@ -89,16 +94,18 @@ extension CrawlerController {
 }
 
 //TODO: Static Func
-extension CrawlerController {
+extension LaGouController {
     
     func crawlerLaGouWebHandler(_ req: Request) throws -> Future<Response> {
         
         guard let urlStr = "https://www.lagou.com/jobs/positionAjax.json?city=\(searchCity)&needAddtionalResult=false&isSchoolJob=0".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-            return try ResponseJSON<Empty>(status: .error, message: "URL 转码错误").encode(for: req)
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: "URL 转码错误").encode(for: req)
         }
         
         guard let url = urlStr.convertToURL() else {
-            return try ResponseJSON<Empty>(status: .error, message: "URL 错误").encode(for: req)
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: "URL 错误").encode(for: req)
         }
         
         let LGHeader: HTTPHeaders = [
@@ -137,12 +144,14 @@ extension CrawlerController {
                 self.saveLog(req: req, content: content)
                 try self.runRepeatTimer(req) //取到数据开始定时解析
                 
-                return try ResponseJSON<Empty>(status: .ok, message: "爬到\(result.count)条数据").encode(for: req)
+                return try ResponseJSON<Empty>(status: .ok,
+                                               message: "爬到\(result.count)条数据").encode(for: req)
             }else {
                 _ = try self.cancelTimer(req)
                 let content = "没有数据了，任务已取消"
                 self.saveLog(req: req ,content: content)
-                return try ResponseJSON<Empty>(status: .error, message: content).encode(for: req)
+                return try ResponseJSON<Empty>(status: .error,
+                                               message: content).encode(for: req)
             }
         })
     }
@@ -171,7 +180,10 @@ extension CrawlerController {
         
         let item = result[filterIndex]
         
-        return LGWorkItem.query(on: req).filter(\.positionId == item.positionId).first().flatMap({ (exist)  in
+        return LGWorkItem.query(on: req)
+            .filter(\.positionId == item.positionId)
+            .first()
+            .flatMap({ (exist)  in
             
             let fultureDetail = try self.requestDetailData(req, positionId: item.positionId)
             return fultureDetail.flatMap({ (detail) in
@@ -227,7 +239,9 @@ extension CrawlerController {
         let urlStr = "https://www.lagou.com/jobs/\(positionId).html"
         
         guard let url = URL(string: urlStr) else {
-            return req.eventLoop.newSucceededFuture(result: LGDetailItem(tag: "空", jobDesc: "空", address: "空"))
+            return req.eventLoop.newSucceededFuture(result: LGDetailItem(tag: "空",
+                                                                         jobDesc: "空",
+                                                                         address: "空"))
         }
         
         //构造请求体。
@@ -250,7 +264,9 @@ extension CrawlerController {
             let content = "\(randomIP) 解析 jobDesc 长度 = \(jobDesc.count)\n\n"
             
             self.saveLog(req: req, content: content, desc: html)
-            return req.eventLoop.newSucceededFuture(result: LGDetailItem(tag: tag, jobDesc: jobDesc, address: address))
+            return req.eventLoop.newSucceededFuture(result: LGDetailItem(tag: tag,
+                                                                         jobDesc: jobDesc,
+                                                                         address: address))
         })
     }
     
@@ -258,7 +274,8 @@ extension CrawlerController {
     func requestDetailDataHandler(_ req: Request) throws -> Future<Response> {
         
         guard let positionId = req.query[Int.self, at: "id"] else {
-            return try ResponseJSON<Empty>(status: .error, message: " 缺少 id").encode(for: req)
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: " 缺少 id").encode(for: req)
         }
         return try requestDetailData(req, positionId: positionId).flatMap({ (item) in
             return try ResponseJSON<LGDetailItem>(data: item).encode(for: req)
@@ -267,9 +284,12 @@ extension CrawlerController {
     
     func readAllIOSWorksHandler(_ req: Request) throws -> Future<Response> {
         
-        let all = LGWorkItem.query(on: req).filter(\.positionName,.like,"%ios%").all()
+        let all = LGWorkItem.query(on: req)
+            .filter(\.positionName,.like,"%ios%")
+            .all()
         return all.flatMap({ (items) in
-            return try ResponseJSON<[LGWorkItem]>(status: .ok, message: "共\(items.count)条数据", data: items).encode(for: req)
+            return try ResponseJSON<[LGWorkItem]>(status: .ok,
+                                                  message: "共\(items.count)条数据", data: items).encode(for: req)
         })
     }
     
@@ -278,7 +298,8 @@ extension CrawlerController {
         guard let city = req.query[String.self, at: "city"],
             let key = req.query[String.self, at: "key"],
             let page = req.query[Int.self, at: "page"] else {
-                return try ResponseJSON<Empty>(status: .error, message: "缺少 key 或 city 参数").encode(for: req)
+                return try ResponseJSON<Empty>(status: .error,
+                                               message: "缺少 key 或 city 参数").encode(for: req)
         }
         let all = LGWorkItem.query(on: req)
             .filter(\.city,.like, "%\(city)%") //模糊查询包含city的
@@ -292,8 +313,10 @@ extension CrawlerController {
     
     func getCrawlerLogHandler(_ req: Request) throws -> Future<Response> {
         
-        guard let city = req.query[String.self, at: "city"],let key = req.query[String.self, at: "key"] else {
-            return try ResponseJSON<Empty>(status: .error, message: "缺少 key 或 city 参数").encode(for: req)
+        guard let city = req.query[String.self, at: "city"],
+              let key = req.query[String.self, at: "key"] else {
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: "缺少 key 或 city 参数").encode(for: req)
         }
         let title = "\(city)-\(key)"
         let all = CrawlerLog.query(on: req).filter(\.title == title).all()
@@ -315,7 +338,7 @@ extension CrawlerController {
     
 }
 
-extension CrawlerController {
+extension LaGouController {
     
     func crawlerSwiftDocHandler(_ req: Request) throws -> Future<Response> {
         

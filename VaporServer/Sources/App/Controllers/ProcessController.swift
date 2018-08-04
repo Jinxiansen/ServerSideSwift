@@ -8,6 +8,7 @@
 import Foundation
 import Vapor
 
+// Swift 与 Python 交互。
 class ProcessController: RouteCollection {
     
     func boot(router: Router) throws {
@@ -71,7 +72,8 @@ extension ProcessController {
         let inputPath = pyFileDir + "/convert/input"
         let manager = FileManager.default
         if !manager.fileExists(atPath: inputPath) { //不存在则创建
-            try manager.createDirectory(atPath: inputPath, withIntermediateDirectories: true, attributes: nil)
+            try manager.createDirectory(atPath: inputPath,
+                                        withIntermediateDirectories: true, attributes: nil)
         }
         
         var imgPath: String?
@@ -137,9 +139,6 @@ extension ProcessController {
         
         task.launch()
         task.waitUntilExit()
-        
-        //        let data = outPipe.fileHandleForReading.readDataToEndOfFile()
-        //        print(String(data: data, encoding: .utf8) ?? "gg")
         
         return promise.futureResult
     }
