@@ -27,6 +27,7 @@ public func routes(_ router: Router) throws {
     try router.register(collection: LaGouController())
     try router.register(collection: ProcessController())
     try router.register(collection: BookController())
+    try router.register(collection: ConstellationController())
     
     try router.register(collection: TestController())
     
