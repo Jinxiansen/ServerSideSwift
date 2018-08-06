@@ -16,7 +16,7 @@ class HongKongJobController: RouteCollection {
     var maxPage: Int?
     var currentPage = 1
     
-    var amount:TimeAmount? = TimeAmount.seconds(10)
+    var amount:TimeAmount? = TimeAmount.seconds(5)
     
     func boot(router: Router) throws {
         
@@ -24,6 +24,8 @@ class HongKongJobController: RouteCollection {
             
             group.get("start", use: startCrawlerWorksHandler)
             group.get("stop", use: stopCrawlerWorksHandler)
+            
+            group.get("list", use: getWorkListHandler)
         }
     }
 }
@@ -51,26 +53,48 @@ extension HongKongJobController {
             let reversed = pagination.reversed()
             self.maxPage = Int(try reversed[1].text()) ?? 0
             self.currentPage = 1
-         
+            
             func runRepeatTimer() throws {
                 guard let amount = self.amount else { return }
                 _ = req.eventLoop.scheduleTask(in: amount, {
                     try runRepeatTimer()
-                     _ = try self.getAllWorksHandlers(req)
+                    _ = try self.saveCurrentPageWorksHandlers(req)
                 })
             }
             try runRepeatTimer()
             
             let message = "已开始,总共：\(self.maxPage ?? 0) 页"
-            return try ResponseJSON<Empty>(status: .ok, message: message).encode(for: req)
+            return try ResponseJSON<Empty>(status: .ok,
+                                           message: message).encode(for: req)
         })
         
     }
     
-    fileprivate func getAllWorksHandlers(_ req: Request) throws -> Future<Response> {
-
+    func getWorkListHandler(_ req: Request) throws -> Future<Response> {
+        
+        let type = req.query[String.self,at: "type"] ?? ""
+        let location = req.query[String.self,at: "location"] ?? ""
+        let company = req.query[String.self,at: "company"] ?? ""
+        let industry = req.query[String.self,at: "industry"] ?? ""
+        let page = req.query[Int.self,at: "page"] ?? 1
+        
+        return HongKongJob.query(on: req)
+            .filter(\.type,.like,"%\(type)%")
+            .filter(\.location,.like,"%\(location)%")
+            .filter(\.company,.like,"%\(company)%")
+            .filter(\.industry,.like,"%\(industry)%")
+            .range(VaporUtils.queryRange(page: page))
+            .all()
+            .flatMap({ (jobs) in
+//                let info = ["参数 type 的值可以为：兼職/全職/合約/臨時工/Freelance， Freelance为自由職業。"]
+                return try ResponseJSON<[HongKongJob]>(data: jobs).encode(for: req)
+            })
+    }
+    
+    fileprivate func saveCurrentPageWorksHandlers(_ req: Request) throws -> Future<Response> {
+        
         guard let maxPage = self.maxPage,maxPage > 0,currentPage <= maxPage else {
-            _ = self.stopCrawlerWorksHandler(req)
+            _ = try self.stopCrawlerWorksHandler(req)
             return try ResponseJSON<Empty>(status: .error, message: "没有数据。").encode(for: req)
         }
         print("当前页：\(self.currentPage) \(TimeManager.currentTime())")
@@ -82,7 +106,7 @@ extension HongKongJobController {
             let soup = try SwiftSoup.parse(html)
             let jobs = try soup.select("ul[class='reset-list jobs']").select("li").select("div[class='featured-job-card']")
             
-            try jobs.map({ job in
+            _ = try jobs.map({ job in
                 
                 let jobTitle = try job.select("div[class='featured-job-card-title']")
                 let title = try jobTitle.text()

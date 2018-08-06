@@ -20,8 +20,6 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     services.register(DirectoryConfig.detect())
     try services.register(AuthenticationProvider())
     
-    try services.register(FanRenCrawleProvider())
-
     /// Register routes to the router
     
     let router = EngineRouter.default()

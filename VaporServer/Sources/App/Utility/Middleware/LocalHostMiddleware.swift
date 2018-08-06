@@ -16,7 +16,7 @@ public final class LocalHostMiddleware: Middleware,Service {
         let urlString = request.http.urlString
         var container = false
         
-        let uris = ["lagou/start","lagou/getLogs","lagou/cancel","book/start"]
+        let uris = ["lagou/start","lagou/getLogs","lagou/cancel","book/start","crawler/start","crawler/stop"]
         
         _ = uris.map { if urlString.contains($0) { container = true } }
         
