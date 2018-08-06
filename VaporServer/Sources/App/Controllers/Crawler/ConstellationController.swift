@@ -21,7 +21,7 @@ class ConstellationController: RouteCollection {
     
     func boot(router: Router) throws {
         
-        router.group("sp") { (group) in
+        router.group("crawler/sp") { (group) in
             group.get("xingzuo", use: getListHandler)
         }
     }
@@ -72,16 +72,6 @@ extension ConstellationController {
             return try ResponseJSON<Result>(data: data).encode(for: req)
         })
         
-    }
-    
-    
-    func getHTMLResponse(_ req:Request,url: String) throws -> Future<String> {
-        
-        return try req.client().get(startUrl).flatMap {
-            let html = $0.http.body.utf8String
-            
-            return req.eventLoop.newSucceededFuture(result: html)
-        }
     }
     
 }

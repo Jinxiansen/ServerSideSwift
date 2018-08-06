@@ -434,13 +434,5 @@ struct LGDetailItem: Content {
     
 }
 
-extension HTTPBody {
-    
-    var utf8String: String {
-        return String(data: data ?? Data(), encoding: .utf8) ?? "n/a"
-    }
-
-}
-
 
 

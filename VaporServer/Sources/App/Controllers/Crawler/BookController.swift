@@ -10,11 +10,6 @@ import Vapor
 import Fluent
 import FluentPostgreSQL
 import SwiftSoup
-import PerfectICONV
-
-private let header: HTTPHeaders = ["User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
-    ,"Cookie": "yunsuo_session_verify=2a87ab507187674302f32bbc33248656"]
-
 
 class BookController: RouteCollection {
     
@@ -254,26 +249,6 @@ extension BookController {
     }
     
 }
-
-extension Response {
-    
-    func convertGBKString(_ req: Request) throws -> Future<String> {
-        
-        let iconv = try Iconv(from: Iconv.CodePage.GBK, to: Iconv.CodePage.UTF8)
-        
-        return http.body.consumeData(on: req) // 1) read complete body as raw Data
-            .map { (data: Data) -> String in
-                var bytes = [UInt8](repeating: 0, count: data.count)
-                let buffer = UnsafeMutableBufferPointer(start: &bytes, count: bytes.count)
-                _ = data.copyBytes(to: buffer)
-                
-                let utf8Bytes = iconv.convert(buf: bytes) // !
-                let utf8String = String(bytes: utf8Bytes, encoding: .utf8) // !
-                return utf8String ?? "g/u"
-        }
-    }
-}
-
 
 
 
