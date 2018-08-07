@@ -28,7 +28,7 @@
         
     </head>
     <div class='div'>
-        
+        #if(count(chapters) > 0) {
         <table class="table table-bordered table-hover">
             <thead class="thead-light">
                 <tr>
@@ -45,7 +45,9 @@
                 }
             </tbody>
         </table>
-        
+        } else {
+            <h2>啥也没有。😳</h2>
+        }
     </div>
 </html>
 
