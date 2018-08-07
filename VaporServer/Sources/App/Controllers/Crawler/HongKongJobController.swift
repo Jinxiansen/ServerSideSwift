@@ -20,7 +20,7 @@ class HongKongJobController: RouteCollection {
     
     func boot(router: Router) throws {
         
-        router.group("crawler/job") { (group) in
+        router.group("job") { (group) in
             
             group.get("start", use: startCrawlerWorksHandler)
             group.get("stop", use: stopCrawlerWorksHandler)
@@ -60,13 +60,15 @@ extension HongKongJobController {
     func stopCrawlerWorksHandler(_ req: Request) throws -> Future<Response> {
         
         self.amount = nil
-        return try ResponseJSON<Empty>(status: .error, message: "任务已结束").encode(for: req)
+        return try ResponseJSON<Empty>(status: .error,
+                                       message: "任务已结束").encode(for: req)
     }
     
     func startCrawlerWorksHandler(_ req: Request) throws -> Future<Response> {
         
         guard let amount = self.amount else {
-            return try ResponseJSON<Empty>(status: .error, message: "任务已开始").encode(for: req)
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: "任务已开始").encode(for: req)
         }
         
         return try getHTMLResponse(req, url: "http://www.parttime.hk/jobs/SearchResults.aspx").flatMap({ (html) in
@@ -152,7 +154,8 @@ extension HongKongJobController {
         
         guard let maxPage = self.maxPage,maxPage > 0,currentPage <= maxPage else {
             _ = try self.stopCrawlerWorksHandler(req)
-            return try ResponseJSON<Empty>(status: .error, message: "没有数据。").encode(for: req)
+            return try ResponseJSON<Empty>(status: .error,
+                                           message: "没有数据。").encode(for: req)
         }
         print("当前页：\(self.currentPage) \(TimeManager.currentTime())")
         let url = "http://www.parttime.hk/jobs/SearchResults.aspx?pg=\(self.currentPage)"
@@ -177,11 +180,8 @@ extension HongKongJobController {
                 let type = try jobArray[1].text()
                 let location = try jobArray[2].text()
                 let money = try jobBody.select("div[class='text-danger']").text()
-                
                 let content = try jobArray[4].text()
-                
                 let company = try jobBody.select("span[class='text-success']").text()
-                
                 let lastUpdate = try jobBody.select("div[class='dateposted']").text()
                 
                 _ = HongKongJob.query(on: req).filter(\.jobId == jobId).first().map({ (exist) in
@@ -197,9 +197,7 @@ extension HongKongJobController {
                         })
                     }
                 })
-                
             })
-            
             
             return try ResponseJSON<String>(data: html).encode(for: req)
         })
@@ -211,11 +209,8 @@ extension HongKongJobController {
             
             let soup = try SwiftSoup.parse(html)
             let body = try soup.select("div[id='jobdetails-body']").select("p").map{ try $0.text()}
-            
             let detailInfo = body.joined(separator: "\n")
-            
             let table = try soup.select("table[class='job-details-summary-table']").select("tr").map{ try $0.text() }
-            
             let date = table[1]
             let industry = table[2] //行业
             

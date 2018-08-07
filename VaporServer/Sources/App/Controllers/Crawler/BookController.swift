@@ -32,51 +32,59 @@ class BookController: RouteCollection {
         group.get("allChapters", use: getAllChatpersHandler)
         
         group.get("chapter",Int.parameter, use: getChatperContentHandler)
-
+        
     }
 }
 
 extension BookController {
     
     func getAllChatpersHandler(req: Request) throws -> Future<Response> {
+        
         let name = req.query[String.self,at:"name"] ?? ""
         
-        return BookInfo.query(on: req).filter(\.bookName ~~ name).first().flatMap({ (exist) in
-            
-            guard let exist = exist else {
-                return try req.view().render("leaf/allChatpers").encode(for: req)
-            }
-            
-            return BookChapter.query(on: req).filter(\.bookId == exist.bookId).sort(\.chapterId,.descending).all().flatMap({ (chapters) in
+        return BookInfo.query(on: req)
+            .filter(\.bookName ~~ name)
+            .first()
+            .flatMap({ (exist) in
                 
-                struct ChapterContext: Content {
-                    var bookName: String?
-                    var chapters: [BookChapter]?
+                guard let exist = exist else {
+                    return try req.view().render("leaf/allChatpers").encode(for: req)
                 }
                 
-                let context = ChapterContext(bookName: exist.bookName, chapters: chapters)
-                
-                return try req.view().render("leaf/allChatpers", context).encode(for: req)
+                let all = BookChapter.query(on: req).filter(\.bookId == exist.bookId).sort(\.chapterId,.descending).all()
+                return all.flatMap({ (chapters) in
+                        
+                        struct ChapterContext: Content {
+                            var bookName: String?
+                            var chapters: [BookChapter]?
+                        }
+                        
+                        let context = ChapterContext(bookName: exist.bookName, chapters: chapters)
+                        return try req.view().render("leaf/allChatpers", context).encode(for: req)
+                        
+                    })
                 
             })
-        
-        })
     }
     
     func getChatperContentHandler(_ req: Request) throws -> Future<Response> {
         
         let id = try req.parameters.next(Int.self)
         
-        return BookChapter.query(on: req).filter(\.chapterId == id).first().flatMap({ (chapter) in
-            
-            let contents = chapter?.content?.components(separatedBy: "\n\n") ?? []
-            let pter = ChapterContext(bookName: chapter?.bookName,
-                                      time: chapter?.updateTime,
-                                      chaptName: (chapter?.chapterName ?? ""),
-                                      contents: contents)
-            
-            return try req.view().render("leaf/chapter",pter).encode(for: req)
-        })
+        return BookChapter
+            .query(on: req)
+            .filter(\.chapterId == id)
+            .first()
+            .flatMap({ (chapter) in
+                
+                let contents = chapter?.content?.components(separatedBy: "\n\n") ?? []
+                let pter = ChapterContext(bookName: chapter?.bookName,
+                                          time: chapter?.updateTime,
+                                          chaptName: (chapter?.chapterName ?? ""),
+                                          contents: contents)
+                
+                return try req.view().render("leaf/chapter",pter).encode(for: req)
+            })
     }
     
     func getBookLastChapterContentHandler(_ req: Request) throws -> Future<Response> {
@@ -98,7 +106,6 @@ extension BookController {
                     .flatMap({ (chapter) in
                         
                         let contents = chapter?.content?.components(separatedBy: "\n\n") ?? []
-                    
                         let pter = ChapterContext(bookName: info.bookName,
                                                   time: chapter?.updateTime,
                                                   chaptName: "最新章节：" + (chapter?.chapterName ?? ""),
@@ -114,8 +121,7 @@ extension BookController {
         
         let client = try req.make(Client.self)
         let url = "https://www.piaotian.com/html/9/9102/"
-        return client.get(url)
-            .flatMap { try $0.convertGBKString(req) } // 1) read complete body as raw Data
+        return client.get(url).flatMap { try $0.convertGBKString(req) }
     }
     
     func crawlerFanRenBookHandler(_ req: Request) throws -> Future<ResponseJSON<Empty>> {
@@ -148,7 +154,7 @@ extension BookController {
                 
                 self.elements = revertLis
                 self.currentIndex = 0
-
+                
                 if self.elements == nil || self.elements?.count == 0 {
                     return ResponseJSON<Empty>(status: .error,
                                                message: "\(html)")
@@ -162,7 +168,6 @@ extension BookController {
                 func runRepeatTimer() throws {
                     
                     guard let amount = self.amount else { return }
-                    
                     _ = req.eventLoop.scheduleTask(in: amount, {
                         try runRepeatTimer()
                         try self.saveBookContentHandler(req: req,
@@ -174,17 +179,24 @@ extension BookController {
                 }
                 try runRepeatTimer()
                 
-                return ResponseJSON<Empty>(status: .ok, message: "开始爬取 \(self.typeId)/\(self.bookId)")
+                return ResponseJSON<Empty>(status: .ok,
+                                           message: "开始爬取 \(self.typeId)/\(self.bookId)")
             })
         
     }
     
     
-    func bookExistHandler(_ req: Request,revertLis: [Element],bookName: String, auther: String) throws {
+    func bookExistHandler(_ req: Request,
+                          revertLis: [Element],
+                          bookName: String,
+                          auther: String) throws {
         
         guard revertLis.count > 0 else { return }
         
-        _ = BookInfo.query(on: req).filter(\.bookId == self.bookId).first().map({ (exist) in
+        _ = BookInfo.query(on: req)
+            .filter(\.bookId == self.bookId)
+            .first()
+            .map({ (exist) in
             
             if var exist = exist {
                 exist.chapterCount = revertLis.count
@@ -209,7 +221,10 @@ extension BookController {
     }
     
     // 保存每一章内容。
-    func saveBookContentHandler(req: Request,bookName: String,auther: String,bookId: Int,typeId: Int) throws {
+    func saveBookContentHandler(req: Request,bookName: String,
+                                auther: String,
+                                bookId: Int,
+                                typeId: Int) throws {
         
         guard let elements = self.elements else { return }
         
