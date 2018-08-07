@@ -45,12 +45,12 @@ extension HongKongJobController {
             //求职人群：学生，主妇等。
             let jobseeker = try soup.select("div[id='filter-jobseeker-type-list']").select("li").map{ try $0.text() }.joined(separator: "  ")
             
-            let categorys = try soup.select("div[id='filter-category-list']").select("li").select("a").map{ try $0.text() }.joined(separator: "  ").replacingOccurrences(of: " / ", with: "/")
+            let industrys = try soup.select("div[id='filter-category-list']").select("li").select("a").map{ try $0.text() }.joined(separator: "  ").replacingOccurrences(of: " / ", with: "/")
             
             let locations = try soup.select("div[id='filter-location-list']").select("li").select("a").map{ try $0.text() }.joined(separator: "  ")
             
             
-            let result = JobTags(types: types, jobseeker: jobseeker, categorys: categorys, locations: locations)
+            let result = JobTags(types: types, jobseeker: jobseeker, industrys: industrys, locations: locations)
             
             return try ResponseJSON<JobTags>(data: result).encode(for: req)
         }
@@ -133,7 +133,7 @@ extension HongKongJobController {
 //        let jobseeker = "學生 家庭主婦 畢業生 退休人士 新來港人士"
         let locations = "香港島 中西區 灣仔 東區 南區 九龍 油尖旺 深水埗 九龍城 黃大仙 觀塘 新界 葵青 荃灣 屯門 元朗 北區 大埔 沙田 西貢 離島"
         
-        return JobTags(types: types, jobseeker: nil, categorys: categorys, locations: locations)
+        return JobTags(types: types, jobseeker: nil, industrys: categorys, locations: locations)
     }
     
     fileprivate func saveCurrentPageWorksHandlers(_ req: Request) throws -> Future<Response> {
@@ -224,7 +224,7 @@ fileprivate struct DetailItem {
 fileprivate struct JobTags: Content {
     var types: String?
     var jobseeker: String?
-    var categorys: String?
+    var industrys: String?
     var locations: String?
 }
 
