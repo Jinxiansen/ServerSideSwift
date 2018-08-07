@@ -9,7 +9,6 @@ let package = Package(
         .package(url: "https://github.com/vapor/leaf.git", from: "3.0.0-rc"),
         
         .package(url: "https://github.com/vapor/fluent-postgresql.git", from: "1.0.0-rc"),
-//        .package(url: "https://github.com/vapor/fluent-mysql.git", from: "3.0.0-rc"),
         
         .package(url: "https://github.com/skelpo/APIErrorMiddleware.git", from: "0.1.0"),
         .package(url: "https://github.com/IBM-Swift/Swift-SMTP.git", from: "4.0.1"),

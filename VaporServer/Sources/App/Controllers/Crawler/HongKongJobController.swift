@@ -26,12 +26,36 @@ class HongKongJobController: RouteCollection {
             group.get("stop", use: stopCrawlerWorksHandler)
             
             group.get("list", use: getWorkListHandler)
+            
+            group.get("area", use: getAreaDataHandler)
         }
     }
 }
 
 extension HongKongJobController {
     
+    func getAreaDataHandler(_ req: Request) throws -> Future<Response> {
+        
+        return try getHTMLResponse(req, url: "http://www.parttime.hk/jobs/SearchResults.aspx").flatMap { html in
+            
+            let soup = try SwiftSoup.parse(html)
+            
+            //工作类型：兼职，全职等
+            let types = try soup.select("div[id='filter-work-type-list']").select("li").map{ try $0.text() }.joined(separator: "  ")
+            //求职人群：学生，主妇等。
+            let jobseeker = try soup.select("div[id='filter-jobseeker-type-list']").select("li").map{ try $0.text() }.joined(separator: "  ")
+            
+            let categorys = try soup.select("div[id='filter-category-list']").select("li").select("a").map{ try $0.text() }.joined(separator: "  ").replacingOccurrences(of: " / ", with: "/")
+            
+            let locations = try soup.select("div[id='filter-location-list']").select("li").select("a").map{ try $0.text() }.joined(separator: "  ")
+            
+            
+            let result = JobTags(types: types, jobseeker: jobseeker, categorys: categorys, locations: locations)
+            
+            return try ResponseJSON<JobTags>(data: result).encode(for: req)
+        }
+        
+    }
     
     func stopCrawlerWorksHandler(_ req: Request) throws -> Future<Response> {
         
@@ -86,9 +110,30 @@ extension HongKongJobController {
             .range(VaporUtils.queryRange(page: page))
             .all()
             .flatMap({ (jobs) in
-//                let info = ["参数 type 的值可以为：兼職/全職/合約/臨時工/Freelance， Freelance为自由職業。"]
-                return try ResponseJSON<[HongKongJob]>(data: jobs).encode(for: req)
+                
+                struct JobResponse: Content {
+                    var tags: JobTags?
+                    var jobs: [HongKongJob]?
+                }
+                
+                var message = "请求成功"
+                var response = JobResponse(tags: nil, jobs: jobs)
+                if page == 1 {
+                    response.tags = self.requestExampleParameters()
+                    message = "请求成功，本接口共有5个可选参数：page,type,location,company,industry；其中 type/location/industry 参数对应值为下面 tags 中所述，tags 中数据只会在第1页返回"
+                }
+                
+                return try ResponseJSON<JobResponse>(status: .ok, message: message, data: response).encode(for: req)
             })
+    }
+    
+    fileprivate func requestExampleParameters() -> JobTags {
+        let categorys = "會計/核數 行政/秘書 廣告/媒體/娛樂 銀行/金融 客戶服務 社區/體育/消閒 樓宇/建築 教育 工程 醫療/醫護 旅遊/酒店/餐飲 人力資源 保險 資訊科技/電訊 法律 物流/運輸 製造 地產/物業 零售 銷售/市場管理 科學/化學 貿易 保健/美容"
+        let types = "兼職 全職 合約 臨時工 Freelance 暑期工"
+//        let jobseeker = "學生 家庭主婦 畢業生 退休人士 新來港人士"
+        let locations = "香港島 中西區 灣仔 東區 南區 九龍 油尖旺 深水埗 九龍城 黃大仙 觀塘 新界 葵青 荃灣 屯門 元朗 北區 大埔 沙田 西貢 離島"
+        
+        return JobTags(types: types, jobseeker: nil, categorys: categorys, locations: locations)
     }
     
     fileprivate func saveCurrentPageWorksHandlers(_ req: Request) throws -> Future<Response> {
@@ -170,13 +215,18 @@ extension HongKongJobController {
 }
 
 fileprivate struct DetailItem {
-    
     var detailInfo: String?
     var date: String?
     var industry: String?
     
 }
 
+fileprivate struct JobTags: Content {
+    var types: String?
+    var jobseeker: String?
+    var categorys: String?
+    var locations: String?
+}
 
 
 
