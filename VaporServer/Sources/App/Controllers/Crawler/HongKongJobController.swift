@@ -102,6 +102,22 @@ extension HongKongJobController {
         let industry = req.query[String.self,at: "industry"] ?? ""
         let page = req.query[Int.self,at: "page"] ?? 1
         
+        let path = req.http.headers["path"].first?.description ?? ""
+        
+        guard path == req.http.urlString.description else {
+            
+            return HongKongJob.query(on: req).first().flatMap({ (job) in
+                
+                var jobs = [HongKongJob]()
+                if let job = job {
+                    jobs.append(job)
+                }
+                
+                return try ResponseJSON<[HongKongJob]>(data: jobs).encode(for: req)
+            })
+        }
+        
+        
         return HongKongJob.query(on: req)
             .filter(\.type,.like,"%\(type)%")
             .filter(\.location,.like,"%\(location)%")
