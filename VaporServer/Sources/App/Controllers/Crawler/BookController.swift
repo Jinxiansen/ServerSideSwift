@@ -91,7 +91,7 @@ extension BookController {
         let name = req.query[String.self,at:"name"] ?? ""
         
         return BookInfo.query(on: req)
-            .filter(\.bookName,.like,"%\(name)%")
+            .filter(\.bookName ~~ name)
             .first()
             .flatMap({ (info) in
                 guard let info = info else {

@@ -117,10 +117,10 @@ extension HongKongJobController {
         
         
         return HongKongJob.query(on: req)
-            .filter(\.type,.like,"%\(type)%")
-            .filter(\.location,.like,"%\(location)%")
-            .filter(\.company,.like,"%\(company)%")
-            .filter(\.industry,.like,"%\(industry)%")
+            .filter(\.type ~~ type)
+            .filter(\.location ~~ location)
+            .filter(\.company ~~ company)
+            .filter(\.industry ~~ industry)
             .range(VaporUtils.queryRange(page: page))
             .all()
             .flatMap({ (jobs) in
