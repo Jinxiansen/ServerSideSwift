@@ -727,18 +727,18 @@
 拉勾网爬虫示例，目标地址： [https://www.lagou.com/jobs/list_ios?labelWords=&fromSearch=true&suginput=](https://www.lagou.com/jobs/list_ios?labelWords=&fromSearch=true&suginput=)
 
 
-> crawler/lagou/start
+> lagou/start
 
 ##### 请求方式：GET
 
 #### 接口示例
 
-请运行项目后开始爬取：[http://localhost:8080/crawler/lagou/start](http://localhost:8080/crawler/lagou/start)
+请运行项目后开始爬取：[http://localhost:8080/lagou/start](http://localhost:8080/lagou/start)
 
 
  <details> 
   <summary> 查看爬取结果 </summary>
-	http://api.jinxiansen.com/crawler/lagou/ios
+	http://api.jinxiansen.com/lagou/ios
 
 </details> 
 
@@ -769,13 +769,13 @@
 
 <h3 id="获取iOS爬取结果">获取iOS爬取结果</h3>
 
-> crawler/lagou/ios
+>lagou/ios
 
 ##### 请求方式：GET
 
 #### 接口示例
 
-[http://api.jinxiansen.com/crawler/lagou/ios](http://api.jinxiansen.com/crawler/lagou/ios)
+[http://api.jinxiansen.com/lagou/ios](http://api.jinxiansen.com/lagou/ios)
 
 ##### 请求参数
 
