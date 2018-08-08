@@ -29,7 +29,7 @@ class BookController: RouteCollection {
         //test
         group.get("html", use: getHtmlDataHandler)
         
-        group.get("allChapters", use: getAllChatpersHandler)
+        group.get("allChapters", use: getAllChaptersHandler)
         
         group.get("chapter",Int.parameter, use: getChatperContentHandler)
         
@@ -38,7 +38,7 @@ class BookController: RouteCollection {
 
 extension BookController {
     
-    func getAllChatpersHandler(req: Request) throws -> Future<View> {
+    func getAllChaptersHandler(req: Request) throws -> Future<View> {
         
         let name = req.query[String.self,at:"name"] ?? ""
         
@@ -48,7 +48,7 @@ extension BookController {
             .flatMap({ (exist) in
                 
                 guard let exist = exist else {
-                    return try req.view().render("leaf/allChatpers")
+                    return try req.view().render("leaf/allChapters")
                 }
                 
                 let all = BookChapter.query(on: req).filter(\.bookId == exist.bookId).sort(\.chapterId,.descending).all()
@@ -60,7 +60,7 @@ extension BookController {
                         }
                         
                         let context = ChapterContext(bookName: exist.bookName, chapters: chapters)
-                        return try req.view().render("leaf/allChatpers", context)
+                        return try req.view().render("leaf/allChapters", context)
                         
                     })
                 

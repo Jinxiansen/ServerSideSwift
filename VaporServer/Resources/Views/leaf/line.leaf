@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title>晋先森的博客</title> 	
-	</head>
-	<body>
-		<script src="/js/harmony.js"></script>
-		<script>harmony();</script>
-		<canvas style="width:auto;height:auto;cursor:crosshair;"></canvas>
-	</body>
+    <head>
+        <meta charset="utf-8" />
+        <title>晋先森的博客</title>
+    </head>
+    <body>
+        <script src="/js/harmony.js"></script>
+        <script>harmony();</script>
+        <canvas style="width:auto;height:auto;cursor:crosshair;"></canvas>
+    </body>
 </html>
 

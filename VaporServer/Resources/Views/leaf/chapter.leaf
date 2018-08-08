@@ -3,35 +3,63 @@
 <html>
     
     <head>
-        <title>#(bookName)</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <style>
-            *{
-                padding: 5px;
-                background: #f3f3f3;
-            }
-        .container {
-            margin: auto;
-            position: absolute;
-            text-overline-color: #f2f2f2;
-            background-image: url(/images/bg1.jpg);
-            background-repeat: repeat-xy;
-            background-position:center;
-            background-attachment:fixed;
-        }
-        .div {
-            color: #0c1616;
-            font-size: 20px;
-        }
-        
-            </style>
-        
+        <meta charset="utf-8">
+            <title>#(bookName)</title>
+            <meta name="renderer" content="webkit">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+                    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+                        <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
+                            <style>
+                                *{
+                                    padding: 5px;
+                                    background: #f3f3f3;
+                                }
+                            .container {
+                                margin: auto;
+                                position: absolute;
+                                text-overline-color: #f2f2f2;
+                                background-image: url(/images/bg1.jpg);
+                                background-repeat: repeat-xy;
+                                background-position:center;
+                                background-attachment:fixed;
+                            }
+                            .div {
+                                color: #0c1616;
+                                font-size: 20px;
+                            }
+                            
+                            </style>
     </head>
-    <div class='div'>
-        <h3> #(chaptName) </h3>
-        <h4> #(time) </h4>
+ 
+    <div class="layui-row">
+        <div class="layui-col-md4">
+            <a class="layui-btn" href="/book/chapter/#(last)" target="_blank">上一章</a>
+        </div>
+        <div class="layui-col-md4">
+            <a class="layui-btn" href="/book/allChapters" target="_blank">首页</a>
+        </div>
+        <div class="layui-col-md4">
+            <a class="layui-btn" href="/book/chapter/#(next)" target="_blank">下一章</a>
+        </div>
+    </div>
+    
+    <div>
+        <br>
+        <h1> #(chaptName) </h1>
+        <fieldset class="layui-elem-field layui-field-title">
+            <h3 style="margin-bottom: 10px;margin-top:10px;"> #(time) </h3>
+        </fieldset>
         #for(content in contents) {
-            <p> #(content) </p>
+            <h2 class="layui-timeline-title" > #(content) </h2>
         }
     </div>
+    
+    
+    
 </html>
+
+
+
+
+
+
