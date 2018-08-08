@@ -125,19 +125,7 @@ extension HongKongJobController {
             .all()
             .flatMap({ (jobs) in
                 
-                struct JobResponse: Content {
-                    var tags: JobTags?
-                    var jobs: [HongKongJob]?
-                }
-                
-                var message = "请求成功"
-                var response = JobResponse(tags: nil, jobs: jobs)
-                if page == 1 {
-                    response.tags = self.requestExampleParameters()
-                    message = "请求成功，本接口共有5个可选参数：page,type,location,company,industry；其中 type/location/industry 参数对应值为下面 tags 中所述，tags 中数据只会在第1页返回"
-                }
-                
-                return try ResponseJSON<JobResponse>(status: .ok, message: message, data: response).encode(for: req)
+                return try ResponseJSON<[HongKongJob]>(data: jobs).encode(for: req)
             })
     }
     
