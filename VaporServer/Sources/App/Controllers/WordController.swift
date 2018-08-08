@@ -17,13 +17,15 @@ struct WordController: RouteCollection {
         router.group("words") { (router) in
             
             // words/word?str= ""
-            router.get("word", use: filterWordData)
+            router.get("word", use: filterWordDataHandler)
             
-            router.get("idiom", use: filterIdiom)
+            router.get("idiom", use: filterIdiomHandler)
             
-            router.get("xxidiom", use: filterXieHouIdiom)
+            router.get("xxidiom", use: filterXieHouIdiomHandler)
             
         }
+        
+        
     }
 }
 
@@ -31,7 +33,7 @@ struct WordController: RouteCollection {
 extension WordController {
     
     //TODO: 查询单字
-    func filterWordData(_ req: Request) throws -> Future<Response> {
+    func filterWordDataHandler(_ req: Request) throws -> Future<Response> {
         
         guard let input = req.query[String.self, at: "str"],input.count > 0 else {
             return try ResponseJSON<Empty>(status: .error, message: "请输入要查询的单词").encode(for: req)
@@ -48,7 +50,7 @@ extension WordController {
     }
     
     //TODO: 成语查询
-    func filterIdiom(_ req: Request) throws -> Future<Response> {
+    func filterIdiomHandler(_ req: Request) throws -> Future<Response> {
         
         guard let input = req.query[String.self, at: "str"],input.count > 0 else {
             return try ResponseJSON<Empty>(status: .error, message: "请输入要查询的成语").encode(for: req)
@@ -64,7 +66,7 @@ extension WordController {
     }
     
     //TODO: 歇后语查询
-    func filterXieHouIdiom(_ req: Request) throws -> Future<Response> {
+    func filterXieHouIdiomHandler(_ req: Request) throws -> Future<Response> {
         
         guard let input = req.query[String.self, at: "str"],input.count > 0 else {
             return try ResponseJSON<Empty>(status: .error, message: "请输入要查询的歇后语").encode(for: req)

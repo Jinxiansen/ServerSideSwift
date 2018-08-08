@@ -98,7 +98,7 @@ extension TestController {
         let ip = "\(a).\(b).\(c).\(d)"
         return try ResponseJSON<String>(status: .ok, message: "success", data: ip).encode(for: req)
     }
-
+    
     func sendGetRequest(req: Request) throws -> Future<String> {
         
         let client = try req.client()
@@ -106,7 +106,7 @@ extension TestController {
             return clientResponse.http.body.utf8String
         })
     }
- 
+    
     
     func getNameHandler(_ req: Request) throws -> [String:String] {
         guard let name = req.query[String.self, at: "name"] else {
@@ -124,7 +124,7 @@ extension TestController {
         })
     }
     
-    func post2UserInfoHandler(_ req: Request,container: UserContainer) throws -> Future<[String:String]> {
+    private func post2UserInfoHandler(_ req: Request,container: UserContainer) throws -> Future<[String:String]> {
         
         let age = container.age ?? 0
         let result = ["status":"0","message":"Hello,\(container.name) !","age": age.description]
@@ -136,7 +136,7 @@ extension TestController {
         return try req.content.decode(ImageContainer.self).flatMap({ (receive) in
             
             print(receive.imgName ?? "")
-
+            
             let path = try VaporUtils.localRootDir(at: ImagePath.record, req: req) + "/" + VaporUtils.imageName()
             if let image = receive.image {
                 guard image.count < ImageMaxByteSize else {
@@ -153,14 +153,14 @@ extension TestController {
 
 
 
-struct ImageContainer: Content {
+private struct ImageContainer: Content {
     
     var imgName: String?
     var image: Data?
     
 }
 
-struct UserContainer: Content {
+private struct UserContainer: Content {
     
     var name: String
     var age: Int?

@@ -289,6 +289,21 @@ sup {
     vertical-align: super;
     line-height: 0;
 }
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb
+}
+
 * {
 	-webkit-print-color-adjust: exact;
 }
@@ -1834,18 +1849,18 @@ sup {
 <p>拉勾网爬虫示例，目标地址： <a href="https://www.lagou.com/jobs/list_ios?labelWords=&amp;fromSearch=true&amp;suginput=">https://www.lagou.com/jobs/list_ios?labelWords=&amp;fromSearch=true&amp;suginput=</a></p>
 
 <blockquote>
-<p>crawler/lagou/start</p>
+<p>lagou/start</p>
 </blockquote>
 
 <h5 id="toc_71">请求方式：GET</h5>
 
 <h4 id="toc_72">接口示例</h4>
 
-<p>请运行项目后开始爬取：<a href="http://localhost:8080/crawler/lagou/start">http://localhost:8080/crawler/lagou/start</a></p>
+<p>请运行项目后开始爬取：<a href="http://localhost:8080/lagou/start">http://localhost:8080/lagou/start</a></p>
 
 <p><details> 
   <summary> 查看爬取结果 </summary>
-    http://api.jinxiansen.com/crawler/lagou/ios</p>
+    http://api.jinxiansen.com/lagou/ios</p>
 
 <p></details> </p>
 
@@ -1908,14 +1923,14 @@ sup {
 <h3 id="获取iOS爬取结果">获取iOS爬取结果</h3>
 
 <blockquote>
-<p>crawler/lagou/ios</p>
+<p>lagou/ios</p>
 </blockquote>
 
 <h5 id="toc_76">请求方式：GET</h5>
 
 <h4 id="toc_77">接口示例</h4>
 
-<p><a href="http://api.jinxiansen.com/crawler/lagou/ios">http://api.jinxiansen.com/crawler/lagou/ios</a></p>
+<p><a href="http://api.jinxiansen.com/lagou/ios">http://api.jinxiansen.com/lagou/ios</a></p>
 
 <h5 id="toc_78">请求参数</h5>
 

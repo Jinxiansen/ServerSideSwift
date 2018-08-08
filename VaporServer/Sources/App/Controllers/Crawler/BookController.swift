@@ -306,7 +306,7 @@ extension BookController {
 
 
 
-fileprivate struct ChapterContext: Content {
+private struct ChapterContext: Content {
     var bookName: String?
     var time: String?
     var chaptName: String?

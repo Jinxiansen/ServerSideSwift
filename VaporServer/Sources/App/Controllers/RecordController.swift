@@ -44,7 +44,7 @@ class RecordController: RouteCollection {
 extension RecordController {
     
     //TODO: 发个动态。
-    func postRecordHandler(_ req: Request,container: RecordContainer) throws -> Future<Response> {
+    private func postRecordHandler(_ req: Request,container: RecordContainer) throws -> Future<Response> {
         
         let token = BearerAuthorization(token: container.token)
         return AccessToken.authenticate(using: token, on: req)
@@ -141,7 +141,7 @@ extension RecordController {
     
     
     //TODO: 举报
-    func reportUserHandler(_ req: Request,container: ReportContainer) throws -> Future<Response> {
+    private func reportUserHandler(_ req: Request,container: ReportContainer) throws -> Future<Response> {
         
         let token = BearerAuthorization(token: container.token)
         return AccessToken.authenticate(using: token, on: req)
@@ -216,15 +216,15 @@ extension RecordController {
 }
 
 
-struct PageContainer: Content {
+private struct PageContainer: Content {
     var page: Int
 }
 
-struct CountyContainer: Content {
+private struct CountyContainer: Content {
     var county: String
 }
 
-struct RecordContainer: Content {
+private struct RecordContainer: Content {
     
     var token: String
     var content: String
@@ -233,7 +233,7 @@ struct RecordContainer: Content {
     var county: String
 }
 
-struct ReportContainer: Content {
+private struct ReportContainer: Content {
     var token: String
     var content: String
     var county: String

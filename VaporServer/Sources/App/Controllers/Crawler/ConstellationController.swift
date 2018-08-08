@@ -16,8 +16,8 @@ class ConstellationController: RouteCollection {
     var startUrl = "https://www.meiguoshenpo.com/baiyang/"
     var type = "xingzuo"
     
-    fileprivate var constells: [Constellation]?
-    fileprivate var types: [ConstellationType]?
+    private var constells: [Constellation]?
+    private var types: [ConstellationType]?
     
     func boot(router: Router) throws {
         
@@ -76,7 +76,7 @@ extension ConstellationController {
     
 }
 
-fileprivate struct Constellation: Content {
+private struct Constellation: Content {
     
     var name: String?
     var link: String?
@@ -85,7 +85,7 @@ fileprivate struct Constellation: Content {
  
 }
 
-fileprivate struct ConstellationType: Content {
+private struct ConstellationType: Content {
     
     var name: String?
     var link: String?

@@ -63,7 +63,7 @@ extension ProcessController {
         return try req.view().render("process/screenshot")
     }
     
-    func convertImagesUsePythonHandler(_ req: Request,container: ConvertImage) throws -> Future<Response> {
+    private func convertImagesUsePythonHandler(_ req: Request,container: ConvertImage) throws -> Future<Response> {
         
         let promise = req.eventLoop.newPromise(Response.self)
         
@@ -147,7 +147,7 @@ extension ProcessController {
 
 
 
-struct ConvertImage: Content {
+private struct ConvertImage: Content {
     var d: String?
     var img: File?
     var bg: File?

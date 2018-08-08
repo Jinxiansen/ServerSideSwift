@@ -12,7 +12,7 @@ class EmailController: RouteCollection {
     
     func boot(router: Router) throws {
         
-        router.post("sendEmail", use: sendEmail)
+        router.post("sendEmail", use: sendEmailHandler)
     }
     
 }
@@ -20,7 +20,7 @@ class EmailController: RouteCollection {
 
 extension EmailController {
     
-    func sendEmail(_ req: Request) throws -> Future<Response> {
+    func sendEmailHandler(_ req: Request) throws -> Future<Response> {
         
         return try req.content.decode(EmailContent.self).flatMap({ content in
             return EmailSendResult

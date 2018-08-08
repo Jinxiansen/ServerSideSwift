@@ -25,7 +25,7 @@ struct AuthenRouteController: RouteCollection {
         let guardAuthMiddleware = LoginUser.guardAuthMiddleware()
         
         let basicAuthGroup = group.grouped([basicAuthMiddleware,guardAuthMiddleware])
-        basicAuthGroup.post(UserIDContainer.self, at: "revoke", use: accessTokenRevocationHandler)
+        basicAuthGroup.post(UserContext.self, at: "revoke", use: accessTokenRevocationHandler)
     }
     
 }
@@ -33,18 +33,18 @@ struct AuthenRouteController: RouteCollection {
 
 extension AuthenRouteController {
     
-    func refreshAccessTokenHandler(_ req: Request,container: RefreshTokenContainer) throws -> Future<AuthContainer> {
+    fileprivate func refreshAccessTokenHandler(_ req: Request,container: RefreshTokenContainer) throws -> Future<AuthContainer> {
         return try authController.authContainer(for: container.refreshToken, on: req)
     }
     
-    func accessTokenRevocationHandler(_ req: Request,container: UserIDContainer) throws -> Future<HTTPResponseStatus> {
+    fileprivate func accessTokenRevocationHandler(_ req: Request,container: UserContext) throws -> Future<HTTPResponseStatus> {
         return try authController.remokeTokens(userID: container.userID,
                                                on: req).transform(to: .noContent)
     }
 }
 
 
-struct UserIDContainer: Content {
+fileprivate struct UserContext: Content {
     
     let userID: String
     

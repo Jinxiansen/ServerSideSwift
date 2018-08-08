@@ -37,8 +37,8 @@ class LaGouController: RouteCollection {
             lagou.get("ios", use: readAllIOSWorksHandler)
             lagou.get("getWork", use: getWorksInfoHandler)
             lagou.get("para", use: requestDetailDataHandler)
-            lagou.get("start", use: startTimer)
-            lagou.get("cancel", use: cancelTimer)
+            lagou.get("start", use: startTimerHandler)
+            lagou.get("cancel", use: cancelTimerHandler)
             lagou.get("getLogs", use: getCrawlerLogHandler)
         }
     }
@@ -46,7 +46,7 @@ class LaGouController: RouteCollection {
 
 extension LaGouController {
     
-    func startTimer(_ req: Request) throws -> Future<Response> {
+    func startTimerHandler(_ req: Request) throws -> Future<Response> {
         
         guard self.timer == nil else {
             return try ResponseJSON<Empty>(status: .error,
@@ -68,7 +68,7 @@ extension LaGouController {
                                        message: "开始爬取任务：\(searchCity) \(searchKey)").encode(for: req)
     }
     
-    func cancelTimer(_ req: Request) throws -> Future<Response> {
+    func cancelTimerHandler(_ req: Request) throws -> Future<Response> {
         self.timer?.cancel()
         self.timer = nil
         let content = "已取消"
@@ -77,7 +77,7 @@ extension LaGouController {
                                        message: content).encode(for: req)
     }
     
-    func runRepeatTimer(_ req: Request) throws {
+    func runRepeatTimerHandler(_ req: Request) throws {
         
         if let result = self.result,result.count > 0 {
             if self.filterIndex == result.count - 1 {
@@ -144,12 +144,12 @@ extension LaGouController {
                 
                 let content = "取到第\(self.page)页,\(result.count)条数据 -> 启动定时器:\(TimeManager.currentTime())"
                 self.saveLog(req: req, content: content)
-                try self.runRepeatTimer(req) //取到数据开始定时解析
+                try self.runRepeatTimerHandler(req) //取到数据开始定时解析
                 
                 return try ResponseJSON<Empty>(status: .ok,
                                                message: "爬到\(result.count)条数据").encode(for: req)
             }else {
-                _ = try self.cancelTimer(req)
+                _ = try self.cancelTimerHandler(req)
                 let content = "没有数据了，任务已取消"
                 self.saveLog(req: req ,content: content)
                 return try ResponseJSON<Empty>(status: .error,
@@ -196,7 +196,7 @@ extension LaGouController {
                     exist.jobDesc = detail.jobDesc
 
                     self.filterIndex += 1
-                    try self.runRepeatTimer(req)
+                    try self.runRepeatTimerHandler(req)
                     return exist.update(on: req).flatMap({ (update) in
                         self.saveLog(req: req, content: "已更新 positionId:\(update.positionId))\n")
                         return req.eventLoop.newSucceededFuture(result: update)
@@ -225,7 +225,7 @@ extension LaGouController {
                         self.saveLog(req: req, content: "保存失败: \(error)\n")
                     })
                     self.filterIndex += 1
-                    try self.runRepeatTimer(req)
+                    try self.runRepeatTimerHandler(req)
                     return save.flatMap({ (saveResult) in
                         self.saveLog(req: req, content: "第\(self.page)页,第\(self.filterIndex)条数据", desc: "已保存 positionId:\(saveResult.positionId)")
                         return req.eventLoop.newSucceededFuture(result: saveResult)
@@ -236,7 +236,7 @@ extension LaGouController {
     }
     
     //TODO: 请求详情页
-    func requestDetailData(_ req: Request, positionId: Int) throws -> Future<LGDetailItem> {
+    private func requestDetailData(_ req: Request, positionId: Int) throws -> Future<LGDetailItem> {
         
         let urlStr = "https://www.lagou.com/jobs/\(positionId).html"
         
@@ -428,7 +428,7 @@ extension LaGouController {
 }
 
 
-struct LGDetailItem: Content {
+private struct LGDetailItem: Content {
     
     var tag: String?
     var jobDesc: String?
