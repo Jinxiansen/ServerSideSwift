@@ -9,6 +9,7 @@ import Foundation
 import Vapor
 import SwiftSoup
 import Random
+import Fluent
 import FluentPostgreSQL
 
 private let crawlerInterval = TimeAmount.minutes(2) // 间隔2分钟
@@ -287,7 +288,7 @@ extension LaGouController {
     func readAllIOSWorksHandler(_ req: Request) throws -> Future<Response> {
         
         let all = LGWorkItem.query(on: req)
-            .filter(\.positionName,.like,"%ios%")
+            .filter(\.positionName ~~ "ios")
             .all()
         return all.flatMap({ (items) in
             return try ResponseJSON<[LGWorkItem]>(status: .ok,
@@ -304,8 +305,8 @@ extension LaGouController {
                                                message: "缺少 key 或 city 参数").encode(for: req)
         }
         let all = LGWorkItem.query(on: req)
-            .filter(\.city,.like, "%\(city)%") //模糊查询包含city的
-            .filter(\.positionName,.like, "%\(key)%")
+            .filter(\.city ~~ city) //模糊查询包含city的
+            .filter(\.positionName ~~ key)
             .range(VaporUtils.queryRange(page: page)).all()
         
         return all.flatMap({ (items) in
