@@ -2,86 +2,61 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Image preview on realtime</title>
-        <meta name="apple-mobile-web-app-capable" content="yes"/>
-        <meta name="format-detection" content="telephone=no"/>
-        <meta name="format-detection" content="email=no"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"/>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-            <style type="text/css">
-            
-            *{
-                background: #ffffff;
-                margin: 0px auto;
-                padding: .2em .2em .5em;
-                
-            }
-            html{height:100%;}
-            body{min-height:100%;margin:0;padding:0;position:relative;}
-            
-            header{text-align: center;background-color: #f2f2f2;height:30px;font-size:20px}
-            main{padding-bottom:100px;background-color: #bdb76b;}/* main的padding-bottom值要等于或大于footer的height值 */
-            footer{position:absolute;text-align: center;bottom:0;width:100%;height:25px;background-color: #f2f2f2;}
-            
-            p{font-size:13}
-            
-            .button {
-                display: inline-block;
-                zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
-                *display: inline;
-                vertical-align: baseline;
-                margin: 0 2px;
-                outline: none;
-                cursor: pointer;
-                text-align: center;
-                text-decoration: none;
-                font: 14px/100% Arial, Helvetica, sans-serif;
-                padding: .5em 2em .55em;
-                text-shadow: 0 1px 1px rgba(0,0,0,.3);
-                -webkit-border-radius: .5em;
-                -moz-border-radius: .5em;
-                border-radius: .5em;
-                -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-                -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
-                box-shadow: 0 1px 2px rgba(0,0,0,.2);
-            }
-            
-            </style>
+        <meta charset="utf-8">
+            <title> ScreenShot </title>
+            <meta name="renderer" content="webkit">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+                    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+                        <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
+                            <style>
+                                *{
+                                    padding: 10px;
+                                    background: #f3f3f3;
+                                }
+                            .div {
+                                color: #0c1616;
+                                font-size: 20px;
+                            }
+                            
+                            </style>
     </head>
     
     <body>
-        
-        <header>轻松生成你可能需要的特殊截图😏</header>
-        <form id="myForm"
-            action="convertImage"
-            ENCTYPE="multipart/form-data" METHOD="POST">
+        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 10px;">
+            <legend>轻松生成你可能需要的特殊截图😏</legend>
+            <form class="layui-form" style="margin-left: 5px;"
+                action="convertImage"
+                ENCTYPE="multipart/form-data" METHOD="POST">
+                
+                <h5>添加一张 app 截图</h5>
+                <input type="file" id="img" name="img" accept="image/*"/>
+                <br>
+                <br>
+                <h5>添加一张 背景 图</h5>
+                <input type="file" id="bg" name="bg" accept="image/*"/>
+                <br>
+                <br>
+                <h5>默认拼左图(勾选拼右图)</h5>
+                <input type="checkbox" name="d" value="2"> 是否拼右图<br>
+                    <br>
+                    <h5>注意：提交成功后右键保存即可</h5>
+                    <input class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" type="submit" value="提交">
+            </form>
             
-            <h5>添加一张 app 截图</h5>
-            <input type="file" id="img" name="img" accept="image/*"/>
             <br>
-            <br>
-            <h5>添加一张 背景 图</h5>
-            <input type="file" id="bg" name="bg" accept="image/*"/>
-            <br>
-            <br>
-            <h5>默认拼左图(勾选拼右图)</h5>
-            <input type="checkbox" name="d" value="2"> 是否拼右图<br>
-            <br>
-            <h5>注意：提交成功后右键保存即可</h5>
-            <input class='button' type="submit" value="提交">
-        </form>
-        
-        <br>
-        <p>示例图：</p>
-        <img src="/images/convert.jpg"  alt="效果图" width="10%" />
-        <img src="/images/convert2.jpg"  alt="效果图" width="10%" />
+            <p style="margin-left: 5px;">示例图：</p>
+            <img src="/images/convert.jpg"  alt="效果图" width="10%" />
+            <img src="/images/convert2.jpg"  alt="效果图" width="10%" />
+        </fieldset>
 
- <footer>
-     <h5>你可能震惊这个页面，为什么这么丑... 你猜？..🧐</h5>
-     <p> <a href="http://api.jinxiansen.com">部署在: http://api.jinxiansen.com</a> 邮箱:
-         <a href="mailto:hi@jinxiansen.com">hi@jinxiansen.com</a> </p>
- </footer>
+    <blockquote class="layui-elem-quote layui-quote-nm" id="footer">
+    
+        Deployed in:<a class="layui-title" href="http://api.jinxiansen.com">http://api.jinxiansen.com</a>
+        email:<a class="layui-title" href="mailto:hi@jinxiansen.com">hi@jinxiansen.com</a>
+    
+    </blockquote>
+
+
         
     </body>
 </html>
