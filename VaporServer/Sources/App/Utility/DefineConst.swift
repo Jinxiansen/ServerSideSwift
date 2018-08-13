@@ -12,7 +12,6 @@ struct ImagePath {
     static let record = "record" //动态
     static let report = "report" // 举报
     static let userPic = "userPic" // 用户头像
-//    static let pyConvert = "pyConvert" // 待拼合的图片
 }
 
 public let pageCount = 20
