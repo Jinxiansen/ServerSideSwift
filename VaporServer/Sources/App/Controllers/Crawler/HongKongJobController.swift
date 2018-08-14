@@ -132,8 +132,8 @@ extension HongKongJobController {
     private func requestExampleParameters() -> JobTags {
         let categorys = "會計/核數 行政/秘書 廣告/媒體/娛樂 銀行/金融 客戶服務 社區/體育/消閒 樓宇/建築 教育 工程 醫療/醫護 旅遊/酒店/餐飲 人力資源 保險 資訊科技/電訊 法律 物流/運輸 製造 地產/物業 零售 銷售/市場管理 科學/化學 貿易 保健/美容"
         let types = "兼職 全職 合約 臨時工 Freelance 暑期工"
-        //        let jobseeker = "學生 家庭主婦 畢業生 退休人士 新來港人士"
-        let locations = "香港島 中西區 灣仔 東區 南區 九龍 油尖旺 深水埗 九龍城 黃大仙 觀塘 新界 葵青 荃灣 屯門 元朗 北區 大埔 沙田 西貢 離島"
+        //let jobseeker = "學生 家庭主婦 畢業生 退休人士 新來港人士"
+        let locations = "中西區 灣仔 東區 南區 油尖旺 深水埗 九龍城 黃大仙 觀塘 葵青 荃灣 屯門 元朗 北區 大埔 沙田 西貢 離島"
         
         return JobTags(types: types, jobseeker: nil, industrys: categorys, locations: locations)
     }
@@ -145,7 +145,7 @@ extension HongKongJobController {
             return try ResponseJSON<Empty>(status: .error,
                                            message: "没有数据。").encode(for: req)
         }
-        print("当前页：\(self.currentPage) \(TimeManager.currentTime())")
+        debugPrint("当前页：\(self.currentPage) \(TimeManager.currentTime())")
         let url = "http://www.parttime.hk/jobs/SearchResults.aspx?pg=\(self.currentPage)"
         return try getHTMLResponse(req, url: url).flatMap({ (html) in
             
@@ -175,12 +175,12 @@ extension HongKongJobController {
                 _ = HongKongJob.query(on: req).filter(\.jobId == jobId).first().map({ (exist) in
                     
                     if let exist = exist {
-                        print("已存在：\(exist.jobId) \(TimeManager.currentTime())")
+                        debugPrint("已存在：\(exist.jobId) \(TimeManager.currentTime())")
                     }else {
                         _ = try self.getDetailInfoHandler(req: req, link: link).map({ (detail) in
                             let work = HongKongJob.init(id: nil, title: title, jobId: jobId, type: type, location: location, money: money, content: content, company: company, lastUpdate: lastUpdate, detailInfo: detail.detailInfo, date: detail.date, industry: detail.industry)
                             _ = work.save(on: req).map({ (result) in
-                                print("已保存: \(result.jobId) \(TimeManager.currentTime())")
+                                debugPrint("已保存: \(result.jobId) \(TimeManager.currentTime())")
                             })
                         })
                     }

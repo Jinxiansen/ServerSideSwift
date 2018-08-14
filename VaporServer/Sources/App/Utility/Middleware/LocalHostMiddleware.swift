@@ -16,9 +16,9 @@ public final class LocalHostMiddleware: Middleware,Service {
         let urlString = request.http.urlString
         var container = false
         
-        let uris = ["lagou/start","lagou/getLogs","lagou/cancel","book/start","job/start","job/stop"]
+        let paths = urlPaths()
         
-        _ = uris.map { if urlString.contains($0) { container = true } }
+        _ = paths.map { if urlString.contains($0) { container = true } }
         
         #if os(Linux)
         if container {
@@ -36,4 +36,29 @@ public final class LocalHostMiddleware: Middleware,Service {
         return try next.respond(to: request)
     }
     
+    
+    
 }
+
+extension LocalHostMiddleware {
+    
+    func urlPaths() -> [String] {
+        return ["lagou/start",
+                "lagou/getLogs",
+                "lagou/cancel",
+                "book/start",
+                "job/start",
+                "job/stop"]
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
