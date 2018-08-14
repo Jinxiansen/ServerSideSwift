@@ -227,7 +227,8 @@ extension BookController {
                                 typeId: Int) throws {
         
         guard let elements = self.elements else { return }
-        
+        guard currentIndex < elements.count else { return }
+
         let li = elements[currentIndex]
         let address = try li.attr("href")
         let chpName = try li.text()
