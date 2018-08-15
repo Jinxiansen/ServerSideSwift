@@ -21,7 +21,6 @@ class HTMLController: RouteCollection {
             group.get("hello", use: hello)
             
             group.get("u", use: dogView)
-            group.get("bg", use: bgView)
             group.get("loader", use: loader)
             group.get("reboot", use: reboot)
             group.get("keyboard", use: keyboard)
@@ -56,12 +55,6 @@ extension HTMLController {
         }
         let per = Person(name: "jack", age: 18)
         return try req.view().render("leaf/hello",per)
-    }
-    
-    //TODO: Animation
-    
-    func bgView(_ req: Request) throws -> Future<View> {
-        return try req.view().render("leaf/bg")
     }
     
     func dogView(_ req: Request) throws -> Future<View> {

@@ -36,13 +36,12 @@ public final class LocalHostMiddleware: Middleware,Service {
         return try next.respond(to: request)
     }
     
-    
-    
 }
 
 extension LocalHostMiddleware {
     
     func urlPaths() -> [String] {
+        
         return ["lagou/start",
                 "lagou/getLogs",
                 "lagou/cancel",
