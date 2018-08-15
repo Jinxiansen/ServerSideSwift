@@ -32,13 +32,13 @@
     </head>
  
     <div class="layui-row">
-        <div class="layui-col-md4">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
             <a class="layui-btn" href="/book/chapter/#(last)" target="_blank">上一章</a>
         </div>
-        <div class="layui-col-md4">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
             <a class="layui-btn" href="/book/allChapters" target="_blank">首页</a>
         </div>
-        <div class="layui-col-md4">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
             <a class="layui-btn" href="/book/chapter/#(next)" target="_blank">下一章</a>
         </div>
     </div>

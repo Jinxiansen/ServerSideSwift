@@ -122,13 +122,17 @@ extension UserRouteController {
     func exitUserHandler(_ req: Request) throws -> Future<Response> {
         
         return try req.content.decode(TokenContainer.self).flatMap({ container in
+            
             let token = BearerAuthorization(token: container.token)
-            return AccessToken.authenticate(using: token, on: req).flatMap({ (existToken) in
+            return AccessToken.authenticate(using: token,
+                                            on: req).flatMap({ (existToken) in
+                                                
                 guard let existToken = existToken else {
                     return try ResponseJSON<Empty>(status: .token).encode(for: req)
                 }
                 
-                return try self.authController.remokeTokens(userID: existToken.userID, on: req).flatMap({ _ in
+                return try self.authController.remokeTokens(userID: existToken.userID,
+                                                            on: req).flatMap({ _ in
                     return try ResponseJSON<Empty>(status: .ok,
                                                   message: "退出成功").encode(for: req)
                 })
