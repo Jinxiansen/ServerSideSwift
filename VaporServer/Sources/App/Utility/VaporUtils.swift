@@ -16,8 +16,8 @@ class VaporUtils {
         
         let workDir = DirectoryConfig.detect().workDir
         
-        let envPath = req.environment.isRelease ? "":"debug"
-        let addPath = "vapor_\(envPath)/\(path)"
+        let envPath = req.environment.isRelease ? "release":"debug"
+        let addPath = "vapor/\(envPath)/\(path)"
         
         var localPath = ""
         if (workDir.contains("jinxiansen")) {
