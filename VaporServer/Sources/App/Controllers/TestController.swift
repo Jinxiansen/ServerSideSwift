@@ -40,6 +40,8 @@ struct TestController: RouteCollection {
                 return try ["hello":city].encode(for: req)
             }
             
+            group.get("tofu", use: testTofuHandler)
+            
             group.get("myModel", use: saveMyModelHandler)
             
         }
@@ -47,9 +49,37 @@ struct TestController: RouteCollection {
     }
 }
 
-
-
 extension TestController {
+    
+    
+    func testTofuHandler(_ req: Request) throws -> Future<Response> {
+        
+        struct HistoryModel: Content {
+            
+            var id: Int
+            var img: String?
+            var title: String?
+            var content: String?
+            var year: Int
+            var month: Int
+            var day: Int
+        }
+        
+        struct MyData: Content {
+            var affairArray: [HistoryModel]
+            var more: Int
+        }
+
+        
+        let h1 = HistoryModel(id: 2, img: "img1", title: "\(Int(SimpleRandom.random(10...254)))", content: "\(Int(SimpleRandom.random(10...254)))", year: 2018, month: 08, day: 10)
+        
+        let h2 = HistoryModel(id: 3, img: "img2", title: "\(Int(SimpleRandom.random(10...254)))", content: "\(Int(SimpleRandom.random(10...254)))", year: 2018, month: 5, day: 13)
+        
+        let data = MyData(affairArray: [h1,h2],more: 1)
+        
+        return try ResponseJSON<MyData>(data: data).encode(for: req)
+    }
+    
     
     func compactMap(_ req: Request) throws -> Future<Int> {
         
