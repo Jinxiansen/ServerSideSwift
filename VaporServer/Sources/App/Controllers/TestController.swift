@@ -54,7 +54,7 @@ extension TestController {
     
     func testTofuHandler(_ req: Request) throws -> Future<Response> {
         
-        struct HistoryModel: Content {
+        struct History: Content {
             
             var id: Int
             var img: String?
@@ -66,14 +66,14 @@ extension TestController {
         }
         
         struct MyData: Content {
-            var affairArray: [HistoryModel]
+            var affairArray: [History]
             var more: Int
         }
 
         
-        let h1 = HistoryModel(id: 2, img: "img1", title: "\(Int(SimpleRandom.random(10...254)))", content: "\(Int(SimpleRandom.random(10...254)))", year: 2018, month: 08, day: 10)
+        let h1 = History(id: 2, img: "img1", title: "\(Int(SimpleRandom.random(10...254)))", content: "\(Int(SimpleRandom.random(10...254)))", year: 2018, month: 08, day: 10)
         
-        let h2 = HistoryModel(id: 3, img: "img2", title: "\(Int(SimpleRandom.random(10...254)))", content: "\(Int(SimpleRandom.random(10...254)))", year: 2018, month: 5, day: 13)
+        let h2 = History(id: 3, img: "img2", title: "\(Int(SimpleRandom.random(10...254)))", content: "\(Int(SimpleRandom.random(10...254)))", year: 2018, month: 5, day: 13)
         
         let data = MyData(affairArray: [h1,h2],more: 1)
         
