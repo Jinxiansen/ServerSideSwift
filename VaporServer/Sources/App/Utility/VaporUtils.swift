@@ -60,12 +60,7 @@ class VaporUtils {
         return path
     }
     
-    class func queryRange(page: Int) -> Range<Int> {
-        let start = page * pageCount
-        let end = start + pageCount
-        let queryRange: Range = start..<end
-        return queryRange
-    }
+
     
 }
 

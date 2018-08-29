@@ -15,17 +15,18 @@ struct ResponseJSON<T: Content>: Content {
     private var message: String
     private var data: T?
     
+    init(data: T) {
+        self.status = .ok
+        self.message = status.desc
+        self.data = data
+    }
+    
     init(status:ResponseStatus = .ok) {
         self.status = status
         self.message = status.desc
         self.data = nil
     }
     
-    init(data: T) {
-        self.status = .ok
-        self.message = status.desc
-        self.data = data
-    }
     
     init(status:ResponseStatus = .ok,
          message: String = ResponseStatus.ok.desc) {

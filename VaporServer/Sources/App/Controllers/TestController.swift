@@ -71,7 +71,7 @@ extension TestController {
         }
 
         
-        let h1 = History(id: 2, img: "img1", title: "\(Int(SimpleRandom.random(10...254)))", content: "\(Int(SimpleRandom.random(10...254)))", year: 2018, month: 08, day: 10)
+        let h1 = History(id: 2,img: "img1",title: "\(Int(SimpleRandom.random(10...254)))",content: "\(Int(SimpleRandom.random(10...254)))",year: 2018,month: 08,day: 10)
         
         let h2 = History(id: 3, img: "img2", title: "\(Int(SimpleRandom.random(10...254)))", content: "\(Int(SimpleRandom.random(10...254)))", year: 2018, month: 5, day: 13)
         
@@ -111,10 +111,12 @@ extension TestController {
         
         return Record.find(3, on: req).flatMap { (record) in
             guard let record = record else {
-                return try ResponseJSON<Empty>(status: .error, message: "not found").encode(for: req)
+                return try ResponseJSON<Empty>(status: .error,
+                                               message: "not found").encode(for: req)
             }
             return record.delete(on: req).flatMap({ _ in
-                return try ResponseJSON<Empty>(status: .ok, message: "delete success").encode(for: req)
+                return try ResponseJSON<Empty>(status: .ok,
+                                               message: "delete success").encode(for: req)
             })
         }
     }
@@ -126,13 +128,16 @@ extension TestController {
         let d: Int = Int(SimpleRandom.random(10...254))
         
         let ip = "\(a).\(b).\(c).\(d)"
-        return try ResponseJSON<String>(status: .ok, message: "success", data: ip).encode(for: req)
+        return try ResponseJSON<String>(status: .ok,
+                                        message: "success", data: ip).encode(for: req)
     }
     
     func sendGetRequest(req: Request) throws -> Future<String> {
         
         let client = try req.client()
-        return client.get("http://api.jinxiansen.com").map(to: String.self, { clientResponse in
+        return client
+            .get("http://api.jinxiansen.com")
+            .map(to: String.self, { clientResponse in
             return clientResponse.http.body.utf8String
         })
     }
@@ -170,7 +175,8 @@ extension TestController {
             let path = try VaporUtils.localRootDir(at: ImagePath.record, req: req) + "/" + VaporUtils.imageName()
             if let image = receive.image {
                 guard image.count < ImageMaxByteSize else {
-                    return try ResponseJSON<Empty>(status: .error, message: "有点大，得压缩！").encode(for: req)
+                    return try ResponseJSON<Empty>(status: .error,
+                                                   message: "有点大，得压缩！").encode(for: req)
                 }
                 try Data(image).write(to: URL(fileURLWithPath: path))
             }

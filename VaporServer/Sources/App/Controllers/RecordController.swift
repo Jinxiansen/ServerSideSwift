@@ -96,7 +96,7 @@ extension RecordController {
         
         return Record.query(on: req)
             .filter(\.county == county)
-            .range(VaporUtils.queryRange(page: page))
+            .range(QueryRange(page: page))
             .all()
             .flatMap({ (cords) in
                 guard cords.count > 0 else {
@@ -202,7 +202,7 @@ extension RecordController {
             return Record.query(on: req)
                 .filter(\Record.county == county)
                 .filter(\Record.userID == existToken.userID)
-                .range(VaporUtils.queryRange(page: page))
+                .range(QueryRange(page: page))
                 .all()
                 .flatMap({ (records) in
                 let results = records.compactMap({ (record) -> Record in

@@ -307,7 +307,8 @@ extension LaGouController {
         let all = LGWorkItem.query(on: req)
             .filter(\.city ~~ city) //模糊查询包含city的
             .filter(\.positionName ~~ key)
-            .range(VaporUtils.queryRange(page: page)).all()
+            .range(QueryRange(page: page))
+            .all()
         
         return all.flatMap({ (items) in
             return try ResponseJSON<[LGWorkItem]>(data: items).encode(for: req)
