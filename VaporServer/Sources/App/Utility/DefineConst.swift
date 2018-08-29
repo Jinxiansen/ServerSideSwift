@@ -23,14 +23,6 @@ public let passwordMinCount = 6
 public let AccountMaxCount = 18
 public let AccountMinCount = 6
 
-func QueryRange(page: Int) -> Range<Int> {
-    let start = page * pageCount
-    let end = start + pageCount
-    let range: Range = start..<end
-    return range
-}
-
-
 
 
 

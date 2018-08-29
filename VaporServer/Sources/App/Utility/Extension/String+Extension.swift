@@ -8,8 +8,6 @@
 import Foundation
 import Vapor
 import Crypto
-import Fluent
-import FluentPostgreSQL
 
 extension String {
 
@@ -61,7 +59,6 @@ extension String {
     }
     
 }
-
 
 
 

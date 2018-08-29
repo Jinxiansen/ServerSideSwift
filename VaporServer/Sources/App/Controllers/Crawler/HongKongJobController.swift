@@ -121,7 +121,7 @@ extension HongKongJobController {
             .filter(\.location ~~ location)
             .filter(\.company ~~ company)
             .filter(\.industry ~~ industry)
-            .range(QueryRange(page: page))
+            .query(page: page)
             .all()
             .flatMap({ (jobs) in
                 
