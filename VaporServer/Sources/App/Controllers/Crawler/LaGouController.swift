@@ -134,7 +134,7 @@ extension LaGouController {
         
         return try req.client().send(postReq).flatMap(to: Response.self, { (clientResponse) in
             
-            let jsonString = clientResponse.http.body.utf8String
+            let jsonString = clientResponse.http.utf8String
             let data = jsonString.convertToData()
             let decode = JSONDecoder()
             let lgItem = try decode.decode(LGResponseItem.self, from: data)
@@ -256,7 +256,7 @@ extension LaGouController {
         let getReq = Request(http: httpReq, using: req)
         
         return try req.client().send(getReq).flatMap(to: LGDetailItem.self, { (clientResp) in
-            let html = clientResp.http.body.utf8String
+            let html = clientResp.http.utf8String
             let document = try SwiftSoup.parse(html)
             
             let tag = try document.select("dd[class='job_request']").text()
@@ -359,7 +359,7 @@ extension LaGouController {
                     var type: String
                     var titles: [String]
                 }
-                let html = clientResponse.http.body.utf8String
+                let html = clientResponse.http.utf8String
                 let document = try SwiftSoup.parse(html)
                 
                 var items = [Item]()
@@ -406,7 +406,7 @@ extension LaGouController {
             .get(url)
             .flatMap(to: Response.self, { (clientResponse) in
                 
-                let html = clientResponse.http.body.utf8String
+                let html = clientResponse.http.utf8String
                 let document = try SwiftSoup.parse(html)
                 let elements = try document.select(parse)
                 

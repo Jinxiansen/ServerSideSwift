@@ -19,6 +19,7 @@ public func routes(_ router: Router) throws {
     // Example of configuring a controlle
     try router.register(collection: EmailController())
     try router.register(collection: HTMLController())
+    try router.register(collection: TestController())
 
     try router.register(collection: UserRouteController())
     try router.register(collection: AuthenRouteController())
@@ -29,10 +30,7 @@ public func routes(_ router: Router) throws {
     try router.register(collection: BookController())
     try router.register(collection: ConstellationController())
     try router.register(collection: HongKongJobController())
-    
-    try router.register(collection: TestController())
-    
+    try router.register(collection: FlexJobsController())
    
-    
     
 }
