@@ -47,7 +47,9 @@ extension LocalHostMiddleware {
                 "lagou/cancel",
                 "book/start",
                 "job/start",
-                "job/stop"]
+                "job/stop",
+                "enJob/start",
+                ]
     }
     
 }
