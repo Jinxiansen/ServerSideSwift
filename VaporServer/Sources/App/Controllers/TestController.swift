@@ -138,7 +138,7 @@ extension TestController {
         return client
             .get("http://api.jinxiansen.com")
             .map(to: String.self, { clientResponse in
-            return clientResponse.http.utf8String
+            return clientResponse.utf8String
         })
     }
     

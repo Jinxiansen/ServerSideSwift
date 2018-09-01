@@ -17,28 +17,17 @@ public let CrawlerHeader: HTTPHeaders = ["User-Agent": "Mozilla/5.0 (Macintosh; 
 func getHTMLResponse(_ req:Request,url: String) throws -> Future<String> {
     
     return try req.client().get(url,headers: CrawlerHeader).flatMap {
-        let html = $0.http.utf8String
+        let html = $0.utf8String
         return req.eventLoop.newSucceededFuture(result: html)
     }
 }
 
 
-//extension HTTPBody {
-//
-//    var utf8String: String {
-//        return String(data: data ?? Data(), encoding: .utf8) ?? "n/a"
-//    }
-//
-//}
-
-extension HTTPResponse {
+extension Response {
     
     var utf8String: String {
-        return String(data: body.data ?? Data(), encoding: .utf8) ?? "n/a"
+        return String(data: self.http.body.data ?? Data(), encoding: .utf8) ?? "n/a"
     }
-}
-
-extension Response {
     
     func convertGBKString(_ req: Request) throws -> Future<String> {
         
