@@ -11,6 +11,7 @@ import Vapor
 struct EnJobApply: BaseSQLModel {
     
     var id: Int?
+    static var entity: String { return self.name + "s" }
     
     var jobId: String
     var userID: String
