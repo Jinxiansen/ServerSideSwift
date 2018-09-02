@@ -20,5 +20,4 @@ struct EnJobApply: BaseSQLModel {
     var phone: String?
     var desc: String?
     var time: TimeInterval
-    
 }

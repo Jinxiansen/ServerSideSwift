@@ -26,7 +26,7 @@ class EnJobController: RouteCollection {
             router.get("list", use: getJobListHandler)
             router.get("detail", use: getJobDetailHandler)
             router.post(ApplyContext.self, at: "post", use: postJobDataHandler)
-            router.get("applyList", use: getMyApplyListHandler)
+            router.get("record", use: getMyRecordHandler)
         }
         
     }
@@ -37,7 +37,7 @@ class EnJobController: RouteCollection {
 extension EnJobController {
     
     // my apply list
-    private func getMyApplyListHandler(_ req: Request) throws -> Future<Response> {
+    private func getMyRecordHandler(_ req: Request) throws -> Future<Response> {
         
         let token = BearerAuthorization(token: req.token)
         
