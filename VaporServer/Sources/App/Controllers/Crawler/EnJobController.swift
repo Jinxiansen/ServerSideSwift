@@ -33,10 +33,7 @@ extension EnJobController {
     
     func getJobListHandler(_ req: Request) throws -> Future<Response> {
         
-        guard let page = req.query[Int.self, at: "page"],page > 0 else {
-            return try ResponseJSON<String>(data: "page 不能小于 0").encode(for: req)
-        }
-        return EnJob.query(on: req).query(page: page).all().flatMap({
+        return EnJob.query(on: req).query(page: req.page).all().flatMap({
             return try ResponseJSON<[EnJob]>(data: $0).encode(for: req)
         })
     }

@@ -102,7 +102,6 @@ extension HongKongJobController {
         let location = req.query[String.self,at: "location"] ?? ""
         let company = req.query[String.self,at: "company"] ?? ""
         let industry = req.query[String.self,at: "industry"] ?? ""
-        let page = req.query[Int.self,at: "page"] ?? 1
         
         //        let path = req.http.headers["path"].first?.description ?? ""
         //        guard path == req.http.urlString.description else {
@@ -121,7 +120,7 @@ extension HongKongJobController {
             .filter(\.location ~~ location)
             .filter(\.company ~~ company)
             .filter(\.industry ~~ industry)
-            .query(page: page)
+            .query(page: req.page)
             .all()
             .flatMap({ (jobs) in
                 

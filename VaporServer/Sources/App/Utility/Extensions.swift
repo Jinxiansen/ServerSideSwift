@@ -8,20 +8,29 @@
 import Foundation
 import Vapor
 import PerfectICONV
+import Fluent
+import FluentPostgreSQL
 
 
-public let CrawlerHeader: HTTPHeaders = ["User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"
-    ,"Cookie": "yunsuo_session_verify=2a87ab507187674302f32bbc33248656"]
-
-
-func getHTMLResponse(_ req:Request,url: String) throws -> Future<String> {
+extension QueryBuilder {
     
-    return try req.client().get(url,headers: CrawlerHeader).flatMap {
-        let html = $0.utf8String
-        return req.eventLoop.newSucceededFuture(result: html)
+    //客户端传 page 从 1 开始，服务端 -1 从 0 处理。
+    public func query(page: Int) -> Self {
+        
+        let aPage = page < 1 ? 1 : page
+        let start = (aPage - 1) * pageCount
+        let end = start + pageCount
+        let ran: Range = start..<end
+        return self.range(ran)
     }
 }
 
+extension Request {
+    
+    var page: Int {
+        return query[Int.self, at: "page"] ?? 1
+    }
+}
 
 extension Response {
     

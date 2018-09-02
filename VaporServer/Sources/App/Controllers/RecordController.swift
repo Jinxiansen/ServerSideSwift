@@ -88,15 +88,9 @@ extension RecordController {
                                            message: "缺少 county 参数").encode(for: req)
         }
         
-        guard let page = req.query[Int.self,
-                                   at: "page"],page >= 0 else {
-            return try ResponseJSON<Empty>(status: .error,
-                                           message: "page 不能小于0").encode(for: req)
-        }
-        
         return Record.query(on: req)
             .filter(\.county == county)
-            .query(page: page)
+            .query(page: req.page)
             .all()
             .flatMap({ (cords) in
                 guard cords.count > 0 else {
@@ -187,11 +181,7 @@ extension RecordController {
             return try ResponseJSON<Empty>(status: .error,
                                            message: "缺少 county 参数").encode(for: req)
         }
-        guard let page = req.query[Int.self, at: "page"] else {
-            return try ResponseJSON<Empty>(status: .error,
-                                           message: "缺少 page 参数").encode(for: req)
-        }
-        
+
         let bear = BearerAuthorization(token: token)
         return AccessToken.authenticate(using: bear, on: req).flatMap({ (existToken) in
             
@@ -202,7 +192,7 @@ extension RecordController {
             return Record.query(on: req)
                 .filter(\Record.county == county)
                 .filter(\Record.userID == existToken.userID)
-                .query(page: page)
+                .query(page: req.page)
                 .all()
                 .flatMap({ (records) in
                 let results = records.compactMap({ (record) -> Record in

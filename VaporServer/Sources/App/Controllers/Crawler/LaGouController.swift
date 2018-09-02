@@ -299,15 +299,15 @@ extension LaGouController {
     func getWorksInfoHandler(_ req: Request) throws -> Future<Response> {
         
         guard let city = req.query[String.self, at: "city"],
-            let key = req.query[String.self, at: "key"],
-            let page = req.query[Int.self, at: "page"] else {
+            let key = req.query[String.self, at: "key"] else {
                 return try ResponseJSON<Empty>(status: .error,
                                                message: "缺少 key 或 city 参数").encode(for: req)
         }
+        
         let all = LGWorkItem.query(on: req)
             .filter(\.city ~~ city) //模糊查询包含city的
             .filter(\.positionName ~~ key)
-            .query(page: page)
+            .query(page: req.page)
             .all()
         
         return all.flatMap({ (items) in
