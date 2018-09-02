@@ -10,6 +10,7 @@ import Vapor
 import SwiftSoup
 import Fluent
 import FluentPostgreSQL
+import Authentication
 
 class EnJobController: RouteCollection {
     
@@ -18,27 +19,75 @@ class EnJobController: RouteCollection {
     var currentIndex = 0
     
     func boot(router: Router) throws {
-       
+        
         router.group("enJob") { (router) in
             router.get("start", use: startParseJobHandler)
+            
             router.get("list", use: getJobListHandler)
             router.get("detail", use: getJobDetailHandler)
+            router.post(ApplyContext.self, at: "post", use: postJobDataHandler)
+            router.get("applyList", use: getMyApplyListHandler)
         }
         
     }
 }
 
 
+//TODO: API
 extension EnJobController {
     
-    func getJobListHandler(_ req: Request) throws -> Future<Response> {
+    // my apply list
+    private func getMyApplyListHandler(_ req: Request) throws -> Future<Response> {
+        
+        let token = BearerAuthorization(token: req.token)
+        
+        return AccessToken.authenticate(using: token, on: req).flatMap({
+            guard let exist = $0 else {
+                return try ResponseJSON<String>(status: .token).encode(for: req)
+            }
+            return EnJobApply
+                .query(on: req)
+                .filter(\.userID == exist.userID)
+                .query(page: req.page)
+                .all()
+                .flatMap({
+                    return try ResponseJSON<[EnJobApply]>(data: $0).encode(for: req)
+                })
+        })
+    }
+    
+    //
+    private func postJobDataHandler(_ req: Request,context: ApplyContext) throws -> Future<Response> {
+        
+        let token = BearerAuthorization(token: context.token)
+        return AccessToken.authenticate(using: token, on: req).flatMap({
+            guard let exist = $0 else {
+                return try ResponseJSON<String>(status: .token).encode(for: req)
+            }
+            
+            let apply = EnJobApply(id: nil,
+                                   jobId: context.jobId,
+                                   userID: exist.userID,
+                                   email: context.email,
+                                   name: context.name,
+                                   phone: context.phone,
+                                   desc: context.desc,
+                                   time: Date().timeIntervalSince1970)
+            
+            return apply.save(on: req).flatMap({ save in
+                return try ResponseJSON<String>(data: "apply success !").encode(for: req)
+            })
+        })
+    }
+    
+    private func getJobListHandler(_ req: Request) throws -> Future<Response> {
         
         return EnJob.query(on: req).query(page: req.page).all().flatMap({
             return try ResponseJSON<[EnJob]>(data: $0).encode(for: req)
         })
     }
     
-    func getJobDetailHandler(_ req: Request) throws -> Future<Response> {
+    private func getJobDetailHandler(_ req: Request) throws -> Future<Response> {
         
         guard let jobId = req.query[String.self, at: "jobId"] else {
             return try ResponseJSON<String>(data: "缺少 jobId ").encode(for: req)
@@ -48,6 +97,23 @@ extension EnJobController {
             return try ResponseJSON<EnJobDetail>(data: $0).encode(for: req)
         })
     }
+    
+}
+
+
+private struct ApplyContext: Content {
+    
+    var token: String
+    var jobId: String
+    var email: String?
+    var name: String?
+    var phone: String?
+    var desc: String?
+    
+}
+
+//TODO: Crawler
+extension EnJobController {
     
     func startParseJobHandler(_ req: Request) throws -> Future<Response> {
         
@@ -61,7 +127,7 @@ extension EnJobController {
             
             let container = try html.select("div[class='container fl']")
             let group = try container.select("div[type='tuple']").array()
-
+            
             for (_,element) in group.enumerated() {
                 
                 let title = try element.select("a").select("ul").text()
@@ -105,7 +171,7 @@ extension EnJobController {
     }
     
     func parseDetailInfoHandler(_ req: Request) throws {
-                
+        
         guard let dicts = self.dicts, dicts.count > currentIndex else {
             debugPrint("dict 为空，或 currentIndex 超出。\(TimeManager.currentTime())")
             return
@@ -164,8 +230,8 @@ extension EnJobController {
             let content = try mtSoup
                 .compactMap({ "\(try $0.select("em").text())" + " " + "\(try $0.select("span").text())" })
                 .joined(separator: "\n")
-           item.content = content
-
+            item.content = content
+            
             let tagSoup = try leftSecSoup.select("div[class='ksTags']")
                 .select("font[class='hlite']")
                 .array()
@@ -185,31 +251,27 @@ extension EnJobController {
                 .filter(\.jobId == job.jobId)
                 .first()
                 .map({ exist in
-                if let exist = exist {
-                    debugPrint("\(exist.jobId) 详情已存在。\(TimeManager.currentTime())")
-                }else {
-                    _ = item.save(on: req).map({
-                        debugPrint("\($0.jobId) 详情已保存--------- \(TimeManager.currentTime())")
-                    })
-                }
+                    if let exist = exist {
+                        debugPrint("\(exist.jobId) 详情已存在。\(TimeManager.currentTime())")
+                    }else {
+                        _ = item.save(on: req).map({
+                            debugPrint("\($0.jobId) 详情已保存--------- \(TimeManager.currentTime())")
+                        })
+                    }
                     
-                self.currentIndex += 1
+                    self.currentIndex += 1
                     
-                if  self.currentIndex == dicts.count {
-                    self.page += 1
-                    debugPrint("开始第\(self.page)页 \(TimeManager.currentTime())")
-                    _ = try self.startParseJobHandler(req)
-                    return
-                }
-            })
+                    if  self.currentIndex == dicts.count {
+                        self.page += 1
+                        debugPrint("开始第\(self.page)页 \(TimeManager.currentTime())")
+                        _ = try self.startParseJobHandler(req)
+                        return
+                    }
+                })
         }
     }
     
-    
-    
 }
-
-
 
 
 

@@ -30,6 +30,10 @@ extension Request {
     var page: Int {
         return query[Int.self, at: "page"] ?? 1
     }
+    
+    var token: String {
+        return query[String.self, at: "token"] ?? ""
+    }
 }
 
 extension Response {
