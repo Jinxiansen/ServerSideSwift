@@ -34,6 +34,10 @@ extension Request {
     var token: String {
         return query[String.self, at: "token"] ?? ""
     }
+    
+    var key: String {
+        return query[String.self, at: "key"] ?? ""
+    }
 }
 
 extension Response {

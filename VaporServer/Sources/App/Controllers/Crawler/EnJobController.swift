@@ -82,7 +82,15 @@ extension EnJobController {
     
     private func getJobListHandler(_ req: Request) throws -> Future<Response> {
         
-        return EnJob.query(on: req).query(page: req.page).all().flatMap({
+        let company = req.query[String.self, at: "company"] ?? ""
+        
+        return EnJob
+            .query(on: req)
+            .filter(\.title ~~ req.key)
+            .filter(\.company ~~ company)
+            .query(page: req.page)
+            .all()
+            .flatMap({
             return try ResponseJSON<[EnJob]>(data: $0).encode(for: req)
         })
     }
