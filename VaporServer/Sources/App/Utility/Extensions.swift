@@ -38,6 +38,11 @@ extension Request {
     var key: String {
         return query[String.self, at: "key"] ?? ""
     }
+    
+    var uid: String {
+        return query[String.self, at: "uid"] ?? ""
+    }
+    
 }
 
 extension Response {
