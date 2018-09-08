@@ -63,8 +63,8 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     /* * ** ** ** ** *** ** ** ** 𝐌odels ** ** ** ** ** ** ** ** ** */
     var migrations = MigrationConfig()
     
-    migrations.add(model: LoginUser.self, database: .psql)
-    migrations.add(model: EmailSendResult.self, database: .psql)
+    migrations.add(model: User.self, database: .psql)
+    migrations.add(model: EmailResult.self, database: .psql)
     
     migrations.add(model: PageView.self, database: .psql)
     migrations.add(model: AccessToken.self, database: .psql)
@@ -76,7 +76,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: XieHouIdiom.self, database: .psql)
     migrations.add(model: Report.self, database: .psql)
     migrations.add(model: UserInfo.self, database: .psql)
-    migrations.add(model: LGWorkItem.self, database: .psql)
+    migrations.add(model: LGWork.self, database: .psql)
     migrations.add(model: CrawlerLog.self, database: .psql)
     migrations.add(model: ScreenShot.self, database: .psql)
     migrations.add(model: BookChapter.self, database: .psql)

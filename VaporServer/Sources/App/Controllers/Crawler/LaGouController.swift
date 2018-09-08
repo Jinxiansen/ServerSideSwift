@@ -20,7 +20,7 @@ class LaGouController: RouteCollection {
     
     var page = 1
     var filterIndex: Int = 0
-    var result: [LGWorkItem]?
+    var result: [LGWork]?
     
     var searchCity = "上海" //搜索城市
     var searchKey = "ios" //搜索关键词
@@ -175,7 +175,7 @@ extension LaGouController {
         return "\(searchCity)-\(searchKey)"
     }
     
-    func parseResultHandler(_ req: Request) throws -> Future<LGWorkItem?> {
+    func parseResultHandler(_ req: Request) throws -> Future<LGWork?> {
         
         guard let result = self.result,result.count > 0 else {
             return req.eventLoop.newSucceededFuture(result: nil)
@@ -183,7 +183,7 @@ extension LaGouController {
         
         let item = result[filterIndex]
         
-        return LGWorkItem.query(on: req)
+        return LGWork.query(on: req)
             .filter(\.positionId == item.positionId)
             .first()
             .flatMap({ (exist)  in
@@ -203,7 +203,7 @@ extension LaGouController {
                         return req.eventLoop.newSucceededFuture(result: update)
                     })
                 }else {
-                    var newItem = LGWorkItem(
+                    var newItem = LGWork(
                         id: nil, adWord: item.adWord, appShow: item.appShow,
                         approve: item.approve, city: item.city, companyFullName: item.companyFullName,
                         companyId: item.companyId, companyLogo: item.companyLogo, companyShortName: item.companyShortName,
@@ -287,11 +287,11 @@ extension LaGouController {
     
     func readAllIOSWorksHandler(_ req: Request) throws -> Future<Response> {
         
-        let all = LGWorkItem.query(on: req)
+        let all = LGWork.query(on: req)
             .filter(\.positionName ~~ "ios")
             .all()
         return all.flatMap({ (items) in
-            return try ResponseJSON<[LGWorkItem]>(status: .ok,
+            return try ResponseJSON<[LGWork]>(status: .ok,
                                                   message: "共\(items.count)条数据", data: items).encode(for: req)
         })
     }
@@ -304,14 +304,14 @@ extension LaGouController {
                                                message: "缺少 key 或 city 参数").encode(for: req)
         }
         
-        let all = LGWorkItem.query(on: req)
+        let all = LGWork.query(on: req)
             .filter(\.city ~~ city) //模糊查询包含city的
             .filter(\.positionName ~~ key)
             .query(page: req.page)
             .all()
         
         return all.flatMap({ (items) in
-            return try ResponseJSON<[LGWorkItem]>(data: items).encode(for: req)
+            return try ResponseJSON<[LGWork]>(data: items).encode(for: req)
         })
     }
     
@@ -430,12 +430,60 @@ extension LaGouController {
 }
 
 
-private struct LGDetailItem: Content {
+fileprivate struct LGDetailItem: Content {
     
     var tag: String?
     var jobDesc: String?
     var address: String?
     
+}
+
+
+fileprivate struct LGResponseItem: Content {
+    
+    var code : Int
+    var content : LGContentItem?
+    var success : Bool?
+    
+    //不确定的数据类型，暂不解析
+    //    var msg : AnyObject?
+    //    var requestId : AnyObject?
+    //    var resubmitToken : AnyObject?
+}
+
+
+fileprivate struct LGContentItem: Content {
+    
+    var hrInfoMap : [String: LGHRInfoMap]?
+    var pageNo : Int?
+    var pageSize : Int?
+    var positionResult : LGPositionResult?
+}
+
+fileprivate struct LGHRInfoMap: Content {
+    
+    var canTalk : Bool?
+    var phone : String?
+    var positionName : String?
+    var realName : String?
+    var receiveEmail : String?
+    var userId : Int?
+    var userLevel : String?
+    
+    //    var portrait : AnyObject?
+}
+
+fileprivate struct LGPositionResult: Content {
+    
+    //不确定的数据类型，暂不解析
+    //    var hiTags : AnyObject?
+    //    var hotLabels : AnyObject?
+    //    var locationInfo : LocationInfo?
+    //    var queryAnalysisInfo : QueryAnalysisInfo?
+    //    var strategyProperty : StrategyProperty?
+    var result : [LGWork]?
+    var resultSize : Int?
+    var totalCount : Int?
 }
 
 

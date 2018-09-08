@@ -16,7 +16,7 @@ class ConstellationController: RouteCollection {
     var startUrl = "https://www.meiguoshenpo.com/baiyang/"
     var type = "xingzuo"
     
-    private var constells: [Constellation]?
+    private var constells: [ConstellationContainer]?
     private var types: [ConstellationType]?
     
     func boot(router: Router) throws {
@@ -32,7 +32,7 @@ extension ConstellationController {
     
     //*[@id="PAGE_LEFT"]
     
-    func getListHandler(_ req: Request) throws -> Future<Response> {
+    private func getListHandler(_ req: Request) throws -> Future<Response> {
         
         return try getHTMLResponse(req, url: startUrl).flatMap(to: Response.self, { (html) in
             
@@ -48,7 +48,7 @@ extension ConstellationController {
                 let abbr = try xingzuo.attr("class")
                 let name = try xingzuo.text()
                 
-                return Constellation(name: name, link: link, key: key, abbr: abbr)
+                return ConstellationContainer(name: name, link: link, key: key, abbr: abbr)
             })
             
             // 白羊座 运势 百科 爱情 事业 性格 排行 故事 名人
@@ -64,7 +64,7 @@ extension ConstellationController {
             
             struct Result: Content {
                 var targetUrl: String
-                var constells: [Constellation]?
+                var constells: [ConstellationContainer]?
                 var types: [ConstellationType]?
             }
             
@@ -76,7 +76,7 @@ extension ConstellationController {
     
 }
 
-private struct Constellation: Content {
+fileprivate struct ConstellationContainer: Content {
     
     var name: String?
     var link: String?
@@ -85,7 +85,7 @@ private struct Constellation: Content {
  
 }
 
-private struct ConstellationType: Content {
+fileprivate struct ConstellationType: Content {
     
     var name: String?
     var link: String?

@@ -1,5 +1,5 @@
 //
-//  UserRouteController.swift
+//  UserController.swift
 //  App
 //
 //  Created by 晋先森 on 2018/5/26.
@@ -10,7 +10,7 @@ import Crypto
 import Authentication
 
 
-final class UserRouteController: RouteCollection {
+final class UserController: RouteCollection {
     
     private let authController = AuthController()
     
@@ -18,9 +18,9 @@ final class UserRouteController: RouteCollection {
         
         let group = router.grouped("users")
         
-        group.post(LoginUser.self, at: "login", use: loginUserHandler)
-        group.post(LoginUser.self, at: "register", use: registerUserHandler)
-        group.post(ChangePasswordContainer.self, at: "changePassword", use: changePasswordHandler)
+        group.post(User.self, at: "login", use: loginUserHandler)
+        group.post(User.self, at: "register", use: registerUserHandler)
+        group.post(PasswordContainer.self, at: "changePassword", use: changePasswordHandler)
         group.post(UserInfoContainer.self, at: "updateInfo", use: updateUserInfoHandler)
         
         group.get("getUserInfo", use: getUserInfoHandler)
@@ -32,19 +32,19 @@ final class UserRouteController: RouteCollection {
 }
 
 
-private extension LoginUser {
+private extension User {
     
-    func user(with digest: BCryptDigest) throws -> LoginUser {
-        return try LoginUser(userID: UUID().uuidString, account: account, password: digest.hash(password))
+    func user(with digest: BCryptDigest) throws -> User {
+        return try User(userID: UUID().uuidString, account: account, password: digest.hash(password))
     }
 }
 
-extension UserRouteController {
+extension UserController {
     
     //TODO: 登录
-    func loginUserHandler(_ req: Request,user: LoginUser) throws -> Future<Response> {
+    func loginUserHandler(_ req: Request,user: User) throws -> Future<Response> {
         
-        let first = LoginUser
+        let first = User
             .query(on: req)
             .filter(\.account == user.account)
             .first()
@@ -75,9 +75,9 @@ extension UserRouteController {
     }
     
     //TODO: 注册
-    func registerUserHandler(_ req: Request, newUser: LoginUser) throws -> Future<Response> {
+    func registerUserHandler(_ req: Request, newUser: User) throws -> Future<Response> {
         
-        let futureFirst = LoginUser.query(on: req).filter(\.account == newUser.account).first()
+        let futureFirst = User.query(on: req).filter(\.account == newUser.account).first()
         return futureFirst.flatMap { existingUser in
             guard existingUser == nil else {
                 return try ResponseJSON<Empty>(status: .userExist).encode(for: req)
@@ -141,8 +141,8 @@ extension UserRouteController {
     }
     
     //TODO: 修改密码
-    func changePasswordHandler(_ req: Request,inputContent: ChangePasswordContainer) throws -> Future<Response> {
-        return LoginUser.query(on: req).filter(\.account == inputContent.account).first().flatMap({ (existUser) in
+    private func changePasswordHandler(_ req: Request,inputContent: PasswordContainer) throws -> Future<Response> {
+        return User.query(on: req).filter(\.account == inputContent.account).first().flatMap({ (existUser) in
             
             guard let existUser = existUser else {
                 return try ResponseJSON<Empty>(status: .userNotExist).encode(for: req)
@@ -265,18 +265,18 @@ extension UserRouteController {
 
 
 
-struct TokenContainer: Content {
+fileprivate struct TokenContainer: Content {
     var token: String
 }
 
-struct ChangePasswordContainer: Content {
+fileprivate struct PasswordContainer: Content {
     var account: String
     var password: String
     var newPassword: String
     
 }
 
-struct AccessContainer: Content {
+fileprivate struct AccessContainer: Content {
     
     var accessToken: String
     var userID:String?

@@ -30,12 +30,13 @@ struct NoteBill: BaseSQLModel {
     
     var uid: String
     var time: TimeInterval?
-    var number: Float
+    var total: Float
+    var number: Int
     var desc: String? //
     
-    
-    
 }
+
+
 
 
 

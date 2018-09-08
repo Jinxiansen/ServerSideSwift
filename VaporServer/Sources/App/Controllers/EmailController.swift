@@ -23,7 +23,7 @@ extension EmailController {
     func sendEmailHandler(_ req: Request) throws -> Future<Response> {
         
         return try req.content.decode(EmailContent.self).flatMap({ content in
-            return EmailSendResult
+            return EmailResult
                 .query(on: req)
                 .filter(\.email == content.email)
                 .count()
@@ -33,7 +33,7 @@ extension EmailController {
                                                   message: "达到发送上限").encode(for: req)
                 }
                 return try EmailSender.sendEmail(req, content: content).flatMap({ (state) in
-                    let result = EmailSendResult.init(id: nil,
+                    let result = EmailResult.init(id: nil,
                                                       state: state,
                                                       email: content.email,
                                                       sendTime: TimeManager.shared.currentTime())

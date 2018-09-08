@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 
-struct HKJob: BaseSQLModel {
+struct HongKongJob: BaseSQLModel {
     
     var id: Int?
     static var entity: String { return self.name + "s" }

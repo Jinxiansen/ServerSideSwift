@@ -7,6 +7,7 @@
 
 import Authentication
 
+
 struct User: BaseSQLModel {
     
     var id: Int?

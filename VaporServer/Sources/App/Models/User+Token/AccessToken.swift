@@ -51,8 +51,8 @@ extension AccessToken: BearerAuthenticatable {
 //extension AccessToken : Token {
 //    
 //    
-//    typealias UserType = LoginUser
-//    typealias UserIDType = LoginUser.ID
+//    typealias UserType = User
+//    typealias UserIDType = User.ID
 //    static var userIDKey: WritableKeyPath<AccessToken, Int> = \AccessToken.id
 ////    static var userIDKey: WritableKeyPath<AccessToken, String> = \.userID
 //}

@@ -270,7 +270,7 @@ extension BookController {
                                               subject: chpName,
                                               text: content)
                         _ = try EmailSender.sendEmail(req, content: em).map({ (state) in
-                            _ = EmailSendResult(id: nil, state: state,
+                            _ = EmailResult(id: nil, state: state,
                                                 email: em.email,
                                                 sendTime: TimeManager.currentTime())
                                 .save(on: req)
