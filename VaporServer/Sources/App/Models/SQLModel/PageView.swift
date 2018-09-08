@@ -9,8 +9,8 @@ import Vapor
 
 
 struct PageView: BaseSQLModel {
-    var id: Int?
     
+    var id: Int?
     static var entity: String { return self.name + "s" }
 
     var time: String?

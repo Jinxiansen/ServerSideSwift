@@ -17,13 +17,18 @@ public final class PageViewMeddleware : Middleware {
         return try next.respond(to: request)
     }
     
-    func printLog(_ request: Request) throws {
+    func printLog(_ req: Request) throws {
         
-        let method = request.http.method
-        let path = request.http.url.absoluteString
+        let method = req.http.method
+        let path = req.http.url.absoluteString
         let reqString = "\(method) \(path) \(TimeManager.currentTime()) \n"
         print(reqString)
         
+        let page = PageView(desc: req.http.description,
+                            ip: req.http.remotePeer.description,
+                            body: req.http.body.description,
+                            url: req.http.urlString)
+        _ = page.save(on: req)
     }
  
     
