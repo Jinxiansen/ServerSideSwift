@@ -63,7 +63,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     /* * ** ** ** ** *** ** ** ** 𝐌odels ** ** ** ** ** ** ** ** ** */
     var migrations = MigrationConfig()
     
-    migrations.add(model: APPUser.self, database: .psql)
+    migrations.add(model: User.self, database: .psql)
     migrations.add(model: EmailResult.self, database: .psql)
     
     migrations.add(model: PageView.self, database: .psql)

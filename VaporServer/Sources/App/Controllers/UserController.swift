@@ -18,8 +18,8 @@ final class UserController: RouteCollection {
         
         let group = router.grouped("users")
         
-        group.post(APPUser.self, at: "login", use: loginUserHandler)
-        group.post(APPUser.self, at: "register", use: registerUserHandler)
+        group.post(User.self, at: "login", use: loginUserHandler)
+        group.post(User.self, at: "register", use: registerUserHandler)
         group.post(PasswordContainer.self, at: "changePassword", use: changePasswordHandler)
         group.post(UserInfoContainer.self, at: "updateInfo", use: updateUserInfoHandler)
         
@@ -32,19 +32,19 @@ final class UserController: RouteCollection {
 }
 
 
-private extension APPUser {
+private extension User {
     
-    func user(with digest: BCryptDigest) throws -> APPUser {
-        return try APPUser(userID: UUID().uuidString, account: account, password: digest.hash(password))
+    func user(with digest: BCryptDigest) throws -> User {
+        return try User(userID: UUID().uuidString, account: account, password: digest.hash(password))
     }
 }
 
 extension UserController {
     
     //TODO: 登录
-    func loginUserHandler(_ req: Request,user: APPUser) throws -> Future<Response> {
+    func loginUserHandler(_ req: Request,user: User) throws -> Future<Response> {
         
-        let first = APPUser
+        let first = User
             .query(on: req)
             .filter(\.account == user.account)
             .first()
@@ -75,9 +75,9 @@ extension UserController {
     }
     
     //TODO: 注册
-    func registerUserHandler(_ req: Request, newUser: APPUser) throws -> Future<Response> {
+    func registerUserHandler(_ req: Request, newUser: User) throws -> Future<Response> {
         
-        let futureFirst = APPUser.query(on: req).filter(\.account == newUser.account).first()
+        let futureFirst = User.query(on: req).filter(\.account == newUser.account).first()
         return futureFirst.flatMap { existingUser in
             guard existingUser == nil else {
                 return try ResponseJSON<Empty>(status: .userExist).encode(for: req)
@@ -142,7 +142,7 @@ extension UserController {
     
     //TODO: 修改密码
     private func changePasswordHandler(_ req: Request,inputContent: PasswordContainer) throws -> Future<Response> {
-        return APPUser.query(on: req).filter(\.account == inputContent.account).first().flatMap({ (existUser) in
+        return User.query(on: req).filter(\.account == inputContent.account).first().flatMap({ (existUser) in
             
             guard let existUser = existUser else {
                 return try ResponseJSON<Empty>(status: .userNotExist).encode(for: req)
