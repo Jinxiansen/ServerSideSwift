@@ -21,8 +21,8 @@ struct AuthenRouteController: RouteCollection {
         
         group.post(RefreshTokenContainer.self, at: "refresh", use: refreshAccessTokenHandler)
         
-        let basicAuthMiddleware = User.basicAuthMiddleware(using: BCrypt)
-        let guardAuthMiddleware = User.guardAuthMiddleware()
+        let basicAuthMiddleware = APPUser.basicAuthMiddleware(using: BCrypt)
+        let guardAuthMiddleware = APPUser.guardAuthMiddleware()
         
         let basicAuthGroup = group.grouped([basicAuthMiddleware,guardAuthMiddleware])
         basicAuthGroup.post(UserContext.self, at: "revoke", use: accessTokenRevocationHandler)

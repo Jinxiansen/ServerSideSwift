@@ -19,7 +19,7 @@ struct AuthController {
         })
     }
     
-    func authContainer(for user: User,on connection: DatabaseConnectable) throws -> Future<AuthContainer> {
+    func authContainer(for user: APPUser,on connection: DatabaseConnectable) throws -> Future<AuthContainer> {
         return try removeAllTokens(for: user, on: connection).flatMap({ _ in
             return try map(to: AuthContainer.self,
                            self.accessToken(for: user, on: connection),
@@ -32,7 +32,7 @@ struct AuthController {
     }
     
     func remokeTokens(userID: String,on connection: DatabaseConnectable) throws -> Future<Void> {
-        return User
+        return APPUser
             .query(on: connection)
             .filter(\.userID == userID)
             .first()
@@ -47,27 +47,27 @@ struct AuthController {
 
 private extension AuthController {
     
-    func existingUser(matchingTokenString tokenString: RefreshToken.Token,on connection: DatabaseConnectable) throws -> Future<User?> {
+    func existingUser(matchingTokenString tokenString: RefreshToken.Token,on connection: DatabaseConnectable) throws -> Future<APPUser?> {
         return RefreshToken.query(on: connection)
             .filter(\.tokenString == tokenString)
             .first()
             .flatMap({ (token) in
             guard let token = token else { throw Abort(.notFound) }
-            return User
+            return APPUser
                 .query(on: connection)
                 .filter(\.userID == token.userID)
                 .first()
         })
     }
     
-    func existingUser(matching user: User, on connection: DatabaseConnectable) throws -> Future<User?> {
-        return User
+    func existingUser(matching user: APPUser, on connection: DatabaseConnectable) throws -> Future<APPUser?> {
+        return APPUser
             .query(on: connection)
             .filter(\.account == user.account)
             .first()
     }
     
-    func removeAllTokens(for user:User,on connection: DatabaseConnectable) throws -> Future<Void> {
+    func removeAllTokens(for user: APPUser,on connection: DatabaseConnectable) throws -> Future<Void> {
         let accessTokens = AccessToken
             .query(on: connection)
             .filter(\.userID == user.userID!)
@@ -81,12 +81,12 @@ private extension AuthController {
         })
     }
     
-    func accessToken(for user: User, on connection: DatabaseConnectable) throws -> Future<AccessToken> {
+    func accessToken(for user: APPUser, on connection: DatabaseConnectable) throws -> Future<AccessToken> {
         return try AccessToken(userID: user.userID ?? "")
             .save(on: connection)
     }
     
-    func refreshToken(for user: User,on connection: DatabaseConnectable) throws -> Future<RefreshToken> {
+    func refreshToken(for user: APPUser,on connection: DatabaseConnectable) throws -> Future<RefreshToken> {
         return try RefreshToken(userID: user.userID ?? "")
             .save(on: connection)
     }

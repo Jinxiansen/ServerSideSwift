@@ -8,7 +8,7 @@
 import Authentication
 
 
-struct User: BaseSQLModel {
+struct APPUser: BaseSQLModel {
     
     var id: Int?
     
@@ -25,17 +25,17 @@ struct User: BaseSQLModel {
         self.password = password
     }
    
-    static var createdAtKey: TimestampKey? = \User.createdAt
-    static var updatedAtKey: TimestampKey? = \User.updatedAt
+    static var createdAtKey: TimestampKey? = \APPUser.createdAt
+    static var updatedAtKey: TimestampKey? = \APPUser.updatedAt
     var createdAt: Date?
     var updatedAt: Date?
     
 }
 
 
-extension User: BasicAuthenticatable {
-    static var usernameKey: WritableKeyPath<User, String> = \.account
-    static var passwordKey: WritableKeyPath<User, String> = \.password
+extension APPUser: BasicAuthenticatable {
+    static var usernameKey: WritableKeyPath<APPUser, String> = \.account
+    static var passwordKey: WritableKeyPath<APPUser, String> = \.password
 }
 
 //extension User: TokenAuthenticatable {
