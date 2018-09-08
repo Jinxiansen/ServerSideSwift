@@ -1,5 +1,5 @@
 //
-//  HongKongJobController.swift
+//  HKJobController.swift
 //  App
 //
 //  Created by 晋先森 on 2018/8/6.
@@ -11,7 +11,7 @@ import Fluent
 import FluentPostgreSQL
 import SwiftSoup
 
-class HongKongJobController: RouteCollection {
+class HKJobController: RouteCollection {
     
     var maxPage: Int?
     var currentPage = 1
@@ -32,7 +32,7 @@ class HongKongJobController: RouteCollection {
     }
 }
 
-extension HongKongJobController {
+extension HKJobController {
     
     func getAreaDataHandler(_ req: Request) throws -> Future<Response> {
         
@@ -105,17 +105,17 @@ extension HongKongJobController {
         
         //        let path = req.http.headers["path"].first?.description ?? ""
         //        guard path == req.http.urlString.description else {
-        //            return HongKongJob.query(on: req).first().flatMap({ (job) in
-        //                var jobs = [HongKongJob]()
+        //            return HKJob.query(on: req).first().flatMap({ (job) in
+        //                var jobs = [HKJob]()
         //                if let job = job {
         //                    jobs.append(job)
         //                }
-        //                return try ResponseJSON<[HongKongJob]>(data: jobs).encode(for: req)
+        //                return try ResponseJSON<[HKJob]>(data: jobs).encode(for: req)
         //            })
         //        }
         
         
-        return HongKongJob.query(on: req)
+        return HKJob.query(on: req)
             .filter(\.type ~~ type)
             .filter(\.location ~~ location)
             .filter(\.company ~~ company)
@@ -124,7 +124,7 @@ extension HongKongJobController {
             .all()
             .flatMap({ (jobs) in
                 
-                return try ResponseJSON<[HongKongJob]>(data: jobs).encode(for: req)
+                return try ResponseJSON<[HKJob]>(data: jobs).encode(for: req)
             })
     }
     
@@ -171,13 +171,13 @@ extension HongKongJobController {
                 let company = try jobBody.select("span[class='text-success']").text()
                 let lastUpdate = try jobBody.select("div[class='dateposted']").text()
                 
-                _ = HongKongJob.query(on: req).filter(\.jobId == jobId).first().map({ (exist) in
+                _ = HKJob.query(on: req).filter(\.jobId == jobId).first().map({ (exist) in
                     
                     if let exist = exist {
                         debugPrint("已存在：\(exist.jobId) \(TimeManager.currentTime())")
                     }else {
                         _ = try self.getDetailInfoHandler(req: req, link: link).map({ (detail) in
-                            let work = HongKongJob.init(id: nil, title: title, jobId: jobId, type: type, location: location, money: money, content: content, company: company, lastUpdate: lastUpdate, detailInfo: detail.detailInfo, date: detail.date, industry: detail.industry)
+                            let work = HKJob.init(id: nil, title: title, jobId: jobId, type: type, location: location, money: money, content: content, company: company, lastUpdate: lastUpdate, detailInfo: detail.detailInfo, date: detail.date, industry: detail.industry)
                             _ = work.save(on: req).map({ (result) in
                                 debugPrint("已保存: \(result.jobId) \(TimeManager.currentTime())")
                             })

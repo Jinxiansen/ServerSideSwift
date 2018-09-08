@@ -81,7 +81,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: ScreenShot.self, database: .psql)
     migrations.add(model: BookChapter.self, database: .psql)
     migrations.add(model: BookInfo.self, database: .psql)
-    migrations.add(model: HongKongJob.self, database: .psql)
+    migrations.add(model: HKJob.self, database: .psql)
     migrations.add(model: SinWord.self, database: .psql)
     migrations.add(model: EnJob.self, database: .psql)
     migrations.add(model: EnJobDetail.self, database: .psql)

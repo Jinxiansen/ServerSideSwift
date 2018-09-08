@@ -1,5 +1,5 @@
 //
-//  HongKongJob.swift
+//  HKJob.swift
 //  App
 //
 //  Created by 晋先森 on 2018/8/6.
@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 
-struct HongKongJob: BaseSQLModel {
+struct HKJob: BaseSQLModel {
     
     var id: Int?
     static var entity: String { return self.name + "s" }
