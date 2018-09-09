@@ -11,13 +11,13 @@ import Vapor
 public final class PageViewMeddleware : Middleware {
     
     public func respond(to request: Request, chainingTo next: Responder) throws -> EventLoopFuture<Response> {
-    
-        try printLog(request)
-    
-        return try next.respond(to: request)
+        return try savePageView(request).flatMap({ pg in
+            return try next.respond(to: request)
+        })
+        
     }
     
-    func printLog(_ req: Request) throws {
+    func savePageView(_ req: Request) throws -> Future<PageView> {
         
         let method = req.http.method
         let path = req.http.url.absoluteString
@@ -28,7 +28,7 @@ public final class PageViewMeddleware : Middleware {
                             ip: req.http.remotePeer.description,
                             body: req.http.body.description,
                             url: req.http.urlString)
-        _ = page.save(on: req)
+        return page.save(on: req)
     }
  
     
