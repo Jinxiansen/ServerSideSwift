@@ -24,6 +24,7 @@ final class UserController: RouteCollection {
         group.post(UserInfoContainer.self, at: "updateInfo", use: updateUserInfoHandler)
         
         group.get("getUserInfo", use: getUserInfoHandler)
+        group.get("avatar",String.parameter, use: getUserAvatarHandler)
         
         group.post("exit", use: exitUserHandler)
         
@@ -201,6 +202,18 @@ extension UserController {
                 return try ResponseJSON<UserInfo>(data: existInfo).encode(for: req)
             })
         })
+    }
+    
+    func getUserAvatarHandler(_ req: Request) throws -> Future<Response> {
+        
+        let name = try req.parameters.next(String.self)
+        let path = try VaporUtils.localRootDir(at: ImagePath.userPic, req: req) + "/" + name
+        if !FileManager.default.fileExists(atPath: path) {
+            let json = ResponseJSON<Empty>(status: .error,
+                                           message: "图片不存在")
+            return try json.encode(for: req)
+        }
+        return try req.streamFile(at: path)
     }
     
     //TODO: 更新用户信息
