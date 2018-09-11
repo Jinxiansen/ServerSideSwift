@@ -54,30 +54,36 @@ extension TestController {
     
     func testTofuHandler(_ req: Request) throws -> Future<Response> {
         
-        struct History: Content {
+        struct Bill: Content {
             
-            var id: Int
-            var img: String?
-            var title: String?
-            var content: String?
-            var year: Int
-            var month: Int
-            var day: Int
+            var id: String
+            var category: Int
+            var tags: String
+            var place: String
+            var introduce: String
+            var describe: String
+            var amount: Double
+            var status: Int
+            var remark: String
+            var creatTime: String
+            var memberId: String
+            var tradeType: Int
         }
         
         struct MyData: Content {
-            var affairArray: [History]
-            var more: Int
+            var bills: [Bill]
         }
-
         
-        let h1 = History(id: 2,img: "img1",title: "\(Int(SimpleRandom.random(10...254)))",content: "\(Int(SimpleRandom.random(10...254)))",year: 2018,month: 08,day: 10)
+        // 这是一段测试数据
+        let b1 = Bill(id: "se331", category: 1, tags: "午饭", place: "老鸿兴", introduce: "同事聚餐", describe: "总共8人小聚", amount: 1335, status: 0, remark: "聚餐支出", creatTime: TimeManager.currentTime(), memberId: "3339", tradeType: 1)
         
-        let h2 = History(id: 3, img: "img2", title: "\(Int(SimpleRandom.random(10...254)))", content: "\(Int(SimpleRandom.random(10...254)))", year: 2018, month: 5, day: 13)
+        let b2 = Bill(id: "se436", category: 1, tags: "晚餐", place: "殇雪", introduce: "怡情", describe: "2人", amount: 530, status: 0, remark: "聚餐支出", creatTime: TimeManager.currentTime(), memberId: "3339", tradeType: 1)
         
-        let data = MyData(affairArray: [h1,h2],more: 1)
+        let b3 = Bill(id: "se398", category: 1, tags: "冰箱", place: "新街口", introduce: "买冰箱", describe: "带老婆买了个大冰箱", amount: 8999, status: 0, remark: "家具支出", creatTime: TimeManager.currentTime(), memberId: "3339", tradeType: 1)
         
-        return try ResponseJSON<MyData>(data: data).encode(for: req)
+        let b4 = Bill(id: "se335", category: 1, tags: "外快", place: "家里", introduce: "小项目", describe: "大概为期7天写的基于 Swift 服务端的跑步项目", amount: 5000, status: 0, remark: "外快收入", creatTime: TimeManager.currentTime(), memberId: "3339", tradeType: 2)
+        
+        return try ResponseJSON<[Bill]>(data: [b1,b2,b3,b4]).encode(for: req)
     }
     
     
