@@ -249,11 +249,12 @@ extension UserController {
                 if var existInfo = existInfo { //存在则更新。
                     userInfo = existInfo.update(with: container)
                     
-                    if let existPicName = existInfo.picName,let _ = imgName { //移除原来的照片
+                    if let existPicName = existInfo.picName,let imgName = imgName { //移除原来的照片
                         let path = try VaporUtils.localRootDir(at: ImagePath.userPic, req: req) + "/" + existPicName
                         try FileManager.default.removeItem(at: URL.init(fileURLWithPath: path))
+                        userInfo?.picName = imgName
                     }
-                    userInfo?.picName = imgName
+                    
                 }else {
                     userInfo = UserInfo(id: nil,
                                         userID: existToken.userID,
