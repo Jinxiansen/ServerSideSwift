@@ -30,3 +30,26 @@ struct HKJob: BaseSQLModel {
 }
 
 
+struct HKJobApply: BaseSQLModel {
+    
+    var id: Int?
+    static var entity: String { return self.name + "s" }
+    
+    var jobId: String
+    var userID: String
+    var email: String?
+    var name: String?
+    var phone: String?
+    var desc: String?
+    var time: TimeInterval
+}
+
+
+
+
+
+
+
+
+
+

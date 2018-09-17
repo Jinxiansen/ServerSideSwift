@@ -28,11 +28,58 @@ class HKJobController: RouteCollection {
             group.get("list", use: getWorkListHandler)
             
             group.get("area", use: getAreaDataHandler)
+            
+            group.post(ApplyContext.self, at: "post", use: postJobDataHandler)
+            group.get("record", use: getMyRecordHandler)
         }
     }
 }
 
 extension HKJobController {
+    
+    // 提交记录
+    private func getMyRecordHandler(_ req: Request) throws -> Future<Response> {
+        
+        let token = BearerAuthorization(token: req.token)
+        
+        return AccessToken.authenticate(using: token, on: req).flatMap({
+            guard let exist = $0 else {
+                return try ResponseJSON<String>(status: .token).encode(for: req)
+            }
+            return HKJobApply
+                .query(on: req)
+                .filter(\.userID == exist.userID)
+                .query(page: req.page)
+                .all()
+                .flatMap({
+                    return try ResponseJSON<[HKJobApply]>(data: $0).encode(for: req)
+                })
+        })
+    }
+    
+    // 提交报名
+    private func postJobDataHandler(_ req: Request,context: ApplyContext) throws -> Future<Response> {
+        
+        let token = BearerAuthorization(token: context.token)
+        return AccessToken.authenticate(using: token, on: req).flatMap({
+            guard let exist = $0 else {
+                return try ResponseJSON<String>(status: .token).encode(for: req)
+            }
+            
+            let apply = HKJobApply(id: nil,
+                                   jobId: context.jobId,
+                                   userID: exist.userID,
+                                   email: context.email,
+                                   name: context.name,
+                                   phone: context.phone,
+                                   desc: context.desc,
+                                   time: Date().timeIntervalSince1970)
+            
+            return apply.save(on: req).flatMap({ save in
+                return try ResponseJSON<String>(data: "apply success !").encode(for: req)
+            })
+        })
+    }
     
     func getAreaDataHandler(_ req: Request) throws -> Future<Response> {
         
@@ -103,18 +150,6 @@ extension HKJobController {
         let company = req.query[String.self,at: "company"] ?? ""
         let industry = req.query[String.self,at: "industry"] ?? ""
         
-        //        let path = req.http.headers["path"].first?.description ?? ""
-        //        guard path == req.http.urlString.description else {
-        //            return HKJob.query(on: req).first().flatMap({ (job) in
-        //                var jobs = [HKJob]()
-        //                if let job = job {
-        //                    jobs.append(job)
-        //                }
-        //                return try ResponseJSON<[HKJob]>(data: jobs).encode(for: req)
-        //            })
-        //        }
-        
-        
         return HKJob.query(on: req)
             .filter(\.type ~~ type)
             .filter(\.location ~~ location)
@@ -177,7 +212,7 @@ extension HKJobController {
                         debugPrint("已存在：\(exist.jobId) \(TimeManager.currentTime())")
                     }else {
                         _ = try self.getDetailInfoHandler(req: req, link: link).map({ (detail) in
-                            let work = HKJob.init(id: nil, title: title, jobId: jobId, type: type, location: location, money: money, content: content, company: company, lastUpdate: lastUpdate, detailInfo: detail.detailInfo, date: detail.date, industry: detail.industry)
+                            let work = HKJob(id: nil, title: title, jobId: jobId, type: type, location: location, money: money, content: content, company: company, lastUpdate: lastUpdate, detailInfo: detail.detailInfo, date: detail.date, industry: detail.industry)
                             _ = work.save(on: req).map({ (result) in
                                 debugPrint("已保存: \(result.jobId) \(TimeManager.currentTime())")
                             })
@@ -222,7 +257,16 @@ private struct JobTags: Content {
     var locations: String?
 }
 
-
+private struct ApplyContext: Content {
+    
+    var token: String
+    var jobId: String
+    var email: String?
+    var name: String?
+    var phone: String?
+    var desc: String?
+    
+}
 
 
 
