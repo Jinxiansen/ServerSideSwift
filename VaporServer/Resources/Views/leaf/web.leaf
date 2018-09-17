@@ -486,17 +486,6 @@ kbd {
 
 <h4 id="toc_5">返回示例</h4>
 
-<p><details> 
-  <summary> 终端测试 </summary></p>
-
-<p>curl --request POST \
-  --url http://localhost:8080/users/register \
-  --header &#39;content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW&#39; \
-  --form account=hello@foxmail.com \
-  --form password=qbter123 </p>
-
-<p></details> </p>
-
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
     &quot;message&quot;: &quot;注册成功&quot;,

@@ -98,17 +98,7 @@
 | accessToken | string | 注册成功则返回 Token |
 
 #### 返回示例
-  
- <details> 
-  <summary> 终端测试 </summary>
 
-   curl --request POST \
-  --url http://localhost:8080/users/register \
-  --header 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
-  --form account=hello@foxmail.com \
-  --form password=qbter123 
-
-</details> 
 
 ```
 {
