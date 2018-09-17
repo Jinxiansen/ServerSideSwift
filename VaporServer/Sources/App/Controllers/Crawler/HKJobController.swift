@@ -46,12 +46,10 @@ extension HKJobController {
             guard let exist = $0 else {
                 return try ResponseJSON<String>(status: .token).encode(for: req)
             }
-            return HKJobApply
-                .query(on: req)
-                .filter(\.userID == exist.userID)
-                .query(page: req.page)
-                .all()
-                .flatMap({
+            
+            let futureAll = HKJobApply.query(on: req).filter(\.userID == exist.userID).query(page: req.page).all()
+            
+            return futureAll.flatMap({
                     return try ResponseJSON<[HKJobApply]>(data: $0).encode(for: req)
                 })
         })
@@ -150,15 +148,9 @@ extension HKJobController {
         let company = req.query[String.self,at: "company"] ?? ""
         let industry = req.query[String.self,at: "industry"] ?? ""
         
-        return HKJob.query(on: req)
-            .filter(\.type ~~ type)
-            .filter(\.location ~~ location)
-            .filter(\.company ~~ company)
-            .filter(\.industry ~~ industry)
-            .query(page: req.page)
-            .all()
-            .flatMap({ (jobs) in
-                
+        let futureAll = HKJob.query(on: req).filter(\.type ~~ type).filter(\.location ~~ location).filter(\.company ~~ company).filter(\.industry ~~ industry).query(page: req.page).all()
+        
+        return futureAll.flatMap({ (jobs) in
                 return try ResponseJSON<[HKJob]>(data: jobs).encode(for: req)
             })
     }

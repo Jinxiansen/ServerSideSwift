@@ -204,20 +204,46 @@ extension LaGouController {
                     })
                 }else {
                     var newItem = LGWork(
-                        id: nil, adWord: item.adWord, appShow: item.appShow,
-                        approve: item.approve, city: item.city, companyFullName: item.companyFullName,
-                        companyId: item.companyId, companyLogo: item.companyLogo, companyShortName: item.companyShortName,
-                        companySize: item.companySize, createTime: item.createTime, deliver: item.deliver,
-                        district: item.district, education: item.education, financeStage: item.financeStage,
-                        firstType: item.firstType, formatCreateTime: item.formatCreateTime, imState: item.imState,
-                        industryField: item.industryField, isSchoolJob: item.isSchoolJob, jobNature: item.jobNature,
-                        lastLogin: item.lastLogin, latitude: item.latitude, linestaion: item.linestaion,
-                        longitude:item.longitude, pcShow: item.pcShow, positionAdvantage:item.positionAdvantage,positionId:
-                        item.positionId, positionName: item.positionName, publisherId: item.publisherId,
-                        resumeProcessDay: item.resumeProcessDay, resumeProcessRate: item.resumeProcessRate,
-                        salary: item.salary, score: item.score, secondType: item.secondType,
-                        stationname: item.stationname, subwayline: item.subwayline, workYear: item.workYear,
-                        tag: detail.tag, jobDesc: detail.jobDesc, address: detail.address)
+                        id: nil, adWord: item.adWord,
+                        appShow: item.appShow,
+                        approve: item.approve,
+                        city: item.city,
+                        companyFullName: item.companyFullName,
+                        companyId: item.companyId,
+                        companyLogo: item.companyLogo,
+                        companyShortName: item.companyShortName,
+                        companySize: item.companySize,
+                        createTime: item.createTime,
+                        deliver: item.deliver,
+                        district: item.district,
+                        education: item.education,
+                        financeStage: item.financeStage,
+                        firstType: item.firstType,
+                        formatCreateTime: item.formatCreateTime,
+                        imState: item.imState,
+                        industryField: item.industryField,
+                        isSchoolJob: item.isSchoolJob,
+                        jobNature: item.jobNature,
+                        lastLogin: item.lastLogin,
+                        latitude: item.latitude,
+                        linestaion: item.linestaion,
+                        longitude:item.longitude,
+                        pcShow: item.pcShow,
+                        positionAdvantage:item.positionAdvantage,positionId:
+                        item.positionId,
+                        positionName: item.positionName,
+                        publisherId: item.publisherId,
+                        resumeProcessDay: item.resumeProcessDay,
+                        resumeProcessRate: item.resumeProcessRate,
+                        salary: item.salary,
+                        score: item.score,
+                        secondType: item.secondType,
+                        stationname: item.stationname,
+                        subwayline: item.subwayline,
+                        workYear: item.workYear,
+                        tag: detail.tag,
+                        jobDesc: detail.jobDesc,
+                        address: detail.address)
                     
                     newItem.companyLogo = "https://www.lagou.com/" + (item.companyLogo ?? "")
                     
@@ -255,7 +281,8 @@ extension LaGouController {
         httpReq.headers.add(name: "X-Forwarded-For", value: randomIP)
         let getReq = Request(http: httpReq, using: req)
         
-        return try req.client().send(getReq).flatMap(to: LGDetailItem.self, { (clientResp) in
+        return try req.client().send(getReq)
+            .flatMap(to: LGDetailItem.self, { (clientResp) in
             let html = clientResp.utf8String
             let document = try SwiftSoup.parse(html)
             
@@ -287,10 +314,9 @@ extension LaGouController {
     
     func readAllIOSWorksHandler(_ req: Request) throws -> Future<Response> {
         
-        let all = LGWork.query(on: req)
-            .filter(\.positionName ~~ "ios")
-            .all()
-        return all.flatMap({ (items) in
+        let futureAll = LGWork.query(on: req).filter(\.positionName ~~ "ios").all()
+        
+        return futureAll.flatMap({ (items) in
             return try ResponseJSON<[LGWork]>(status: .ok,
                                                   message: "共\(items.count)条数据", data: items).encode(for: req)
         })
@@ -304,13 +330,9 @@ extension LaGouController {
                                                message: "缺少 key 或 city 参数").encode(for: req)
         }
         
-        let all = LGWork.query(on: req)
-            .filter(\.city ~~ city) //模糊查询包含city的
-            .filter(\.positionName ~~ key)
-            .query(page: req.page)
-            .all()
+        let futureAll = LGWork.query(on: req).filter(\.city ~~ city).filter(\.positionName ~~ key).query(page: req.page).all()
         
-        return all.flatMap({ (items) in
+        return futureAll.flatMap({ (items) in
             return try ResponseJSON<[LGWork]>(data: items).encode(for: req)
         })
     }

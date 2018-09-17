@@ -42,10 +42,9 @@ extension BookController {
         
         let name = req.query[String.self,at:"name"] ?? ""
         
-        return BookInfo.query(on: req)
-            .filter(\.bookName ~~ name)
-            .first()
-            .flatMap({ (exist) in
+        let futureFirst = BookInfo.query(on: req).filter(\.bookName ~~ name).first()
+        
+        return futureFirst.flatMap({ (exist) in
                 
                 guard let exist = exist else {
                     return try req.view().render("leaf/allChapters")
@@ -71,11 +70,9 @@ extension BookController {
         
         let id = try req.parameters.next(Int.self)
         
-        return BookChapter
-            .query(on: req)
-            .filter(\.chapterId == id)
-            .first()
-            .flatMap({ (chapter) in
+        let futureFirst = BookChapter.query(on: req).filter(\.chapterId == id).first()
+        
+        return futureFirst.flatMap({ (chapter) in
                 
                 let contents = chapter?.content?.components(separatedBy: "\n\n") ?? []
                 let pter = ChapterContext(bookName: chapter?.bookName,
@@ -90,20 +87,17 @@ extension BookController {
     func getBookLastChapterContentHandler(_ req: Request) throws -> Future<Response> {
         let name = req.query[String.self,at:"name"] ?? ""
         
-        return BookInfo.query(on: req)
-            .filter(\.bookName ~~ name)
-            .first()
-            .flatMap({ (info) in
+        let futureFirst = BookInfo.query(on: req).filter(\.bookName ~~ name).first()
+        
+        return futureFirst.flatMap({ (info) in
                 guard let info = info else {
                     return try ResponseJSON<Empty>(status: .error,
                                                    message: "没有此书: \(name)").encode(for: req)
                 }
-                return BookChapter
-                    .query(on: req)
-                    .filter(\.bookId == info.bookId)
-                    .sort(\.chapterId,.descending)
-                    .first()
-                    .flatMap({ (chapter) in
+                
+                let futureChapterFirst = BookChapter.query(on: req).filter(\.bookId == info.bookId).sort(\.chapterId,.descending).first()
+                
+                return futureChapterFirst.flatMap({ (chapter) in
                         
                         let contents = chapter?.content?.components(separatedBy: "\n\n") ?? []
                         let pter = ChapterContext(bookName: info.bookName,
@@ -131,8 +125,7 @@ extension BookController {
         let url = "https://www.piaotian.com/html/\(typeId)/\(bookId)/"
         
         return try req.client().get(url)
-            .flatMap {
-                try $0.convertGBKString(req) }
+            .flatMap { try $0.convertGBKString(req) }
             .map({ html -> ResponseJSON<Empty> in
                 debugPrint("输出结果 -> \(html)\n\n")
                 
@@ -193,10 +186,9 @@ extension BookController {
         
         guard revertLis.count > 0 else { return }
         
-        _ = BookInfo.query(on: req)
-            .filter(\.bookId == self.bookId)
-            .first()
-            .map({ (exist) in
+        let futureFirst = BookInfo.query(on: req).filter(\.bookId == self.bookId).first()
+        
+        _ = futureFirst.map({ (exist) in
             
             if var exist = exist {
                 exist.chapterCount = revertLis.count

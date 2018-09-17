@@ -88,11 +88,9 @@ extension RecordController {
                                            message: "缺少 county 参数").encode(for: req)
         }
         
-        return Record.query(on: req)
-            .filter(\.county == county)
-            .query(page: req.page)
-            .all()
-            .flatMap({ (cords) in
+        let futureAll = Record.query(on: req).filter(\.county == county).query(page: req.page).all()
+        
+        return futureAll.flatMap({ (cords) in
                 guard cords.count > 0 else {
                     return try ResponseJSON<[Record]>(status: .ok,
                                                       message: "没有数据了",
@@ -189,12 +187,9 @@ extension RecordController {
                 return try ResponseJSON<Empty>(status: .token).encode(for: req)
             }
             
-            return Record.query(on: req)
-                .filter(\Record.county == county)
-                .filter(\Record.userID == existToken.userID)
-                .query(page: req.page)
-                .all()
-                .flatMap({ (records) in
+            let futureAll = Record.query(on: req).filter(\Record.county == county).filter(\Record.userID == existToken.userID).query(page: req.page).all()
+            
+            return futureAll.flatMap({ (records) in
                 let results = records.compactMap({ (record) -> Record in
                     var rec = record; rec.id = nil; return rec
                 })

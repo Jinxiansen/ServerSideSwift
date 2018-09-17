@@ -36,7 +36,10 @@ final class UserController: RouteCollection {
 private extension User {
     
     func user(with digest: BCryptDigest) throws -> User {
-        return try User(userID: UUID().uuidString, account: account, password: digest.hash(password))
+        
+        return try User(userID: UUID().uuidString,
+                        account: account,
+                        password: digest.hash(password))
     }
 }
 
@@ -45,11 +48,9 @@ extension UserController {
     //TODO: 登录
     func loginUserHandler(_ req: Request,user: User) throws -> Future<Response> {
         
-        let first = User
-            .query(on: req)
-            .filter(\.account == user.account)
-            .first()
-        return first.flatMap({ (existingUser) in
+        let futureFirst = User.query(on: req).filter(\.account == user.account).first()
+        
+        return futureFirst.flatMap({ (existingUser) in
             guard let existingUser = existingUser else {
                 return try ResponseJSON<Empty>(status: .userNotExist).encode(for: req)
             }
@@ -143,6 +144,7 @@ extension UserController {
     
     //TODO: 修改密码
     private func changePasswordHandler(_ req: Request,inputContent: PasswordContainer) throws -> Future<Response> {
+        
         return User.query(on: req).filter(\.account == inputContent.account).first().flatMap({ (existUser) in
             
             guard let existUser = existUser else {
@@ -189,12 +191,9 @@ extension UserController {
                 return try ResponseJSON<Empty>(status: .token).encode(for: req)
             }
             
-            let first = UserInfo
-                .query(on: req)
-                .filter(\.userID == existToken.userID)
-                .first()
+            let futureFirst = UserInfo.query(on: req).filter(\.userID == existToken.userID).first()
             
-            return first.flatMap({ (existInfo) in
+            return futureFirst.flatMap({ (existInfo) in
                 guard let existInfo = existInfo else {
                     return try ResponseJSON<Empty>(status: .error,
                                                   message: "用户信息为空").encode(for: req)
@@ -227,11 +226,9 @@ extension UserController {
                 return try ResponseJSON<Empty>(status: .token).encode(for: req)
             }
             
-            return UserInfo
-                .query(on: req)
-                .filter(\.userID == existToken.userID)
-                .first()
-                .flatMap({ (existInfo) in
+            let futureFirst = UserInfo.query(on: req).filter(\.userID == existToken.userID).first()
+                
+            return futureFirst.flatMap({ (existInfo) in
                     
                 var imgName: String?
                 if let file = container.picImage { //如果上传了图片，就判断下大小，否则就揭过这一茬。

@@ -45,14 +45,12 @@ extension EnJobController {
             guard let exist = $0 else {
                 return try ResponseJSON<String>(status: .token).encode(for: req)
             }
-            return EnJobApply
-                .query(on: req)
-                .filter(\.userID == exist.userID)
-                .query(page: req.page)
-                .all()
-                .flatMap({
-                    return try ResponseJSON<[EnJobApply]>(data: $0).encode(for: req)
-                })
+            
+            let futureAll = EnJobApply.query(on: req).filter(\.userID == exist.userID).query(page: req.page).all()
+            
+            return futureAll.flatMap({
+                return try ResponseJSON<[EnJobApply]>(data: $0).encode(for: req)
+            })
         })
     }
     
@@ -84,15 +82,11 @@ extension EnJobController {
         
         let company = req.query[String.self, at: "company"] ?? ""
         
-        return EnJob
-            .query(on: req)
-            .filter(\.title ~~ req.key)
-            .filter(\.company ~~ company)
-            .query(page: req.page)
-            .all()
-            .flatMap({
-            return try ResponseJSON<[EnJob]>(data: $0).encode(for: req)
-        })
+        let futureAll = EnJob.query(on: req).filter(\.title ~~ req.key).filter(\.company ~~ company).query(page: req.page).all()
+        
+        return futureAll.flatMap({
+                return try ResponseJSON<[EnJob]>(data: $0).encode(for: req)
+            })
     }
     
     private func getJobDetailHandler(_ req: Request) throws -> Future<Response> {
@@ -254,11 +248,9 @@ extension EnJobController {
             item.desiredCandidateProfile = desiredCandidateProfile
             item.companyProfile = companyProfile
             
-            _ = EnJobDetail
-                .query(on: req)
-                .filter(\.jobId == job.jobId)
-                .first()
-                .map({ exist in
+            let futureFirst = EnJobDetail.query(on: req).filter(\.jobId == job.jobId).first()
+            
+            _ = futureFirst.map({ exist in
                     if let exist = exist {
                         debugPrint("\(exist.jobId) 详情已存在。\(TimeManager.currentTime())")
                     }else {
