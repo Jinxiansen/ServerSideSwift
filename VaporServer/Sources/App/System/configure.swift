@@ -90,6 +90,8 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: EnJobDetail.self, database: .psql)
     migrations.add(model: EnJobApply.self, database: .psql)
     
+    migrations.add(model: NoteLive.self, database: .psql)
+    migrations.add(model: NoteBill.self, database: .psql)
     
     //test
     migrations.add(model: MyModel.self, database: .psql)

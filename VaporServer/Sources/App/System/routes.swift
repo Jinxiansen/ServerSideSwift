@@ -31,6 +31,7 @@ public func routes(_ router: Router) throws {
     try router.register(collection: ConstellationController())
     try router.register(collection: HKJobController())
     try router.register(collection: EnJobController())
+    try router.register(collection: NoteController())
    
     
 }
