@@ -177,8 +177,7 @@ extension TestController {
             let path = try VaporUtils.localRootDir(at: ImagePath.record, req: req) + "/" + VaporUtils.imageName()
             if let image = receive.image {
                 guard image.count < ImageMaxByteSize else {
-                    return try ResponseJSON<Empty>(status: .error,
-                                                   message: "The picture needs to be compressed!").encode(for: req)
+                    return try ResponseJSON<Empty>(status: .pictureTooBig).encode(for: req)
                 }
                 try Data(image).write(to: URL(fileURLWithPath: path))
             }

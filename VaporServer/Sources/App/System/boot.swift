@@ -17,7 +17,6 @@ public func boot(_ app: Application) throws {
 
 func foo(on container: Container) {
     
-    
     let future = container.withPooledConnection(to: .psql) { db in
         return Future.map(on: container){ "\(db) timer running" }
     }

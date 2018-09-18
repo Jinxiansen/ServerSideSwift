@@ -63,38 +63,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     /* * ** ** ** ** *** ** ** ** 𝐌odels ** ** ** ** ** ** ** ** ** */
     var migrations = MigrationConfig()
     
-    migrations.add(model: User.self, database: .psql)
-    migrations.add(model: EmailResult.self, database: .psql)
-    
-    migrations.add(model: PageView.self, database: .psql)
-    migrations.add(model: AccessToken.self, database: .psql)
-    migrations.add(model: RefreshToken.self, database: .psql)
-    migrations.add(model: Record.self, database: .psql)
-    
-    migrations.add(model: Word.self, database: .psql)
-    migrations.add(model: Idiom.self, database: .psql)
-    migrations.add(model: SinWord.self, database: .psql)
-    migrations.add(model: XieHouIdiom.self, database: .psql)
-    migrations.add(model: Report.self, database: .psql)
-    migrations.add(model: UserInfo.self, database: .psql)
-    migrations.add(model: LGWork.self, database: .psql)
-    migrations.add(model: CrawlerLog.self, database: .psql)
-    migrations.add(model: ScreenShot.self, database: .psql)
-    migrations.add(model: BookChapter.self, database: .psql)
-    migrations.add(model: BookInfo.self, database: .psql)
-    
-    // job
-    migrations.add(model: HKJob.self, database: .psql)
-    migrations.add(model: HKJobApply.self, database: .psql)
-    migrations.add(model: EnJob.self, database: .psql)
-    migrations.add(model: EnJobDetail.self, database: .psql)
-    migrations.add(model: EnJobApply.self, database: .psql)
-    
-    migrations.add(model: NoteLive.self, database: .psql)
-    migrations.add(model: NoteBill.self, database: .psql)
-    
-    //test
-    migrations.add(model: MyModel.self, database: .psql)
+    migrations.setupModels()
     
     services.register(migrations)
     
