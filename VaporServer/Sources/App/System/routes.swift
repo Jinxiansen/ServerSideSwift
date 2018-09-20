@@ -16,7 +16,7 @@ public func routes(_ router: Router) throws {
         return req.description
     }
     
-    // Example of configuring a controlle
+    // ` Register Controllers `
     try router.register(collection: EmailController())
     try router.register(collection: HTMLController())
     try router.register(collection: TestController())
