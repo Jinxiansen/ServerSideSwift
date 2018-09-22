@@ -22,7 +22,7 @@ public final class PageViewMeddleware : Middleware {
         
         let method = req.http.method
         let path = req.http.url.absoluteString
-        let reqString = "\(method) \(path) \(TimeManager.currentTime()) \n"
+        let reqString = "\(method) \(path) \(TimeManager.current()) \n"
         print(reqString)
         
         var body = ""

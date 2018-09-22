@@ -26,7 +26,7 @@ struct EmailSender {
         let emailUser = Mail.User(email: content.email)
         
         let myName = content.myName ?? "Jinxiansen"
-        let sub = content.subject ?? "Swift Vapor SMTP \(TimeManager.shared.currentTime())"
+        let sub = content.subject ?? "Swift Vapor SMTP \(TimeManager.current())"
         let text = content.text ?? "世界上一成不变的东西，只有“任何事物都是在不断变化的”这条真理。"
         
         let MyEmailUser = Mail.User(name: myName, email: "hi.ya@qq.com")

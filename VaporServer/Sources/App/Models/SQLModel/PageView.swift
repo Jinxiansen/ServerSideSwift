@@ -19,7 +19,7 @@ struct PageView: BaseSQLModel {
     var body: String?
     var url: String?
     
-    init(time: String = TimeManager.shared.currentTime(),
+    init(time: String = TimeManager.current(),
          desc:String?,
          ip: String?,
          body: String?,

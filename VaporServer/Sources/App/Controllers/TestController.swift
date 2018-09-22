@@ -75,13 +75,13 @@ extension TestController {
         }
         
         // 这是一段测试数据
-        let b1 = Bill(id: "se331", category: 1, tags: "午饭", place: "老鸿兴", introduce: "同事聚餐", describe: "总共8人小聚", amount: 1335, status: 0, remark: "聚餐支出", creatTime: TimeManager.currentTime(), memberId: "3339", tradeType: 1)
+        let b1 = Bill(id: "se331", category: 1, tags: "午饭", place: "老鸿兴", introduce: "同事聚餐", describe: "总共8人小聚", amount: 1335, status: 0, remark: "聚餐支出", creatTime: TimeManager.current(), memberId: "3339", tradeType: 1)
         
-        let b2 = Bill(id: "se436", category: 1, tags: "晚餐", place: "殇雪", introduce: "怡情", describe: "2人", amount: 530, status: 0, remark: "聚餐支出", creatTime: TimeManager.currentTime(), memberId: "3339", tradeType: 1)
+        let b2 = Bill(id: "se436", category: 1, tags: "晚餐", place: "殇雪", introduce: "怡情", describe: "2人", amount: 530, status: 0, remark: "聚餐支出", creatTime: TimeManager.current(), memberId: "3339", tradeType: 1)
         
-        let b3 = Bill(id: "se398", category: 1, tags: "冰箱", place: "新街口", introduce: "买冰箱", describe: "带老婆买了个大冰箱", amount: 8999, status: 0, remark: "家具支出", creatTime: TimeManager.currentTime(), memberId: "3339", tradeType: 1)
+        let b3 = Bill(id: "se398", category: 1, tags: "冰箱", place: "新街口", introduce: "买冰箱", describe: "带老婆买了个大冰箱", amount: 8999, status: 0, remark: "家具支出", creatTime: TimeManager.current(), memberId: "3339", tradeType: 1)
         
-        let b4 = Bill(id: "se335", category: 1, tags: "外快", place: "家里", introduce: "小项目", describe: "大概为期7天写的基于 Swift 服务端的跑步项目", amount: 5000, status: 0, remark: "外快收入", creatTime: TimeManager.currentTime(), memberId: "3339", tradeType: 2)
+        let b4 = Bill(id: "se335", category: 1, tags: "外快", place: "家里", introduce: "小项目", describe: "大概为期7天写的基于 Swift 服务端的跑步项目", amount: 5000, status: 0, remark: "外快收入", creatTime: TimeManager.current(), memberId: "3339", tradeType: 2)
         
         return try ResponseJSON<[Bill]>(data: [b1,b2,b3,b4]).encode(for: req)
     }

@@ -124,7 +124,7 @@ extension ProcessController {
                                       bgPath: bgPath,
                                       outPath: filePath,
                                       desc: req.http.headers.description,
-                                      time: TimeManager.currentTime())
+                                      time: TimeManager.current())
                 shot.save(on: req).whenFailure({ (error) in
                     print("保存失败 \(error)")
                 })

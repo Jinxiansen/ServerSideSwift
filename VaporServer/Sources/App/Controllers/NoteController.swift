@@ -19,9 +19,14 @@ struct NoteController: RouteCollection {
             
             // 提交 Live
             router.post(LiveContainer.self, at: "live", use: postLiveDataHandler)
-            
             // 获取所有 Lives ,可选参数 page
             router.get("lives", use: getLivesDataHandler)
+            
+            router.post(BillContainer.self, at: "bill", use: postBillDataHandler)
+            router.get("bills", use: getBillsDataHandler)
+            
+            
+            
         }
     }
 }
@@ -29,6 +34,46 @@ struct NoteController: RouteCollection {
 
 extension NoteController {
     
+    
+    //MARK: Bill
+    func getBillsDataHandler(_ req: Request) throws -> Future<Response> {
+        
+        let token = BearerAuthorization(token: req.token)
+        
+        return AccessToken.authenticate(using: token, on: req).flatMap({
+            guard let user = $0 else {
+                return try ResponseJSON<Empty>(status: .token).encode(for: req)
+            }
+            
+            //分页、排序(time)。
+            let futureAll = NoteBill.query(on: req).filter(\.userID == user.userID).query(page: req.page).sort(\.time,.descending).all()
+            
+            return futureAll.flatMap({
+                return try ResponseJSON<[NoteBill]>(data: $0).encode(for: req)
+            })
+        })
+    }
+    
+    
+    private func postBillDataHandler(_ req: Request, container: BillContainer) throws -> Future<Response> {
+        
+        let token = BearerAuthorization(token: container.token)
+        return AccessToken.authenticate(using: token, on: req).flatMap({
+            
+            guard let user = $0 else {
+                return try ResponseJSON<Empty>(status: .token).encode(for: req)
+            }
+            
+            let bill = NoteBill(id: nil, userID: user.userID, time: TimeManager.currentDate(), total: container.total, number: container.number ?? 1, type: container.type ?? 1 , desc: container.desc)
+            
+            return bill.save(on: req).flatMap({ _ in
+                return try ResponseJSON<Empty>(status: .ok, message: "保存成功").encode(for: req)
+            })
+        })
+        
+    }
+    
+    //MARK: Live
     func getLivesDataHandler(_ req: Request) throws -> Future<Response> {
         
         let token = BearerAuthorization(token: req.token)
@@ -54,7 +99,7 @@ extension NoteController {
                     var imgName: String?
                     var desc: String?
                 }
-
+                
                 return flatMap(to: Response.self, futureAllLives, futureAllInfos, { (lives, infos) in
                     
                     var results = [ResultLive]()
@@ -133,6 +178,16 @@ fileprivate struct LiveContainer: Content {
     
 }
 
+
+fileprivate struct BillContainer: Content {
+    
+    var token: String
+    var type: Int?
+    var total: Float
+    var number: Int?
+    var desc: String? //
+    
+}
 
 
 

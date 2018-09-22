@@ -36,7 +36,7 @@ extension EmailController {
                     let result = EmailResult.init(id: nil,
                                                       state: state,
                                                       email: content.email,
-                                                      sendTime: TimeManager.shared.currentTime())
+                                                      sendTime: TimeManager.current())
                     return result.save(on: req).flatMap({ (us) in
                         return try ResponseJSON(status: .ok,
                                                 message: "发送成功", data: result).encode(for: req)

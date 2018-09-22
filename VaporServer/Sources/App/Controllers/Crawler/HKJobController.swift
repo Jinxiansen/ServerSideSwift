@@ -171,7 +171,7 @@ extension HKJobController {
             return try ResponseJSON<Empty>(status: .error,
                                            message: "没有数据。").encode(for: req)
         }
-        debugPrint("当前页：\(self.currentPage) \(TimeManager.currentTime())")
+        debugPrint("当前页：\(self.currentPage) \(TimeManager.current())")
         let url = "http://www.parttime.hk/jobs/SearchResults.aspx?pg=\(self.currentPage)"
         return try getHTMLResponse(req, url: url).flatMap({ (html) in
             
@@ -201,12 +201,12 @@ extension HKJobController {
                 _ = HKJob.query(on: req).filter(\.jobId == jobId).first().map({ (exist) in
                     
                     if let exist = exist {
-                        debugPrint("已存在：\(exist.jobId) \(TimeManager.currentTime())")
+                        debugPrint("已存在：\(exist.jobId) \(TimeManager.current())")
                     }else {
                         _ = try self.getDetailInfoHandler(req: req, link: link).map({ (detail) in
                             let work = HKJob(id: nil, title: title, jobId: jobId, type: type, location: location, money: money, content: content, company: company, lastUpdate: lastUpdate, detailInfo: detail.detailInfo, date: detail.date, industry: detail.industry)
                             _ = work.save(on: req).map({ (result) in
-                                debugPrint("已保存: \(result.jobId) \(TimeManager.currentTime())")
+                                debugPrint("已保存: \(result.jobId) \(TimeManager.current())")
                             })
                         })
                     }

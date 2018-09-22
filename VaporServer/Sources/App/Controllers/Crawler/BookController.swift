@@ -141,7 +141,7 @@ extension BookController {
                 }
                 let lis = try mainBody.select("div[class='centent']").select("a")
                 
-                debugPrint("\n\(bookName) \(auther) 当前总章节 \(lis.array().count) \(TimeManager.currentTime())")
+                debugPrint("\n\(bookName) \(auther) 当前总章节 \(lis.array().count) \(TimeManager.current())")
                 
                 let revertLis = lis.reversed()
                 
@@ -192,16 +192,16 @@ extension BookController {
             
             if var exist = exist {
                 exist.chapterCount = revertLis.count
-                exist.updateTime = TimeManager.currentTime()
+                exist.updateTime = TimeManager.current()
                 _ = exist.update(on: req)
-                debugPrint("本书已存在:\(exist.bookName ?? "") \(TimeManager.currentTime())")
+                debugPrint("本书已存在:\(exist.bookName ?? "") \(TimeManager.current())")
             }else {
                 let bookInfo = BookInfo(id: nil,
                                         typeId: self.typeId,
                                         bookId: self.bookId,
                                         bookName: bookName,
                                         chapterCount: revertLis.count,
-                                        updateTime: TimeManager.currentTime(),
+                                        updateTime: TimeManager.current(),
                                         content: nil,
                                         auther: auther,bookImg: nil)
                 
@@ -234,11 +234,11 @@ extension BookController {
             
             //如果已经存在，则结束，并定时重新爬取。
             if let exist = exist {
-                debugPrint("已存在: \(exist.chapterName ?? "none") \(TimeManager.currentTime())\n")
+                debugPrint("已存在: \(exist.chapterName ?? "none") \(TimeManager.current())\n")
                 self.amount = nil
                 
                 _ =  req.eventLoop.scheduleTask(in: TimeAmount.minutes(90), {
-                    debugPrint("重启检查 \(TimeManager.currentTime())\n\n")
+                    debugPrint("重启检查 \(TimeManager.current())\n\n")
                     self.amount = TimeAmount.seconds(10)
                     _ = try self.crawlerFanRenBookHandler(req)
                 })
@@ -250,11 +250,11 @@ extension BookController {
                                            bookName: bookName,
                                            chapterId: chpId,
                                            chapterName: chpName,
-                                           updateTime: TimeManager.currentTime(),
+                                           updateTime: TimeManager.current(),
                                            content: content,
                                            auther: auther,
                                            desc: "")
-                    debugPrint("已保存：\(book.chapterName ?? "") \(TimeManager.currentTime())")
+                    debugPrint("已保存：\(book.chapterName ?? "") \(TimeManager.current())")
                     
                     if self.currentIndex == elements.count - 1 {
                         let em = EmailContent(email: "hi@jinxiansen.com",
@@ -264,7 +264,7 @@ extension BookController {
                         _ = try EmailSender.sendEmail(req, content: em).map({ (state) in
                             _ = EmailResult(id: nil, state: state,
                                                 email: em.email,
-                                                sendTime: TimeManager.currentTime())
+                                                sendTime: TimeManager.current())
                                 .save(on: req)
                         })
                     }
@@ -276,7 +276,7 @@ extension BookController {
             if self.currentIndex < elements.count {
                 self.currentIndex += 1
             }else {
-                debugPrint("已是最后一条。\(TimeManager.currentTime())")
+                debugPrint("已是最后一条。\(TimeManager.current())")
                 self.amount = nil
             }
             return req.eventLoop.newSucceededFuture(result: Empty())

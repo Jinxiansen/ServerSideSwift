@@ -18,12 +18,16 @@ struct TimeManager {
         matter.timeZone = TimeZone(identifier: "Asia/Shanghai")
     }
     
-    func currentTime() -> String {
+    func current() -> String {
         return matter.string(from: Date())
     }
     
-    static func currentTime() -> String {
+    static func current() -> String {
         return self.shared.matter.string(from: Date())
+    }
+    
+    static func currentDate() -> TimeInterval {
+        return Date().timeIntervalSince1970
     }
 }
 

@@ -143,7 +143,7 @@ extension LaGouController {
                 self.result = result
                 self.filterIndex = 0
                 
-                let content = "取到第\(self.page)页,\(result.count)条数据 -> 启动定时器:\(TimeManager.currentTime())"
+                let content = "取到第\(self.page)页,\(result.count)条数据 -> 启动定时器:\(TimeManager.current())"
                 self.saveLog(req: req, content: content)
                 try self.runRepeatTimerHandler(req) //取到数据开始定时解析
                 
@@ -162,7 +162,7 @@ extension LaGouController {
     func saveLog(req: Request,content: String?,desc: String? = nil) {
         let c = content ?? ""
         let d = desc ?? ""
-        let t = TimeManager.currentTime()
+        let t = TimeManager.current()
         debugPrint( t + c + "\n" + d + "\n")
         let log = CrawlerLog(title: self.logTitle(), content: content, time: t, desc: desc)
         log.save(on: req).whenFailure { (error) in

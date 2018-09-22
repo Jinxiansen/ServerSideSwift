@@ -69,7 +69,7 @@ extension RecordController {
                                     content: container.content,
                                     title: container.title,
                                     county: container.county,
-                                    time: TimeManager.shared.currentTime(),
+                                    time: TimeManager.current(),
                                     imgName: imgName)
             
             return record.save(on: req).flatMap({ (rc) in

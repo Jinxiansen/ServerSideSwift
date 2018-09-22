@@ -149,17 +149,17 @@ extension EnJobController {
                 
                 _ = EnJob.query(on: req).filter(\.jobId == jobId).first().map({
                     if let exist = $0 {
-                        debugPrint("\(exist.jobId) 已存在 ~~~ \(TimeManager.currentTime())")
+                        debugPrint("\(exist.jobId) 已存在 ~~~ \(TimeManager.current())")
                     }else {
                         _ = job.save(on: req).map({
-                            debugPrint("\($0.jobId) 保存成功! \(TimeManager.currentTime())")
+                            debugPrint("\($0.jobId) 保存成功! \(TimeManager.current())")
                         })
                     }
                 })
             }
             
             if group.count == 0 {
-                debugPrint("已经爬完。\(TimeManager.currentTime())")
+                debugPrint("已经爬完。\(TimeManager.current())")
             }else { // 定时循环执行爬详情
                 let s = TimeAmount.seconds(30)
                 _ = req.eventLoop.scheduleRepeatedTask(initialDelay: s, delay: s, { (task) in
@@ -175,7 +175,7 @@ extension EnJobController {
     func parseDetailInfoHandler(_ req: Request) throws {
         
         guard let dicts = self.dicts, dicts.count > currentIndex else {
-            debugPrint("dict 为空，或 currentIndex 超出。\(TimeManager.currentTime())")
+            debugPrint("dict 为空，或 currentIndex 超出。\(TimeManager.current())")
             return
         }
         
@@ -252,10 +252,10 @@ extension EnJobController {
             
             _ = futureFirst.map({ exist in
                     if let exist = exist {
-                        debugPrint("\(exist.jobId) 详情已存在。\(TimeManager.currentTime())")
+                        debugPrint("\(exist.jobId) 详情已存在。\(TimeManager.current())")
                     }else {
                         _ = item.save(on: req).map({
-                            debugPrint("\($0.jobId) 详情已保存--------- \(TimeManager.currentTime())")
+                            debugPrint("\($0.jobId) 详情已保存--------- \(TimeManager.current())")
                         })
                     }
                     
@@ -263,7 +263,7 @@ extension EnJobController {
                     
                     if  self.currentIndex == dicts.count {
                         self.page += 1
-                        debugPrint("开始第\(self.page)页 \(TimeManager.currentTime())")
+                        debugPrint("开始第\(self.page)页 \(TimeManager.current())")
                         _ = try self.startParseJobHandler(req)
                         return
                     }

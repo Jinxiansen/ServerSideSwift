@@ -33,6 +33,7 @@ struct NoteBill: BaseSQLModel {
     var time: TimeInterval?
     var total: Float
     var number: Int
+    var type: Int? // 类型
     var desc: String? //
     
 }
