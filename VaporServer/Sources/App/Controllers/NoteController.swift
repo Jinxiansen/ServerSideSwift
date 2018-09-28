@@ -25,7 +25,8 @@ struct NoteController: RouteCollection {
             router.post(BillContainer.self, at: "bill", use: postBillDataHandler)
             router.get("bills", use: getBillsDataHandler)
             
-            
+            router.get("image",String.parameter, use: getLiveImageHandler)
+
             
         }
     }
@@ -128,6 +129,18 @@ extension NoteController {
         })
     }
     
+    
+    func getLiveImageHandler(_ req: Request) throws -> Future<Response> {
+        
+        let name = try req.parameters.next(String.self)
+        let path = try VaporUtils.localRootDir(at: ImagePath.note, req: req) + "/" + name
+        if !FileManager.default.fileExists(atPath: path) {
+            let json = ResponseJSON<Empty>(status: .error,
+                                           message: "图片不存在")
+            return try json.encode(for: req)
+        }
+        return try req.streamFile(at: path)
+    }
     
     private func postLiveDataHandler(_ req: Request, container: LiveContainer) throws -> Future<Response> {
         

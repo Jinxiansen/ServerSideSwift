@@ -43,7 +43,7 @@ class RecordController: RouteCollection {
 
 extension RecordController {
     
-    //TODO: 发个动态。
+    //MARK: 发个动态。
     private func postRecordHandler(_ req: Request,container: RecordContainer) throws -> Future<Response> {
         
         let token = BearerAuthorization(token: container.token)
@@ -79,7 +79,7 @@ extension RecordController {
         })
     }
     
-    //TODO: 获取动态
+    //MARK: 获取动态
     func getAllRecordsHandler(_ req: Request) throws -> Future<Response> {
         
         guard let county = req.query[String.self,
@@ -100,7 +100,7 @@ extension RecordController {
             })
     }
     
-    //TODO: 获取图片
+    //MARK: 获取图片
     func getRecordImageHandler(_ req: Request) throws -> Future<Response> {
         
         guard let name = req.query[String.self,
@@ -132,7 +132,7 @@ extension RecordController {
     }
     
     
-    //TODO: 举报
+    //MARK: 举报
     private func reportUserHandler(_ req: Request,container: ReportContainer) throws -> Future<Response> {
         
         let token = BearerAuthorization(token: container.token)
@@ -168,7 +168,7 @@ extension RecordController {
             })
     }
     
-    //TODO: 获取我发布的动态
+    //MARK: 获取我发布的动态
     func getMyRecordsHandler(_ req: Request) throws -> Future<Response> {
         
         guard let token = req.query[String.self, at: "token"] else {

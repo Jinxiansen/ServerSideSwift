@@ -96,7 +96,7 @@ extension LaGouController {
     }
 }
 
-//TODO: Static Func
+//MARK: Static Func
 extension LaGouController {
     
     func crawlerLaGouWebHandler(_ req: Request) throws -> Future<Response> {
@@ -262,7 +262,7 @@ extension LaGouController {
         })
     }
     
-    //TODO: 请求详情页
+    //MARK: 请求详情页
     private func requestDetailData(_ req: Request, positionId: Int) throws -> Future<LGDetailItem> {
         
         let urlStr = "https://www.lagou.com/jobs/\(positionId).html"
