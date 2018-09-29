@@ -17,33 +17,30 @@ struct TestController: RouteCollection {
         
         router.group("test") { (group) in
             
-            //localhost:8080/test/upload
-            group.post("upload", use: uploadImage)
-            
+            // Get
             group.get("getName", use: getNameHandler)
-            
             group.get("getName2", String.parameter) { req -> [String:String] in
                 let name = try req.parameters.next(String.self)
                 return ["status":"0","message":"Hello,\(name) !"]
             }
+            group.get("doc", use: sendGetRequest)
+            group.get("random", use: testRandom)
+            group.get("tofu", use: testTofuHandler)
+            group.get("myModel", use: saveMyModelHandler)
+            
+            
+            // Post
             group.post("post1UserInfo", use: post1UserInfoHandler)
             group.post(UserContainer.self, at: "post2UserInfo", use: post2UserInfoHandler)
-            
-            group.get("doc", use: sendGetRequest)
-            
-            group.get("random", use: testRandom)
-            
+            //localhost:8080/test/upload
+            group.post("upload", use: uploadImage)
             group.post("postCity", use: postCityHandler)
             
             group.post("send") { req -> Future<Response> in
                 let city: String = try req.content.syncGet(at: "city")
                 return try ["hello":city].encode(for: req)
             }
-            
-            group.get("tofu", use: testTofuHandler)
-            
-            group.get("myModel", use: saveMyModelHandler)
-            
+
         }
         
     }
@@ -148,7 +145,6 @@ extension TestController {
         })
     }
     
-    
     func getNameHandler(_ req: Request) throws -> [String:String] {
         guard let name = req.query[String.self, at: "name"] else {
             return ["status":"-1","message": "Missing `name` parameter"]
@@ -192,7 +188,6 @@ extension TestController {
     }
     
 }
-
 
 
 private struct ImageContainer: Content {
