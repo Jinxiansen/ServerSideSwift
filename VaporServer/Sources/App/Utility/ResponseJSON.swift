@@ -54,6 +54,7 @@ enum ResponseStatus:Int,Content {
     case userExist = 20
     case userNotExist = 21
     case passwordError = 22
+    case pictureTooBig = 30
     
     var desc : String {
         switch self {
@@ -73,9 +74,10 @@ enum ResponseStatus:Int,Content {
             return "用户不存在"
         case .passwordError:
             return "密码不正确"
-        
-            
+        case .pictureTooBig:
+            return "图片太大，需要压缩"
         }
+        
     }
     
 }
