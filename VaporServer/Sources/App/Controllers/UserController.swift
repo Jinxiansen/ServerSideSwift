@@ -18,15 +18,16 @@ final class UserController: RouteCollection {
         
         let group = router.grouped("users")
         
+        // post
         group.post(User.self, at: "login", use: loginUserHandler)
         group.post(User.self, at: "register", use: registerUserHandler)
         group.post(PasswordContainer.self, at: "changePassword", use: changePasswordHandler)
         group.post(UserInfoContainer.self, at: "updateInfo", use: updateUserInfoHandler)
+        group.post("exit", use: exitUserHandler)
         
+        // get
         group.get("getUserInfo", use: getUserInfoHandler)
         group.get("avatar",String.parameter, use: getUserAvatarHandler)
-        
-        group.post("exit", use: exitUserHandler)
         
     }
     
