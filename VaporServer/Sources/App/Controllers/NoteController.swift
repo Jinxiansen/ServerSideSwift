@@ -19,12 +19,13 @@ struct NoteController: RouteCollection {
             
             // 提交 Live
             router.post(LiveContainer.self, at: "live", use: postLiveDataHandler)
+            router.post(LiveContainer.self, at: "updateLive", use: updateLiveContentHandler)
+
             // 获取所有 Lives ,可选参数 page
             router.get("lives", use: getLivesDataHandler)
             router.get("image",String.parameter, use: getLiveImageHandler)
-            
-            router.post(LiveContainer.self, at: "updateLive", use: updateLiveContentHandler)
-            
+
+            // Bill
             router.post(BillContainer.self, at: "bill", use: postBillDataHandler)
             router.get("bills", use: getBillsDataHandler)
             
@@ -68,7 +69,7 @@ extension NoteController {
             let bill = NoteBill(id: nil, userID: user.userID, time: TimeManager.currentDate(), total: container.total, number: container.number ?? 1, type: container.type ?? 1 , desc: container.desc)
             
             return bill.save(on: req).flatMap({ _ in
-                return try ResponseJSON<Empty>(status: .ok, message: "保存成功").encode(for: req)
+                return try ResponseJSON<Empty>(status: .ok, message: "Saved successfully!").encode(for: req)
             })
         })
         
@@ -163,7 +164,7 @@ extension NoteController {
                 
                 return live.update(on: req).flatMap({ _ in
                     return try ResponseJSON<Empty>(status: .ok,
-                                                   message: "更新成功").encode(for: req)
+                                                   message: "update completed").encode(for: req)
                 })
             })
         })
@@ -199,7 +200,7 @@ extension NoteController {
                                                        req: req) + "/" + imgName!
                 guard data.count < ImageMaxByteSize else {
                     return try ResponseJSON<Empty>(status: .error,
-                                                   message: "有点大，得压缩！").encode(for: req)
+                                                   message: "The picture needs to be compressed!").encode(for: req)
                 }
                 try Data(data).write(to: URL(fileURLWithPath: path))
             }
@@ -214,7 +215,7 @@ extension NoteController {
             
             return live.save(on: req).flatMap({ _ in
                 return try ResponseJSON<Empty>.init(status: .ok,
-                                                    message: "发布成功").encode(for: req)
+                                                    message: "Successfully released!").encode(for: req)
             })
         })
     }
