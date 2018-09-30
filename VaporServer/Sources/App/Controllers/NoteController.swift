@@ -22,11 +22,14 @@ struct NoteController: RouteCollection {
             // 获取所有 Lives ,可选参数 page
             router.get("lives", use: getLivesDataHandler)
             
+            router.post(LiveContainer.self, at: "updateLive", use: updateLiveContentHandler)
+            
             router.post(BillContainer.self, at: "bill", use: postBillDataHandler)
             router.get("bills", use: getBillsDataHandler)
             
+            
             router.get("image",String.parameter, use: getLiveImageHandler)
-
+            
             
         }
     }
@@ -34,7 +37,6 @@ struct NoteController: RouteCollection {
 
 
 extension NoteController {
-    
     
     //MARK: Bill
     func getBillsDataHandler(_ req: Request) throws -> Future<Response> {
@@ -73,6 +75,12 @@ extension NoteController {
         })
         
     }
+    
+}
+
+
+extension NoteController {
+    
     
     //MARK: Live
     func getLivesDataHandler(_ req: Request) throws -> Future<Response> {
@@ -130,6 +138,42 @@ extension NoteController {
     }
     
     
+    
+    //MARK: Update Live Content
+    private func updateLiveContentHandler(_ req: Request, container: LiveContainer) throws -> Future<Response> {
+        
+        let token = BearerAuthorization(token: container.token)
+        return AccessToken.authenticate(using: token, on: req).flatMap({
+            guard let _ = $0 else {
+                return try ResponseJSON<Empty>(status: .token).encode(for: req)
+            }
+            
+            let futureFirst = NoteLive.query(on: req).filter(\.id == container.liveId).first()
+            return futureFirst.flatMap({
+                guard var live = $0 else {
+                    return try ResponseJSON<Empty>(status: .error,
+                                                   message: " 此 id 不存在 ").encode(for: req)
+                }
+                
+                live.title = container.title
+                if let content = container.content {
+                    live.content = content
+                }
+                if let desc = container.desc {
+                    live.desc = desc
+                }
+                
+                return live.update(on: req).flatMap({ _ in
+                    return try ResponseJSON<Empty>(status: .ok,
+                                                   message: "更新成功").encode(for: req)
+                })
+            })
+        })
+        
+        
+    }
+    
+    
     func getLiveImageHandler(_ req: Request) throws -> Future<Response> {
         
         let name = try req.parameters.next(String.self)
@@ -180,7 +224,6 @@ extension NoteController {
     
 }
 
-
 fileprivate struct LiveContainer: Content {
     
     var token: String
@@ -189,6 +232,7 @@ fileprivate struct LiveContainer: Content {
     var img: File?
     var desc: String?
     
+    var liveId: Int?
 }
 
 

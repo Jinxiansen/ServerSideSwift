@@ -82,7 +82,11 @@ extension EnJobController {
         
         let company = req.query[String.self, at: "company"] ?? ""
         
-        let futureAll = EnJob.query(on: req).filter(\.title ~~ req.key).filter(\.company ~~ company).query(page: req.page).all()
+        let futureAll = EnJob.query(on: req)
+            .filter(\.title ~~ req.key) //
+            .filter(\.company ~~ company) //
+            .query(page: req.page)
+            .all()
         
         return futureAll.flatMap({
                 return try ResponseJSON<[EnJob]>(data: $0).encode(for: req)
