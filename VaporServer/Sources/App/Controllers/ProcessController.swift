@@ -79,8 +79,7 @@ extension ProcessController {
         var imgPath: String?
         if let file = container.img {
             guard file.data.count < ImageMaxByteSize else {
-                return try ResponseJSON<Empty>(status: .error,
-                                               message: "The picture needs to be compressed!").encode(for: req)
+                return try ResponseJSON<Empty>(status: .pictureTooBig).encode(for: req)
             }
             let imgName = try VaporUtils.randomString() + ".png"
             imgPath = inputPath + "/" + imgName
@@ -91,8 +90,7 @@ extension ProcessController {
         var bgPath: String?
         if let file = container.bg {
             guard file.data.count < ImageMaxByteSize else {
-                return try ResponseJSON<Empty>(status: .error,
-                                               message: "The picture needs to be compressed!").encode(for: req)
+                return try ResponseJSON<Empty>(status: .pictureTooBig).encode(for: req)
             }
             let bgName = try VaporUtils.randomString() + ".png"
             bgPath = inputPath + "/" + bgName
