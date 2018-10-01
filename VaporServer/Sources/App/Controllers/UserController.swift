@@ -102,7 +102,7 @@ extension UserController {
                 .flatMap { user in
                 
                 let logger = try req.make(Logger.self)
-                logger.warning("New user creatd: \(user.account)")
+                logger.warning("New user created: \(user.account)")
                 
                 return try self.authController
                     .authContainer(for: user, on: req)
@@ -150,6 +150,8 @@ extension UserController {
             guard let existUser = existUser else {
                 return try ResponseJSON<Empty>(status: .userNotExist).encode(for: req)
             }
+            
+            // digest
             let digest = try req.make(BCryptDigest.self)
             guard try digest.verify(inputContent.password,
                                     created: existUser.password) else {
@@ -234,7 +236,7 @@ extension UserController {
                 if let file = container.picImage { //如果上传了图片，就判断下大小，否则就揭过这一茬。
                     guard file.data.count < ImageMaxByteSize else {
                         return try ResponseJSON<Empty>(status: .error,
-                                                      message: "图片过大，得压缩！").encode(for: req)
+                                                      message: "The picture needs to be compressed!").encode(for: req)
                     }
                     imgName = try VaporUtils.imageName()
                     let path = try VaporUtils.localRootDir(at: ImagePath.userPic, req: req) + "/" + imgName!
