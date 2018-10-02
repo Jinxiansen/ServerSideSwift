@@ -30,8 +30,6 @@ class ConstellationController: RouteCollection {
 
 extension ConstellationController {
     
-    //*[@id="PAGE_LEFT"]
-    
     private func getListHandler(_ req: Request) throws -> Future<Response> {
         
         return try getHTMLResponse(req, url: startUrl).flatMap(to: Response.self, { (html) in
@@ -71,10 +69,10 @@ extension ConstellationController {
             let data = Result(targetUrl: self.startUrl,constells: self.constells, types: self.types)
             return try ResponseJSON<Result>(data: data).encode(for: req)
         })
-        
     }
     
 }
+
 
 fileprivate struct ConstellationContainer: Content {
     

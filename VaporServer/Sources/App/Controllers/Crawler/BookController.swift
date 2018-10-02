@@ -276,7 +276,7 @@ extension BookController {
             if self.currentIndex < elements.count {
                 self.currentIndex += 1
             }else {
-                debugPrint("已是最后一条。\(TimeManager.current())")
+                debugPrint("已是最后一条：\(TimeManager.current())")
                 self.amount = nil
             }
             return req.eventLoop.newSucceededFuture(result: Empty())
