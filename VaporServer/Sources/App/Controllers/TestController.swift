@@ -151,7 +151,7 @@ extension TestController {
     
     func getNameHandler(_ req: Request) throws -> [String:String] {
         guard let name = req.query[String.self, at: "name"] else {
-            return ["status":"-1","message": "缺少 name 参数"]
+            return ["status":"-1","message": "Missing `name` parameter"]
         }
         return ["status":"0","message":"Hello,\(name) !"]
     }
@@ -182,7 +182,7 @@ extension TestController {
             if let image = receive.image {
                 guard image.count < ImageMaxByteSize else {
                     return try ResponseJSON<Empty>(status: .error,
-                                                   message: "有点大，得压缩！").encode(for: req)
+                                                   message: "The picture needs to be compressed!").encode(for: req)
                 }
                 try Data(image).write(to: URL(fileURLWithPath: path))
             }
