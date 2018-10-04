@@ -74,7 +74,7 @@ extension RecordController {
             
             return record.save(on: req).flatMap({ (rc) in
                 return try ResponseJSON<Record>(status: .ok,
-                                                    message: "发布成功").encode(for: req)
+                                                    message: "Successfully released!").encode(for: req)
             })
         })
     }
@@ -85,7 +85,7 @@ extension RecordController {
         guard let county = req.query[String.self,
                                      at: "county"],county.count > 0 else {
             return try ResponseJSON<Empty>(status: .error,
-                                           message: "缺少 county 参数").encode(for: req)
+                                           message: "Missing `county` parameter").encode(for: req)
         }
         
         let futureAll = Record.query(on: req).filter(\.county == county).query(page: req.page).all()
