@@ -163,7 +163,7 @@ extension RecordController {
                 
                 return report.save(on: req).flatMap({ (rc) in
                     return try ResponseJSON<Empty>(status: .ok,
-                                                   message: "举报成功").encode(for: req)
+                                                   message: "Report success!").encode(for: req)
                 })
             })
     }
@@ -173,11 +173,11 @@ extension RecordController {
         
         guard let token = req.query[String.self, at: "token"] else {
             return try ResponseJSON<Empty>(status: .error,
-                                           message: "缺少 token 参数").encode(for: req)
+                                           message: "Missing `token` parameter").encode(for: req)
         }
         guard let county = req.query[String.self, at: "county"] else {
             return try ResponseJSON<Empty>(status: .error,
-                                           message: "缺少 county 参数").encode(for: req)
+                                           message: "Missing `county` parameter").encode(for: req)
         }
 
         let bear = BearerAuthorization(token: token)
