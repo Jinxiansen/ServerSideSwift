@@ -93,7 +93,7 @@ extension RecordController {
         return futureAll.flatMap({ (cords) in
                 guard cords.count > 0 else {
                     return try ResponseJSON<[Record]>(status: .ok,
-                                                      message: "没有数据了",
+                                                      message: "There's no more data.",
                                                       data: []).encode(for: req)
                 }
                 return try ResponseJSON<[Record]>(data: cords).encode(for: req)
@@ -106,7 +106,7 @@ extension RecordController {
         guard let name = req.query[String.self,
                                    at: "name"] else {
             let json = ResponseJSON<Empty>(status: .error,
-                                           message: "缺少图片参数")
+                                           message: "Missing picture `name` parameter")
             return try json.encode(for: req)
         }
         
