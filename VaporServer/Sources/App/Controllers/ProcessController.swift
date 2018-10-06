@@ -80,7 +80,7 @@ extension ProcessController {
         if let file = container.img {
             guard file.data.count < ImageMaxByteSize else {
                 return try ResponseJSON<Empty>(status: .error,
-                                               message: "图片过大，得压缩！").encode(for: req)
+                                               message: "The picture needs to be compressed!").encode(for: req)
             }
             let imgName = try VaporUtils.randomString() + ".png"
             imgPath = inputPath + "/" + imgName
@@ -92,7 +92,7 @@ extension ProcessController {
         if let file = container.bg {
             guard file.data.count < ImageMaxByteSize else {
                 return try ResponseJSON<Empty>(status: .error,
-                                               message: "图片过大，得压缩！").encode(for: req)
+                                               message: "The picture needs to be compressed!").encode(for: req)
             }
             let bgName = try VaporUtils.randomString() + ".png"
             bgPath = inputPath + "/" + bgName
