@@ -209,7 +209,7 @@ extension UserController {
         let path = try VaporUtils.localRootDir(at: ImagePath.userPic, req: req) + "/" + name
         if !FileManager.default.fileExists(atPath: path) {
             let json = ResponseJSON<Empty>(status: .error,
-                                           message: "图片不存在")
+                                           message: "Image does not exist")
             return try json.encode(for: req)
         }
         return try req.streamFile(at: path)
