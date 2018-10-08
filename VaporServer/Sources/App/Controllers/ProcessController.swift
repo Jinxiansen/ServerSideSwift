@@ -101,11 +101,19 @@ extension ProcessController {
         }
         
         let arcName = try VaporUtils.randomString()
-        
         let task = Process()
+        
         task.launchPath = VaporUtils.python3Path()
+        
         task.arguments = ["toImage.py",arcName,container.d ?? "1",imgPath ?? "",bgPath ?? ""]
+        
+        //        let outPipe = Pipe()
+        //        let errPipe = Pipe()
+        //        task.standardOutput = outPipe
+        //        task.standardError = errPipe
+        
         task.currentDirectoryPath = pyFileDir + "/convert"
+        
         task.terminationHandler = { proce in
             
             let filePath = pyFileDir + "/convert/out/\(arcName).jpg"
