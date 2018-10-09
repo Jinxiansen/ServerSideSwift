@@ -21,14 +21,12 @@ struct NoteController: RouteCollection {
             router.post(LiveContainer.self, at: "live", use: postLiveDataHandler)
             // 获取所有 Lives ,可选参数 page
             router.get("lives", use: getLivesDataHandler)
+            router.get("image",String.parameter, use: getLiveImageHandler)
             
             router.post(LiveContainer.self, at: "updateLive", use: updateLiveContentHandler)
             
             router.post(BillContainer.self, at: "bill", use: postBillDataHandler)
             router.get("bills", use: getBillsDataHandler)
-            
-            
-            router.get("image",String.parameter, use: getLiveImageHandler)
             
             
         }
@@ -242,7 +240,7 @@ fileprivate struct BillContainer: Content {
     var type: Int?
     var total: Float
     var number: Int?
-    var desc: String? //
+    var desc: String?
     
 }
 
