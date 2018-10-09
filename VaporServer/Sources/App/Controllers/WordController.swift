@@ -18,11 +18,8 @@ struct WordController: RouteCollection {
             
             // words/word?str= ""
             router.get("word", use: filterWordDataHandler)
-            
             router.get("idiom", use: filterIdiomHandler)
-            
             router.get("xxidiom", use: filterXieHouIdiomHandler)
-            
             router.get("ci", use: filterSinWordDataHandler)
         }
         

@@ -289,21 +289,6 @@ sup {
     vertical-align: super;
     line-height: 0;
 }
-
-kbd {
-  display: inline-block;
-  padding: 3px 5px;
-  font-size: 11px;
-  line-height: 10px;
-  color: #555;
-  vertical-align: middle;
-  background-color: #fcfcfc;
-  border: solid 1px #ccc;
-  border-bottom-color: #bbb;
-  border-radius: 3px;
-  box-shadow: inset 0 -1px 0 #bbb
-}
-
 * {
 	-webkit-print-color-adjust: exact;
 }
@@ -386,6 +371,7 @@ kbd {
 
 <ul>
 <li><a href="#%E6%B1%89%E5%AD%97%E6%9F%A5%E8%AF%A2">汉字查询</a></li>
+<li><a href="#%E8%AF%8D%E8%AF%AD%E6%9F%A5%E8%AF%A2">词语查询</a></li>
 <li><a href="#%E6%88%90%E8%AF%AD%E6%9F%A5%E8%AF%A2">成语查询</a></li>
 <li><a href="#%E6%AD%87%E5%90%8E%E8%AF%AD%E6%9F%A5%E8%AF%A2">歇后语查询</a></li>
 </ul>
@@ -1540,19 +1526,96 @@ kbd {
 }
  </code></pre></div>
 
+<h3 id="词语查询">词语查询</h3>
+
+<blockquote>
+<p>words/ci</p>
+</blockquote>
+
+<h5 id="toc_57">请求方式：GET</h5>
+
+<h5 id="toc_58">请求参数</h5>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th style="text-align: left">必选</th>
+<th style="text-align: left">类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">str</td>
+<td style="text-align: left">是</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">查询的词语</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_59">返回字段</h4>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">返回字段</th>
+<th style="text-align: left">字段类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">status</td>
+<td style="text-align: left">int</td>
+<td style="text-align: left">0 = 请求成功</td>
+</tr>
+<tr>
+<td style="text-align: left">message</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">描述</td>
+</tr>
+<tr>
+<td style="text-align: left">ci</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">包含的词语</td>
+</tr>
+<tr>
+<td style="text-align: left">explanation</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">释义</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_60">接口示例</h4>
+
+<p><a href="http://api.jinxiansen.com/words/ci?str=%E4%B8%AD%E5%9B%BD">http://api.jinxiansen.com/words/ci?str=中国</a></p>
+
+<h4 id="toc_61">返回示例</h4>
+
+<div><pre><code class="language-none">{
+    &quot;ci&quot;: &quot;少年中国说&quot;,
+    &quot;explanation&quot;: &quot;散文篇名。近代梁启超作。文中极力歌颂少年的朝气蓬勃，指出封建统治下的中国是老大帝国”，热切希望出现少年中国”，振奋人民的精神。文章不拘格式，多用比喻，具有强烈的鼓动性。&quot;
+}
+ </code></pre></div>
+
 <h3 id="成语查询">成语查询</h3>
 
 <blockquote>
 <p>words/idiom</p>
 </blockquote>
 
-<h5 id="toc_57">请求方式：GET</h5>
+<h5 id="toc_62">请求方式：GET</h5>
 
-<h4 id="toc_58">接口示例</h4>
+<h4 id="toc_63">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/words/idiom?str=%E6%B0%B4%E6%80%A7">http://api.jinxiansen.com/words/idiom?str=水性</a></p>
 
-<h5 id="toc_59">请求参数</h5>
+<h5 id="toc_64">请求参数</h5>
 
 <table>
 <thead>
@@ -1574,7 +1637,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_60">返回字段</h4>
+<h4 id="toc_65">返回字段</h4>
 
 <table>
 <thead>
@@ -1629,7 +1692,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_61">返回示例</h4>
+<h4 id="toc_66">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -1669,13 +1732,13 @@ kbd {
 <p>words/xxidiom</p>
 </blockquote>
 
-<h5 id="toc_62">请求方式：GET</h5>
+<h5 id="toc_67">请求方式：GET</h5>
 
-<h4 id="toc_63">接口示例</h4>
+<h4 id="toc_68">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/words/xxidiom?str=%E8%8F%A9%E8%90%A8">http://api.jinxiansen.com/words/xxidiom?str=菩萨</a></p>
 
-<h5 id="toc_64">请求参数</h5>
+<h5 id="toc_69">请求参数</h5>
 
 <table>
 <thead>
@@ -1697,7 +1760,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_65">返回字段</h4>
+<h4 id="toc_70">返回字段</h4>
 
 <table>
 <thead>
@@ -1732,7 +1795,7 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_66">返回示例</h4>
+<h4 id="toc_71">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;: 0,
@@ -1754,9 +1817,9 @@ kbd {
 <p>sendEmail</p>
 </blockquote>
 
-<h5 id="toc_67">请求方式：POST</h5>
+<h5 id="toc_72">请求方式：POST</h5>
 
-<h5 id="toc_68">请求参数</h5>
+<h5 id="toc_73">请求参数</h5>
 
 <table>
 <thead>
@@ -1796,85 +1859,6 @@ kbd {
 </tbody>
 </table>
 
-<h4 id="toc_69">返回字段</h4>
-
-<table>
-<thead>
-<tr>
-<th style="text-align: left">返回字段</th>
-<th style="text-align: left">字段类型</th>
-<th style="text-align: left">说明</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td style="text-align: left">status</td>
-<td style="text-align: left">int</td>
-<td style="text-align: left">0 = 请求成功</td>
-</tr>
-<tr>
-<td style="text-align: left">message</td>
-<td style="text-align: left">string</td>
-<td style="text-align: left">描述</td>
-</tr>
-</tbody>
-</table>
-
-<h4 id="toc_70">返回示例</h4>
-
-<div><pre><code class="language-none">{
-    &quot;status&quot;: 0,
-    &quot;message&quot;: &quot;发送成功&quot;
-}
- </code></pre></div>
-
-<h2 id="爬虫">爬虫</h2>
-
-<p>这里只是简单展示了如何解析URL，你可以在此基础扩展使用，爬取目标URL并解析和创建 SQL Model 保存数据库，然后添加 API 调用，美滋滋。☺️</p>
-
-<h3 id="拉勾iOS">拉勾网iOS爬取示例</h3>
-
-<p>拉勾网爬虫示例，目标地址： <a href="https://www.lagou.com/jobs/list_ios?labelWords=&amp;fromSearch=true&amp;suginput=">https://www.lagou.com/jobs/list_ios?labelWords=&amp;fromSearch=true&amp;suginput=</a></p>
-
-<blockquote>
-<p>lagou/start</p>
-</blockquote>
-
-<h5 id="toc_71">请求方式：GET</h5>
-
-<h4 id="toc_72">接口示例</h4>
-
-<p>请运行项目后开始爬取：<a href="http://localhost:8080/lagou/start">http://localhost:8080/lagou/start</a></p>
-
-<p><details> 
-  <summary> 查看爬取结果 </summary>
-    http://api.jinxiansen.com/lagou/ios</p>
-
-<p></details> </p>
-
-<h5 id="toc_73">请求参数</h5>
-
-<table>
-<thead>
-<tr>
-<th style="text-align: left">参数</th>
-<th style="text-align: left">必选</th>
-<th style="text-align: left">类型</th>
-<th style="text-align: left">说明</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td style="text-align: left">无</td>
-<td style="text-align: left"></td>
-<td style="text-align: left"></td>
-<td style="text-align: left"></td>
-</tr>
-</tbody>
-</table>
-
 <h4 id="toc_74">返回字段</h4>
 
 <table>
@@ -1902,24 +1886,35 @@ kbd {
 
 <h4 id="toc_75">返回示例</h4>
 
-<p>你可以修改项目中的城市和关键字，以爬取自己需要的数据。</p>
-
 <div><pre><code class="language-none">{
-    &quot;status&quot;:0,
-    &quot;message&quot;:&quot;开始爬取任务：上海 ios&quot;
-}</code></pre></div>
+    &quot;status&quot;: 0,
+    &quot;message&quot;: &quot;发送成功&quot;
+}
+ </code></pre></div>
 
-<h3 id="获取iOS爬取结果">获取iOS爬取结果</h3>
+<h2 id="爬虫">爬虫</h2>
+
+<p>这里只是简单展示了如何解析URL，你可以在此基础扩展使用，爬取目标URL并解析和创建 SQL Model 保存数据库，然后添加 API 调用，美滋滋。☺️</p>
+
+<h3 id="拉勾iOS">拉勾网iOS爬取示例</h3>
+
+<p>拉勾网爬虫示例，目标地址： <a href="https://www.lagou.com/jobs/list_ios?labelWords=&amp;fromSearch=true&amp;suginput=">https://www.lagou.com/jobs/list_ios?labelWords=&amp;fromSearch=true&amp;suginput=</a></p>
 
 <blockquote>
-<p>lagou/ios</p>
+<p>lagou/start</p>
 </blockquote>
 
 <h5 id="toc_76">请求方式：GET</h5>
 
 <h4 id="toc_77">接口示例</h4>
 
-<p><a href="http://api.jinxiansen.com/lagou/ios">http://api.jinxiansen.com/lagou/ios</a></p>
+<p>请运行项目后开始爬取：<a href="http://localhost:8080/lagou/start">http://localhost:8080/lagou/start</a></p>
+
+<p><details> 
+  <summary> 查看爬取结果 </summary>
+    http://api.jinxiansen.com/lagou/ios</p>
+
+<p></details> </p>
 
 <h5 id="toc_78">请求参数</h5>
 
@@ -1969,6 +1964,74 @@ kbd {
 </table>
 
 <h4 id="toc_80">返回示例</h4>
+
+<p>你可以修改项目中的城市和关键字，以爬取自己需要的数据。</p>
+
+<div><pre><code class="language-none">{
+    &quot;status&quot;:0,
+    &quot;message&quot;:&quot;开始爬取任务：上海 ios&quot;
+}</code></pre></div>
+
+<h3 id="获取iOS爬取结果">获取iOS爬取结果</h3>
+
+<blockquote>
+<p>lagou/ios</p>
+</blockquote>
+
+<h5 id="toc_81">请求方式：GET</h5>
+
+<h4 id="toc_82">接口示例</h4>
+
+<p><a href="http://api.jinxiansen.com/lagou/ios">http://api.jinxiansen.com/lagou/ios</a></p>
+
+<h5 id="toc_83">请求参数</h5>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th style="text-align: left">必选</th>
+<th style="text-align: left">类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">无</td>
+<td style="text-align: left"></td>
+<td style="text-align: left"></td>
+<td style="text-align: left"></td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_84">返回字段</h4>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">返回字段</th>
+<th style="text-align: left">字段类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">status</td>
+<td style="text-align: left">int</td>
+<td style="text-align: left">0 = 请求成功</td>
+</tr>
+<tr>
+<td style="text-align: left">message</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">描述</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_85">返回示例</h4>
 
 <div><pre><code class="language-none">{
     &quot;status&quot;:0,
@@ -2029,13 +2092,13 @@ kbd {
 <p>crawler/swiftDoc</p>
 </blockquote>
 
-<h5 id="toc_81">请求方式：GET</h5>
+<h5 id="toc_86">请求方式：GET</h5>
 
-<h4 id="toc_82">接口示例</h4>
+<h4 id="toc_87">接口示例</h4>
 
 <p><a href="http://api.jinxiansen.com/crawler/swiftDoc">http://api.jinxiansen.com/crawler/swiftDoc</a></p>
 
-<h5 id="toc_83">请求参数</h5>
+<h5 id="toc_88">请求参数</h5>
 
 <table>
 <thead>
@@ -2053,91 +2116,6 @@ kbd {
 <td style="text-align: left"></td>
 <td style="text-align: left"></td>
 <td style="text-align: left"></td>
-</tr>
-</tbody>
-</table>
-
-<h4 id="toc_84">返回字段</h4>
-
-<table>
-<thead>
-<tr>
-<th style="text-align: left">返回字段</th>
-<th style="text-align: left">字段类型</th>
-<th style="text-align: left">说明</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td style="text-align: left">status</td>
-<td style="text-align: left">int</td>
-<td style="text-align: left">0 = 请求成功</td>
-</tr>
-<tr>
-<td style="text-align: left">message</td>
-<td style="text-align: left">string</td>
-<td style="text-align: left">描述</td>
-</tr>
-</tbody>
-</table>
-
-<h4 id="toc_85">返回示例</h4>
-
-<div><pre><code class="language-none">{
-    &quot;status&quot;:0,
-    &quot;message&quot;:&quot;解析成功&quot;,
-    &quot;data&quot;:[
-        {
-            &quot;type&quot;:&quot;Types&quot;,
-            &quot;titles&quot;:[
-                &quot;AnyBidirectionalCollection&quot;,
-                &quot;AnyCollection&quot;,
-                &quot;AnyHashable&quot;,
-                &quot;Zip2Iterator&quot;,
-                &quot;Zip2Sequence&quot;
-            ]
-        }
-    ]
-}
- </code></pre></div>
-
-<h3 id="自定义爬虫">自定义爬虫地址和规则</h3>
-
-<blockquote>
-<p>crawler/query</p>
-</blockquote>
-
-<h5 id="toc_86">请求方式：GET</h5>
-
-<h4 id="toc_87">接口示例</h4>
-
-<p><a href="http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&amp;parse=div">http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&amp;parse=div</a></p>
-
-<h5 id="toc_88">请求参数</h5>
-
-<table>
-<thead>
-<tr>
-<th style="text-align: left">参数</th>
-<th style="text-align: left">必选</th>
-<th style="text-align: left">类型</th>
-<th style="text-align: left">说明</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td style="text-align: left">url</td>
-<td style="text-align: left">是</td>
-<td style="text-align: left">string</td>
-<td style="text-align: left">目标 URL</td>
-</tr>
-<tr>
-<td style="text-align: left">parse</td>
-<td style="text-align: left">是</td>
-<td style="text-align: left">string</td>
-<td style="text-align: left">爬取规则标签,例如 <code>title</code>,<code>div</code>,<code>div,li</code> ,更多请参考 <a href="https://github.com/scinfu/SwiftSoup">https://github.com/scinfu/SwiftSoup</a></td>
 </tr>
 </tbody>
 </table>
@@ -2170,6 +2148,91 @@ kbd {
 <h4 id="toc_90">返回示例</h4>
 
 <div><pre><code class="language-none">{
+    &quot;status&quot;:0,
+    &quot;message&quot;:&quot;解析成功&quot;,
+    &quot;data&quot;:[
+        {
+            &quot;type&quot;:&quot;Types&quot;,
+            &quot;titles&quot;:[
+                &quot;AnyBidirectionalCollection&quot;,
+                &quot;AnyCollection&quot;,
+                &quot;AnyHashable&quot;,
+                &quot;Zip2Iterator&quot;,
+                &quot;Zip2Sequence&quot;
+            ]
+        }
+    ]
+}
+ </code></pre></div>
+
+<h3 id="自定义爬虫">自定义爬虫地址和规则</h3>
+
+<blockquote>
+<p>crawler/query</p>
+</blockquote>
+
+<h5 id="toc_91">请求方式：GET</h5>
+
+<h4 id="toc_92">接口示例</h4>
+
+<p><a href="http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&amp;parse=div">http://api.jinxiansen.com/crawler/query?url=http://api.jinxiansen.com&amp;parse=div</a></p>
+
+<h5 id="toc_93">请求参数</h5>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">参数</th>
+<th style="text-align: left">必选</th>
+<th style="text-align: left">类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">url</td>
+<td style="text-align: left">是</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">目标 URL</td>
+</tr>
+<tr>
+<td style="text-align: left">parse</td>
+<td style="text-align: left">是</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">爬取规则标签,例如 <code>title</code>,<code>div</code>,<code>div,li</code> ,更多请参考 <a href="https://github.com/scinfu/SwiftSoup">https://github.com/scinfu/SwiftSoup</a></td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_94">返回字段</h4>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">返回字段</th>
+<th style="text-align: left">字段类型</th>
+<th style="text-align: left">说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">status</td>
+<td style="text-align: left">int</td>
+<td style="text-align: left">0 = 请求成功</td>
+</tr>
+<tr>
+<td style="text-align: left">message</td>
+<td style="text-align: left">string</td>
+<td style="text-align: left">描述</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="toc_95">返回示例</h4>
+
+<div><pre><code class="language-none">{
     &quot;status&quot;: 0,
     &quot;message&quot;: &quot;解析成功&quot;,
     &quot;data&quot;: [
@@ -2192,7 +2255,7 @@ kbd {
 <a href="http://api.jinxiansen.com/h5/loader">Loader</a>
 <a href="http://api.jinxiansen.com/h5/login">Login</a></p>
 
-<h2 id="toc_91">反馈</h2>
+<h2 id="toc_96">反馈</h2>
 
 <p>如果有任何问题或建议，可以提一个 <a href="https://github.com/Jinxiansen/SwiftServerSide-Vapor/issues">Issue</a></p>
 

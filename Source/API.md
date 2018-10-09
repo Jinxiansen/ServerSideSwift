@@ -24,6 +24,7 @@
 [Dictionary Query / 字典查询](API.md/字典)
 
 - [x] [chinese query ](API.md/#汉字查询)
+- [x] [word query ](API.md/#词语查询)
 - [x] [idiom query ](API.md/#成语查询)
 - [x] [check post query ](API.md/#歇后语查询)
 
@@ -558,7 +559,45 @@
  
 ```
 
+
  
+<h3 id="词语查询">词语查询</h3>
+
+> words/ci
+
+##### 请求方式：GET
+
+##### 请求参数
+
+|参数|必选|类型|说明|
+|:--|:---|:---|:--- |
+| str | 是 | string | 查询的词语 |
+
+#### 返回字段
+
+|返回字段|字段类型|说明 |
+|:----- |:------|:---|
+| status | int | 0 = 请求成功 |
+| message | string | 描述 |
+| ci | string | 包含的词语 |
+| explanation | string | 释义 |
+
+#### 接口示例
+
+[http://api.jinxiansen.com/words/ci?str=中国](http://api.jinxiansen.com/words/ci?str=中国)
+
+#### 返回示例
+
+```
+{
+    "ci": "少年中国说",
+    "explanation": "散文篇名。近代梁启超作。文中极力歌颂少年的朝气蓬勃，指出封建统治下的中国是老大帝国”，热切希望出现少年中国”，振奋人民的精神。文章不拘格式，多用比喻，具有强烈的鼓动性。"
+}
+ 
+```
+
+ 
+
 
 
 <h3 id="成语查询">成语查询</h3>
