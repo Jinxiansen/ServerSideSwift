@@ -101,6 +101,7 @@ extension NoteController {
                     
                     var userInfo: UserInfo?
                     
+                    var id: Int?
                     var title: String
                     var time: TimeInterval?
                     var content: String?
@@ -116,6 +117,7 @@ extension NoteController {
                     lives.forEach({ (live) in
                         
                         var result = ResultLive(userInfo: nil,
+                                                id: live.id,
                                                 title: live.title,
                                                 time: live.time,
                                                 content: live.content,
